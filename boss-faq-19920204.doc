@@ -1,0 +1,207 @@
+Path: moe.ksu.ksu.edu!zaphod.mps.ohio-state.edu!uakari.primate.wisc.edu!usenet.coe.montana.edu!nntp.uoregon.edu!milton!cloister
+From: cloister@milton.u.washington.edu (cloister bell)
+Newsgroups: rec.games.moria
+Subject: monthly BOSS faq list (repost)
+Summary: for those who neglected to read it the first time.
+Keywords: BOSS faq list
+Message-ID: <1992Feb4.204952.240@milton.u.washington.edu>
+Date: 4 Feb 92 20:49:52 GMT
+Organization: University of Washington
+Lines: 195
+
+
+                      Monthly BOSS F.A.Q. List
+
+Just what *is* BOSS anyway?
+    If you've played moria in any of its incarnations (why else would you be
+    reading rec.games moria?), then BOSS will seem inherently familiar to you.
+    BOSS is what you get when you take moria, modernize it (magic becomes
+    science, monsters become more realistic beasts, items get updated, etc.),
+    add a lot of new features (different dungeon types, monsters, lots of
+    new items, better town, etc.), and give it a twisted sense of humor.
+    There's a lot of in jokes in BOSS that make it much more fun to play,
+    especially for people who are already sci-fi/comedy fans.  
+
+    BOSS is also easier than moria.  You're all familiar with people posting to
+    rec.games.moria things like "I *finally* won!!!" and "five years and only
+    one winner so far."  The idea behind BOSS is to make it the sort of game
+    you can win in a weekend, instead of in a few weeks.  I know BOSS is less
+    serious than moria, hopefully it's as much or more fun.
+
+What's the object of the game?
+    Like moria, the object is to become a powerful character who defeats the
+    mega-monster at the end of the game.  In BOSS, that monster is the Boss, a
+    mean, rotten, disgusting and vile mafia figure who's out to control the
+    world.  To do this you must travel far in search of his hide-out deep
+    under the sewers of New York City, battle terrible alien creatures, and
+    survive against almost impossible odds along the way.  
+
+Where can I get a copy of BOSS?
+    BOSS is available for anonymous FTP from kukulcan.berkeley.edu in the
+    /pub/wilson/vms_moria and /pub/wilson/vms_moria/boss directories.  The
+    first directory contains the tar'ed and Z'ed BOSS distribution.  The
+    uncompressed files exist in the /boss directory.  
+
+    For those who do not have anonymous FTP access, RLG or I would be happy to
+    e-mail you the source code.  Drop us a line (our addresses are listed at
+    the bottom) and let us know.
+
+    A lot of changes have happened to BOSS lately.  RLG has been working on
+    finishing up a lot of things that he wanted to do before the original
+    release date, but didn't have time.  We have set the next release date at
+    January 1, 1992, so be advised that if you go and get BOSS now, you'll
+    need to get the new version then.  My advice is just to wait another month
+    and get it then.  But do get it, it's an awesome game.
+
+What platforms does BOSS currently run on?
+    Currently BOSS runs only on Digital Equipment Corporation VAX mainframes
+    running VMS.  RLG and I are finishing up some things on the VMS version
+    that we've meant to do for a long time, after which we will rebuild it in C
+    which will make it much more portable.  We hope someday to have BOSS
+    available not only for Unix and VMS, but also for p.c's, mac's, amigas,
+    etc.  Our goal is to have BOSS as widely distributable as umoria is now.
+
+What do I need in order to install BOSS?
+    Several things.  First, working knowledge of VMS file management, and the
+    ability to follow directions.  Second, access to a VAX-VMS mainframe.
+    Third, about 6500 free blocks of disk space (for source files and
+    temporary space in order to compile).  If you have any difficulties
+    installing BOSS, feel free to send RLG or me mail.
+
+What's the deal with the different races?
+     There are three races in BOSS, humans, Jarwangians, and Daysians.  The
+     Jarwangians are the 'nice guy' aliens, a peaceful and technologically
+     advanced race.  They make some neat items.  The Daysians are the 'bad 
+     guy' aliens.  They are also an advanced race, but they are warlike.
+     Daysians make some of the best combat gear in the game.  There's a bit
+     of that demented humor in the name 'Daysian'.  See if you can find it.
+     The BOSS employs many Daysians to protect him, and to kill you.  He
+     also employs a variety of low-life human types for this also.
+
+Is there a time limit on the game?  The help files indicate that this is so.
+     Yes and no.  It has been implemented, but the updated version hasn't been
+     released yet.  It should be real soon now, though.
+
+Why are there different towns, and how are they different?
+     Rather than having one extremely deep dungeon as in moria, BOSS has
+     several shallower dungeons, one per town.  Each town's dungeon is 500
+     meters deep, except for the last one, which is 2500 meters deep.  Each
+     town's dungeon takes up where the last town left off, with a couple of
+     levels of overlap.  The net result is about the same start-to-finish
+     difficulty as in moria.  You cannot find the BOSS until you get to the
+     bottom of the last dungeon.  The game follows a cross-country trek,
+     from Seattle to the Big Apple.  On a new-features note, RLG is currently
+     working on a scheme for each town having its own distinct monster list.
+     Should be interesting when it happens. 
+
+How do the busses work, and is it possible to get back to a previous town?
+     To catch a bus you must have 1) completed the current town's dungeon,
+     2) have paid off your loan, if any, and 3) go to the hotel and climb
+     aboard.  And of course there isn't any way to get back to previous
+     towns.  This isn't like moria, where if you get in over your head you
+     can retreat a few levels.  You're dealing with the mafia here, and
+     they aren't terribly forgiving when it comes to cocky low level
+     adventurers.
+
+Are there monsters that give negative experience?
+     Yes.  They're only on the town level, though.  Don't kill things in
+     town, it's not nice.  (Well, except for the gang members, and dirty
+     harry, etc...)  The idea here is to be saving the good townspeople from
+     the vile, evil, repulsive and disgusting BOSS, not killing them on the
+     way.  If there are any others, then congratulations, you've found a bug.
+     Send me or RLG mail about it.
+
+What are the qualifications for various part time jobs in the hotel?
+     What jobs you can get are based on your level.  There are plans to
+     make these based on one or more applicable character stats, but that
+     hasn't been done yet.
+
+How does Danny Dollar do business?  Does he cheat?  Sometimes it seems like
+he doesn't pay as much interest as he should.
+     Danny dollar doesn't cheat.  He's honest, but stingy as heck.  The
+     interest rate is per week.  RLG and I figured that with the time-scale
+     of the game, it didn't make sense to have it any less often than that.
+     The interest rates he charges on loans and gives on deposits are based
+     on your credit rating, which is a function of your loan.  If you get
+     behind on your payments, he'll charge you more on your loan, and give
+     you less on your account.  Eventually, he'll just take money from your
+     account.  If you have a loan, it's a good idea to pay some of it off
+     every time you see him.  There's a special routine for real deadbeats
+     that you really don't want to see.  Keep those loans under control. 
+
+How does potion mixing work?
+     Potion mixing is a random thing, modified by your intelligence.  Mixed
+     potions will either evaporate, blow up (ouch!), or become something
+     else.  If they do mix sucessfully, you'll get something that's on
+     average more powerful than you started with, but can be either good or
+     bad... 
+
+What's with disease?  There isn't any of that in moria.
+     Disease is the only really new thing that monsters can do to you.
+     Some monsters can inflict you with disease when they hit you.  If this
+     happens, you'll get a message like "the <whatever> gives you a social
+     disease!" or something.  Disease doesn't have any immediate bad
+     effect, but does cause certain potions to be ineffective.  You get
+     healed at the medical clinic in the office building.  Cost of a cure
+     is proportional to how many times you've been diseased.
+
+What do the special flags on armor and weapons mean?  Not all of them are
+listed in the help files.
+     True enough.  To be fair, here they are:
+     Armors:
+     (Resist):  Resists everything.  Acid, fire, cold, lightning.
+     (Ra)    :  Resists acid.
+     (Rf)    :  Resists fire.
+     (Rc)    :  Resists cold.
+     (Rl)    :  Resists lightning.
+     (P)     :  Protection.  Extra armor class value.
+     (Cr)    :  Combat ready.  Is much less cumbersome than regular armor.
+     (W)     :  Weightless.  Neat, huh?
+  (Qwethleg) :  Unique items.  You have to figure these out for yourself.
+    (Fi-Yoh) :  Don't ask me where RLG came up with these names.  The 5 ?'s is 
+     (Jarth) :    a new one.  Like the time limit, the version with it hasn't 
+     (?????) :    been released yet.
+
+     Weapons:
+     (HA)    :  Holy avenger.
+     (DF)    :  Defender.
+     (KC)    :  Kill creature.
+     (KA)    :  Kill alien.
+     (KS)    :  Kill scum.
+     (KM)    :  Kill monster.
+     (FT)    :  Flame-tongue.
+     (FB)    :  Frost-brand
+     (DST)   :  Destroyer.  Does +20 damage.
+     (Slicer):  Does double the normal weapon damage.
+     (Razor) :	Does four times normal weapon damage.
+
+What's the deal with strange items like pieces of paper, and silk teddy's?
+     Those are 'objets du jour'.  RLG and I got in the habit of taking one
+     or two of the junk items in the item list (like moria's broken stick),
+     and every day or so changing them into something random, bizarre, and
+     hopefully funny.  These items usually have some interesting powers,
+     that are worth checking out.  The ones in particular that are in the game
+     are the ones that just happened to be there when we released the game.
+     Expect them to change.
+ 
+How is the score calculated?
+     Your score when you die or win is calculated as follows:  score =
+     (experience / your exp. multiplier) + (100*deepest dungeon level you
+     attained) + (bonuses for killing the BOSS).  The experience multiplier
+     varies with class and race, and balances out how hard each class is to
+     get to 42nd level.
+
+Thank you for reading this list, or at least skimming to the end.  Thanks also
+to all those out there who have gotten BOSS for their systems.  We had fun
+writing it, and it's nice to know that it wasn't for nothing.  
+
+(signed)
+
+Robert Gulledge, A.K.A. raoul@u.washington.edu
+Jason Black,     A.K.A. cloister@u.washington.edu
+
+-- 
++-------------------------------------------------+---------------------------+
+|tactical nuclear sdi stealth nsafood signature.  | cloister@u.washington.edu |
++-------------------------------------------------+---------------------------+
+
