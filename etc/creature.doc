@@ -1,0 +1,184 @@
+MLIST.DAT
+----------------------------------------
+name
+cmove
+spells
+cdefense
+sleep mexp aaf ac speed
+reprod size tt intel speaks
+cchar
+hd
+damage
+level
+----------------------------------------
+ 
+
+The creature variables are explained below:
+ 
+
+                CMOVE flags:
+Movement.       00000001        Never move. Only attack
+        .       00000002        Move, attack normal
+        .       00000008        20% random movement
+        .       00000010        40% random movement
+        .       00000020        75% random movement
+Special +       00010000        Invisible movement
+        +       00020000        Move through door
+        +       00040000        Move through wall
+        +       00080000        Move through creatures
+        +       00100000        Picks up objects
+        +       00200000        Multiply monster
+Carries =       01000000        Carries objects.
+        =       02000000        Carries gold.
+        =       04000000        Has one object/gold 60% of time.
+        =       08000000        Has one object/gold 90% of time.
+        =       10000000        Has 1d2 objects/gold.
+        =       20000000        Has 2d2 objects/gold.
+        =       40000000        Has 4d2 objects/gold.
+Special ~       80000000        Win-the-Game creature.
+ 
+                SPELL Flags:
+Frequency       000001    1     These add up to x.  Then
+(1 in x).       000002    2     if RANDINT(X) = 1 the
+        .       000004    4     creature casts a spell.
+        .       000008    8
+Spells  =       000010  Teleport short (blink)
+        =       000020  Teleport long
+        =       000040  Teleport player to monster
+        =       000080  Cause light wound
+        =       000100  Cause serious wound
+        =       000200  Hold person (Paralysis)
+        =       000400  Cause blindness
+        =       000800  Cause confusion
+        =       001000  Cause fear
+        =       002000  Summon monster
+        =       004000  Summon undead
+        =       008000  Slow Person
+        =       010000  Drain Resources
+        =       020000  Not Used
+        =       040000  Not Used
+Breaths +       080000  Breathe Lightning
+        +       100000  Breathe Gas
+        +       200000  Breathe Acid
+        +       400000  Breathe Frost
+        +       800000  Breathe Fire
+ 
+                CDEFENSE flags:
+                0001    Hurt by Kill Alien.
+                0002    Hurt by Kill Creature.
+                0004    Hurt by Kill Scum.
+                0008    Hurt by Kill Mutant.
+                0010    Hurt by Frost.
+                0020    Hurt by Fire.
+                0040    Hurt by Poison.
+                0080    Hurt by Acid.
+                0100    Hurt by Light-Wand.
+                0200    Hurt by Stone-to-Mud.
+                0400    Hurt by Kill Robot
+                0800    Minus experience. Creature is a 'goodie'
+                1000    Cannot be charmed or slept.
+                2000    Can be seen with infra-vision.
+                4000    Max Hit points.  
+                8000    Not used.
+ 
+ 
+        Sleep (sleep)   :       A measure in turns of how fast creature
+                                will notice player (on the average).
+        
+	Max Experience :        The experience reward given when creature
+				is killed.  If creature is a 'goodie' then
+				set mexp to zero.
+
+        Area of affect (aaf) :  Max range that creature is able to "notice"
+                                the player.
+
+	Armor Class :		The natural protection of the creature.
+				Values should range from 0-200.
+
+        Speed :                 Relative speed of the creature. 
+				0   Doesn't move.
+				1   Normal
+			        2+  Really fast.
+
+        Reproduction:           How much this creature reproduces when
+				encountered.  Reproduction is a geometric 
+				sequence, so a value of more than 10 would
+				probably swamp the player.  A value of zero
+				means no reproduction.
+
+        Size:			How large the creature is.  Currently only
+				determines the weight of its corpse.  Value
+				should range from 1-100.  Human size = 20.
+
+        Treasure Type :         Not implemented yet.  Values are all at zero.
+
+        Intellegence :          Relative.  Values range from 0-50.  Affects
+				how well creature can dodge the player's blows.
+
+        Speaks:                 Not implemented yet.  Will someday add 
+				personalities to the creatures.
+
+        Character Representation:   How creature looks on the screen.
+
+
+        Hit Dice:               '#1d#2' where #2 is the range of each roll and
+                                #1 is the number of added up rolls to make.
+                                Example: a creature with 5 eight-sided hit die
+                                is given '5d8'.
+
+        Attack/Damage:          One attack per turn: '# # #d#'
+				Two attacks:         '# # #d#|# # #d#'
+
+            Example:  For a creature which bites for 1d6,then stings for
+                      2d4 and loss of dex you would use:
+                      '1 2 1d6|15 4 2d4'
+
+Attack types:                         Attack descriptions:
+1       Normal attack                 1       hits you
+2       Poison/Lose Strength          2       bites you
+3       Confusion attack              3       claws you
+4       Fear attack                   4       stings you
+5       Fire attack                   5       touches you
+6       Acid attack                   6       kicks you
+7       Cold attack                   7       gazes at you
+8       Lightning attack              8       breathes on you
+9       Corrosion attack              9       spits on you
+10      Blindness attack              10      makes a horrible wail
+11      Paralysis attack              11      embraces you
+12      Steal Money                   12      crawls on you
+13      Steal Object                  13      releases a cloud of spores
+14      Poison                        14      begs you for money
+15      Lose dexterity                15      You've been slimed
+16      Lose constitution             16      crushes you
+17      Lose intelligence             17      tramples you
+18      Lose wisdom                   18      drools on you
+19      Lose experience               20      touches you with its tentacles
+20      Aggravation                   21      head butts you
+21      Disenchants		      22      recites poetry at you
+22      Eats food		      23      mentally stabs you
+23      Eats light		      24      moons you
+24      Eats charges		      25      comments about your mother
+25      Turn to stone		      26      makes the ground beneath your..
+26      Vampire Bite		      27      shoots you
+27      Mind Flayer Attack	      28      chews on you
+28      Hell Horse Attack	      29      makes your brain bleed
+29      Vargouille Attack	      30      does a ninja kick
+30	Disease Attack		      31      blasts you with an alien device
+31	Lose Charisma		      32      surrounds you
+				      33      shocks you
+				      34      wrestles you to the floor
+				      35      does the infamous daisyian mind..
+				      36      smacks you but good
+				      37      stabs stabs you
+				      38      slices and dices you
+				      39      sears you with a blast of heat
+				      40      turns your weapon against you
+				      41      lip-sync's at you
+				      42      asks you for directions
+				      43      rings a bell
+				      44      changes the save file
+				      45      repells you
+ 
+
+
+-------------------------------------------------------------------------------

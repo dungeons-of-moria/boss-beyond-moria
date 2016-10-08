@@ -1,0 +1,563 @@
+** Non-Skill-Users. **
+0
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+-
+99 99 0 0 
+** SCIENTIST ** - Comment line. Don't remove first two **'s or next number.
+1
+Energy Bolt                   
+1       1      5        22      
+Motion Detector               
+1       1      5        27      
+Alter Position                
+1       2      4        22      
+Flare                         
+1       2      4        25      
+First Aid                     
+3       3      8        25      
+Find Hidden Traps/Doors       
+3       3      6        45      
+Poison Gas                    
+3       4      8        27      
+Techno-Babble                 
+3       4      6        32      
+Electric Shock                
+5       4       25      32      
+Trap/Door Destruction         
+5       5       30      37      
+Sleep Spray                   
+5       5       20      32      
+Anti-Toxin                    
+5       5       25      37      
+Dimension Folding             
+7       6       35      37      
+Demagnetize                   
+7       6       40      50      
+Killer Snowball               
+7       6       50      40      
+Erosion                       
+9       7       75      44      
+Item Analysis                 
+9       7       75      95      
+Recharge Item                 
+9       7       90      70      
+Gas Bomb                      
+9       7       75      45      
+Alter Species                
+11       7      100      45      
+Camp Cookin                  
+11       7       75      50      
+Nerve Gas                    
+13       7       90      50      
+Flame-Thrower                
+15       9      100      50      
+Slow Biorhythm of Enemy      
+17       9      125      50      
+Ring of Frost                
+19      12      150      45      
+Frost Ball                   
+19      12      150      52      
+Really Recharge Item         
+21      12      175      85      
+Teleport Other               
+23      12      200      60      
+Increase Metabolism          
+25      12      250      60      
+Ring of Fire                 
+27      18      350      60      
+Fire Ball                    
+29      18      350      60      
+Mass Ionization              
+33      21      500      75      
+Genocide                     
+37      25      800      95     
+-
+99 99 0 0
+** SOLDIER **
+2
+Energy Bolt                  
+3       1        6      30      
+Motion Detector              
+3       2        6      35      
+Alter Position               
+3       2        8      35      
+Flare    
+5       3        8      35      
+First Aid
+5       3        8      40      
+Find Hidden Traps/Doors      
+5       4       10      45      
+Poison Gas                   
+7       6       24      40      
+Deceive Enemy                
+7       6       20      40      
+Electric Shock               
+9       7       30      40      
+Trap/Door Destruction        
+9       8       30      45      
+Sleep Spray                 
+11       8       40      40      
+Anti-Toxin                  
+11       9       40      45      
+Retreat			    
+13      10       50      45      
+Demagnetize                 
+13      11       50      55      
+Killer Snowball             
+15      12       60      50      
+Erosion                     
+15      13       60      50      
+Identify                    
+17      25       80      95      
+Recharge Item               
+17      17       70      90      
+Gas Bomb                    
+19      17       70      55      
+Alter Species               
+21      19       70      60      
+Food Rations		    
+23      17       60      55      
+Nerve Gas                   
+23      20       80      60      
+Flame-Thrower               
+25      20       80      60      
+Barbwire   		    
+25      21       80      65      
+Ring of Frost               
+27      21       90      65      
+Frost Ball                  
+27      21       90      65      
+Really Recharge Item        
+29      23       90      95      
+Dismiss Enemy   	    
+31      25      100      70      
+Out-Maneuver                
+33      25      150      75      
+Ring of Fire                
+34      25      175      80      
+Fire Ball                   
+35      25      200      80      
+Neutron Blast   	    
+37      30      500      95      
+-                           
+99      99        0       0      
+-                           
+99      99        0       0      
+** GURU **
+3
+Detect Evil                   
+1       1        3      15      
+Cure Light Wounds             
+1       2        4      25      
+Bless                         
+1       2        3      25      
+Remove Fear                   
+1       2        3      25      
+Call Light                    
+3       2        6      25      
+Find Traps                    
+3       3        8      30      
+Detect Doors/Stairs           
+3       3        8      30      
+Slow Poison                   
+3       3       10      27      
+Blind Creature                
+5       4       16      27      
+Portal                        
+5       4       20      27      
+Cure Medium Wounds            
+5       4       20      30      
+Chant                         
+5       5       20      30      
+Sanctuary                     
+7       5       30      30      
+Create Food                   
+7       5       30      40      
+Remove Curse                  
+7       6       35      40      
+Resist Heat and Cold          
+7       7       35      40      
+Neutralize Poison             
+9       6       40      35      
+Orb of Draining               
+9       7       40      35      
+Cure Serious Wounds           
+9       7       40      40      
+Sense Invisible              
+11       8       40      40      
+Protection from Evil         
+11       8       50      40      
+Earthquake                   
+11       9       60      50      
+Sense Surroundings           
+13      10       60      45      
+Cure Critical Wounds         
+13      11       65      45      
+Turn Undead                  
+15      12       80      45      
+Prayer                       
+15      14       90      45      
+Dispell Undead               
+17      14      125      50      
+Cure Disease                 
+19      15      135      52      
+Heal                         
+21      16      150      55      
+Dispell Evil                 
+25      20      300      60      
+Glyph of Warding             
+33      24      500      75      
+Holy Word                    
+39      32      800      95      
+-                           
+99      99        0       0      
+-                           
+99      99        0       0      
+** WANDERER **
+4
+Detect Evil    		    
+1  1  4  30  
+Cure Light Wounds	    
+1  2  8	 35  
+Bless			    
+3  3  12 35  
+Remove Fear		    
+5  3  20 35  
+Call Light		    
+5  4  20 35  
+Find Traps		    
+7  5  25 40  
+Detect Doors/Stairs	    
+7  5  25 40  
+Slow Poison		    
+9  7  30 40  
+Blind Creature    
+9  7  30  40  
+Portal    
+9  8  30  40  
+Cure Medium Wounds   
+11  9  40  40  
+Chant   
+11 10  40  45  
+Sanctuary   
+11 10  40  45  
+Create Food   
+13 10  50  45  
+Remove Curse   
+13 11  50  45  
+Resist Heat and Cold   
+15 13  60  45  
+Neutralize Poison   
+15 15  60  50  
+Orb of Draining   
+17 15  70  50  
+Cure Serious Wounds   
+17 15  70  50  
+Sense Invisible   
+19 15  75  50  
+Protection from Evil   
+19 15  75  50  
+Earthquake    
+21 17  80  50  
+Sense Surroundings   
+23 17  80  50  
+Cure Critical Wounds   
+25 20  80  50  
+Turn Undead   
+27 21  90  50  
+Prayer   
+29 22  95  50  
+Dispell Undead   
+31 24 100  60  
+Cure Disease   
+31 26 115  60  
+Heal   
+33 28 125  60  
+Dispell Evil   
+35 32 150  70  
+Glyph of Warding   
+37 36 200  90  
+-		   
+99 99 0 0  
+-                           
+99      99        0       0      
+-                           
+99      99        0       0      
+** CONARTIST **
+5
+Spit Ball                     
+1       1        5      22      
+Detect Victims                
+1       1        5      27      
+Exit - Stage Left             
+1       2        4      22      
+Smile                         
+1       2        4      25      
+Relax                         
+3       3        8      25      
+Look for Secrets              
+3       3        6      45      
+Stink Bomb                    
+3       4        8      27      
+Sell Bridge                   
+3       4        6      32      
+Minor Insult                  
+5       4       25      32      
+Remove Secret                 
+5       5       30      37      
+Tell Boring Story             
+5       5       20      32      
+Suck Venom                    
+5       5       25      37      
+Panic!                        
+7       6       35      37      
+Remove Junk                   
+7       6       40      50      
+Sharp Ice Cube                
+7       6       50      40      
+Erosion                       
+9       7       75      44      
+Appraise                      
+9       7       75      95      
+Shake Item                    
+9       7       90      70      
+Gas Bomb                      
+9       7       75      45      
+Job Offer                    
+11       7      100      45      
+Camp Cookin                  
+11       7       75      50      
+Laughing Gas                 
+13       7       90      50      
+Roman Candle                 
+15       9      100      50      
+Taffy Tangle                 
+17       9      125      50      
+Blast of Ice Cubes           
+19      12      150      52      
+Whack Item                   
+21      12      175      85      
+Major Insult                 
+23      12      200      60      
+Fancy Feet                   
+25      12      250      60      
+Bag of Inferno               
+29      18      350      60      
+Rebel Yell                   
+33      21      500      75      
+Insult Family                
+37      25      800      95      
+-                           
+99      99        0       0      
+-                           
+99      99        0       0      
+-                           
+99      99        0       0      
+** THIEF **
+6
+Spit Ball                     
+3       1        6      30      
+Detect Victims                
+3       2        6      35      
+Evasion                       
+3       2        8      35      
+Flare                         
+5       3        8      35      
+Relax                         
+5       3        8      40      
+Find Hidden Traps/Doors	      
+5       4       10      45       
+Stink Bomb                    
+7       6       24      40       
+Confusion                     
+7       6       20      40      
+Minor Insult                  
+9       7       30      40      
+Destroy Traps/Doors           
+9       8       30      45      
+Sleep Gas 	             
+11       8       40      40      
+Anti-Toxin                   
+11       9       40      45      
+Relocate                     
+13      10       50      45      
+Remove Junk                  
+13      11       50      55      
+Sharp Ice Cube               
+15      12       60      50      
+Erosion                      
+15      13       60      50      
+Appraise                     
+17      25       80      95      
+Shake Item                   
+17      17       70      90      
+Gas Bomb                     
+21      17       70      55      
+Job Offer                    
+21      19       70      60      
+Camp Cookin                  
+23      17       60      55      
+Nerve Gas 	             
+23      20       80      60      
+Roman Candle                 
+25      20       80      60      
+Tranquilize                  
+25      21       80      65      
+Blast of Ice Cubes           
+27      21       90      65      
+Whack Item                   
+29      23       90      95      
+Icy Stare		     
+31      25      100      70      
+Speed                        
+33      25      150      75      
+Inferno Blast                
+35      25      200      80      
+Invoke DOOM                  
+37      30      500      95      
+-                            
+99      99        0       0      
+-                           
+99      99        0       0      
+-                           
+99      99        0       0      
+-                           
+99      99        0       0      
+**JOURNALIST **
+7
+-                   	 
+99      99     0        0       
+Find Story   		 
+1       1      4        20      
+Dodge Bullets   	 
+1       1      4        20      
+Flash-Photo              
+1       1      4        20      
+First Aid                
+1       1      4        20      
+Behind the Scene Look  	 
+2       2      6        30      
+-                   	 
+99      99     0        0       
+Interview   		 
+2       2      6        30      
+-                   	 
+99      99     0        0       
+Behind Closed Doors  	 
+3       3      10       30      
+-                   	 
+99      99     0        0       
+Ignore Poison            
+4       3      10       35      
+Relocate   		 
+6       3      20       35      
+Remove Unwanted Baggage  
+6       3      20       40      
+-                   	 
+99      99     0        0       
+Sneak Past Walls   	 
+8       4      40       40      
+Source Check   		 
+8       4      40       70      
+Talk to Item   		 
+8       4      50       70      
+-                   	 
+99      99     0        0       
+Indepth Interview        
+9       6      50       40      
+Beg for Food             
+9       6      50       40      
+-                   	 
+99      99     0        0       
+-                   	 
+99      99     0        0       
+Stop the Presses   	 
+10      8      75       40      
+Clean Out The Ice Box    
+12      9      80       50      
+-                     	 
+99      99     0        0       
+Yell at Item   		 
+13      10     80       80      
+Invite to Dinner         
+14      10     100      50      
+Hurry Up   		 
+15      10     100      50      
+Flash Bulb Fury          
+20      15     200      60      
+-                     	 
+99      99     0        0       
+-                     	 
+99      99     0        0       
+-                     	 
+99      99     0        0      
+-                           
+99      99        0       0      
+
+
+

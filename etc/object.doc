@@ -1,0 +1,147 @@
+This file is your key to adding objects to the object list data file.
+Below is the format each entry in the list should have.  Following that are
+the meanings associated with all the special codes related to object
+definitions.  Look at some examples from objects.dat to get the hang of it.
+
+Note:  Much of this is a kluge.  It's not our fault, we didn't design the
+system, we just played along.  The tvals and subvals are totally arbitrary.
+So don't mess with them unless you *know* what they mean.  You can create a
+lot of very hard to find bugs by misassigning tvals or subvals on an item.
+Ammo for guns and Laser weapons is a particularly difficult subject.
+
+----------------------------------------
+name
+flags
+t-value subvalue cost weight number level
+p1 tohit todam ac toac
+damage
+character
+----------------------------------------
+
+      Descriptor : Name of item and formats.
+%P1 is replaced with P1 (see below).  %M is replaced with a random metal.
+%P2 is replaced with plus-to-hit.     %R is replaced with a random rock.
+%P3 is replaced with plus-to-damage.  %C is replaced with a random color.
+%P4 is replaced with plus-to-AC.      %W is replaced with a random wood.
+%P5 is replaced with P1, no sign.     %P6 is replaced with AC
+& is replaced with 'a', 'an', or a number.
+~ is replaced with null or 's'.
+
+      Type value (tval): Value representing the type of object.
+         types 15-45 can be wielded.
+	 types 101+ cannot be picked up.
+      Character  : Character that represents the item.
+1   ~   Miscellaneous Object.           65  -   ray gun.
+2   &   chest.                       
+3   $   coupon				70  ?	floppy.
+4   ;   corpse
+9   {   Laser power packs
+10  {   shotgun ammo.			71  ?   floppy.    continued
+11  {   45cal ammo.			75  !   potion.
+12  {   9mm ammo.			76  !   potion.    continued
+13  ~   spike.                          77  !   flask of oil.
+15  ~   Lantern or Flashlight.          80  ,   food.
+20  }   guns				90  ?   Tech Manual.
+21  |   assorted weapons  82 Thrown     91  ?   Prayer Book.
+29  %   computer	  84 Grenades   92  ?   Trick Manual.
+23  /   sports equipment.
+25  \   digging tools.                  100 $   valuable metals.
+30  ]   boots.                          100 *   valuable gems.
+31  ]   gloves and gauntlets.           101 .   Unseen trap.
+32  (   Cloak/Raincoat                  102 ^   Seen trap.
+33  ]   helm.                           103 :   Rubble.
+34  )   shield.                         104 '   Open door.
+35  [   hard armor.                     105 +   Closed door.
+36  (   soft armor.                     107 <   Up staircase.
+40  "   amulet.                         108 >   Down staircase.
+45  =   ring.                           109 #   Secret door.
+55  _   alien device.                   110     Entrance to store.
+60  -   rod(not used yet.)              111 B   Black Market Trap (store)
+					120     Building door 
+    Flags     : Abilities of object.  Each abilitiy is a bit.  Bits 1-32
+                are used. (Signed integer)
+ 
+Flags used for anything that can be worn:
+Bit #   Hex #      Ability            Bit #   Hex #      Ability
+1       00000001   Strength           17      00010000   
+2       00000002   Dexterity          18      00020000   
+3       00000004   Constitution       19      00040000   Resist Gas
+4       00000008   Intelligence       20      00080000   Resist Fire
+5       00000010   Wisdom             21      00100000   Resist Acid
+6       00000020   Charisma           22      00200000   Resist Cold
+7       00000040   Searching          23      00400000   Sustain Stat (P1)
+8       00000080   Slow digestion     24      00800000   Free Action
+9       00000100   Stealth            25      01000000   See Invisible
+10      00000200   Aggravation        26      02000000   Resist Lightning
+11      00000400   Teleportation      27      04000000   Feather Fall
+12      00000800   Regeneration       28      08000000   Blindness
+13      00001000   Speed              29      10000000   Timidness
+14      00002000		      30      20000000   
+15      00004000		      31      40000000   Infra vision
+16      00008000		      32      80000000   Cursed
+
+Flags used for anything that can be wielded:
+Bit #   Hex #      Ability            Bit #   Hex #      Ability
+1       00000001   Strength*          17      00010000   Slay Mutant
+2       00000002   Dexterity          18      00020000   Cold Brand
+3       00000004   Constitution       19      00040000   Flame Brand
+4       00000008   Intelligence       20      00080000   Kill Robot
+5       00000010   Wisdom             21      00100000  
+6       00000020   Charisma           22      00200000  
+7       00000040   Searching          23      00400000   Sustain Stat (P1)
+8       00000080   Slow digestion     24      00800000   Free Action
+9       00000100   Stealth*           25      01000000   See Invisible*
+10      00000200   Aggravation        26      02000000  
+11      00000400   Teleportation      27      04000000   Feather Fall*
+12      00000800   Regeneration*      28      08000000   Blindness
+13      00001000   Speed              29      10000000   Timidness
+14      00002000   Slay Alien         30      20000000   Tunneling
+15      00004000   Slay Creature      31      40000000   Infra vision
+16      00008000   Slay Scum          32      80000000   Cursed
+ 
+ 
+ 
+      P1         : Catch all for magical abilities such as pluses to str,
+                   minuses to searching...
+                   Special Abilities can be added to item by MAGIC_INIT,
+                   found in MISC.INC.
+      Cost       : Relative cost of item.
+      Sub value  : separate value for each item of a type.
+                   If items can be added together then subval > 255
+                   If items are considered one unit when added together then
+                   subval > 511
+      Weight     : relative weight of an item.
+      Number     : number of items appearing in group.
+      To hit     : magical pluses to hit.
+      To damage  : magical pluses to damage.
+      AC         : objects relative armor class.
+                   the higher the value the better.
+      To AC      : Magical bonuses to AC.
+      Damage     : amount of damage item can cause.
+      Level      : Minimum level on which item can be found.
+ 
+NOTES:  Floppies, Potions, and Food:
+                Flags are used to define a function which running/quaffing
+                will cause.  Most floppies and potions have only one bit
+                set.  Potions will generally have some food value, found
+                in P1.
+ 
+        Ray Guns and Alien Devices:
+                Flags defines a function, P1 contains number of charges
+                for item.  P1 is set in MAGIC_INIT (MISC.INC)
+ 
+        Chests:
+                Traps are added randomly by MAGIC.INIT in MISC.INC.
+
+	Automatic Weapons:
+	  todam = # of rounds/burst
+	  subval = ammo tval
+
+	Guns:
+	  subval = ammo tval
+	  p1 = range
+	  todam = plus to damage
+
+	Computers:
+	  subval = 300 + %failure
+

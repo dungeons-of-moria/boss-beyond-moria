@@ -1,0 +1,25 @@
+			    Welcome to BOSS!
+			   
+
+	  BOSS is a new offspring of the popular dungeon adventure game 
+     Moria.  Where Moria involves swords, dragons, and sorcery, BOSS is
+     is a semi-futuristic game with a twisted sense of humor.  While 
+     playing, your character will battle evil scientists, psychotic gang
+     members, hideous mutants, vicious aliens, and the Boss himself.
+     The goal of defeating the Boss is obtained only after exploring the
+     chaotic system of tunnels that exist below eight cities overrun
+     by the Boss's minions.  
+          BOSS differs from Moria (and Imoria) in many ways.  Many of 
+     these differences are very obvious, but some may take awhile to be
+     discovered.  Major differences include: fewer races, different
+     classes, lack of "magic", multiple cities, and less overall time
+     committment needed to fully explore and maybe win the game.
+          The 'help' within the game is fairly extensive and can be 
+     accessed by pressing shift-H.  Read especially the information
+     headed under: Summary, Commands, and Banking.  New commands and 
+     changes to the game can be found under the heading, NEWS and
+     really important news will be displayed on the intro screen.
+
+          Good luck playing BOSS and most importantly, have fun!
+
+  

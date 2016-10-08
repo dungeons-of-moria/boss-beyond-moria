@@ -1,0 +1,79 @@
+The numbers in []'s are the tval's of the items.  The hex numbers are the
+flags for each item; one bit for flag.  You'll notice that the binary
+representation of each individual flag has only one bit set, so that they
+may be OR'ed together to get multiple flags on an item.  Ex: a food that
+would cure poison, fear and confuse would have its flags set to "0000002C"
+Fortunately, you don't have to do the OR operations; you can just add the
+numbers remembering that you're in base 16, and not base 10 (hence "2C"
+and not "32").  Note that not all of the flags are used at this time.
+ 
+                      Food[80]      Device[55]      Ray Gun[65]
+                      --------      ----------      -----------
+1.)     %X'00000001'  Poison        Light           Light Ray
+2.)     %X'00000002'  Blind         Detect Doors    Lightning Bolt
+3.)     %X'00000004'  Fear          Detect Trap     Frost Bolt
+4.)     %X'00000008'  Confuse       Detect Treas.   Fire Bolt
+5.)     %X'00000010'  Image         Detect Object   Erosion
+6.)     %X'00000020'  Cure Poison   Teleport        Polymorph
+7.)     %X'00000040'  Cure Blind    Earthquake      Heal Monster
+8.)     %X'00000080'  Cure Fear     Sum. Monster    Haste Monster
+9.)     %X'00000100'  Cure Confuse  Genocide        Slow Monster
+10.)    %X'00000200'  Lose Str      Nuke            Confuse Monster
+11.)    %X'00000400'  Lose Con      Starlight       Sleep Monster
+12.)    %X'00000800'  Lose Int      Haste Monst.    Drain Life
+13.)    %X'00001000'  Lose Wis      Slow Monster    Destroy Traps/Doors
+14.)    %X'00002000'  Lose Dex      Sleep Monster   Energy Bolt
+15.)    %X'00004000'  Lose Chr      Heal 8          Wall Building
+16.)    %X'00008000'  Rst. Str      Dt. Invisible   Clone Monster
+17.)    %X'00010000'  Rst. Con      Haste Self      Teleport Monster
+18.)    %X'00020000'  Rst. Int      Slow Self       Disarm All
+19.)    %X'00040000'  Rst. Wis      Mass Poly.      Lightning Ball
+20.)    %X'00080000'  Rst. Dex      Unstick         Cold Ball
+21.)    %X'00100000'  Rst. Chr      Dt. Evil        Fire Ball
+22.)    %X'00200000'  Heal 3        Curing(b,p,c)   Poison Gas
+23.)    %X'00400000'  Heal 6        Dispell Mon.    Acid Ball
+24.)    %X'00800000'  Heal 12       Mass Genocide   Wonder!
+25.)    %X'01000000'  Heal 3d6      Darkness
+26.)    %X'02000000'  Heal 3d12
+27.)    %X'04000000'  Hurt 4
+28.)    %X'08000000'  Hurt 8
+29.)    %X'10000000'  Hurt 2d8
+30.)    %X'20000000'  Hurt 3d8
+31.)    %X'40000000'  Max Hp -1
+			 
+Different set of flags for potions and floppies, but the same system:
+
+                      Floppy[70]    Floppy[71]    Potion[75]    Potion[76]
+                      ----------    ----------	  ----------	----------
+1.)     %X'00000001'  Wp. +tohit    Wp. +hit+dam  Change Str	Learn Skill
+2.)     %X'00000002'  Wp. +todam    Wp. -tohit	  Rest. Str	Lose Exp
+3.)     %X'00000004'  Armor +toac   Arm.+ac,RmCrs Change Int	Hunger
+4.)     %X'00000008'  Indentify	    Armor -ac	  Rest. Int	Invulnerabe
+5.)     %X'00000010'  Remove Curse  Summon Mutant Change Wis	Heroism
+6.)     %X'00000020'  Light	    Bless 12	  Rest. Wis	Super Hero
+7.)     %X'00000040'  Summon Mst.   Bless 24	  Change Dex	Remove Fear
+8.)     %X'00000080'  Teleport 10   Bless 48	  Rest. Dex	Restore Exp
+9.)     %X'00000100'  Teleport 100  Recall	  Change Con	Resist Heat
+10.)    %X'00000200'  Blank Disk    Destroy Area  Rest. Con	Resist Cold
+11.)    %X'00000400'  Confuse Mst.  Random Wierd  Change Chr	Det. Invisible
+12.)    %X'00000800'  Map Area	    Summon Monst. Rest. Chr	Slow Poison
+13.)    %X'00001000'  Sleep Mst.    Ring of Fire  Heal 2d7	Cure Poison
+14.)    %X'00002000'  Warding Glyph Ring of Frost Heal 4d7	Restore Rsrc.
+15.)    %X'00004000'  Det. Treasure		  Heal 6d7	Infravision
+16.)    %X'00008000'  Det. Object		  Heal 1000	Gain Hp.
+17.)    %X'00010000'  Det. Trap					Gain Rsrc.
+18.)    %X'00020000'  Det. Sec. Door		  Gain Exp.	Longevity
+19.)    %X'00040000'  Mass Genocide		  Sleep(paralysis)
+20.)    %X'00080000'  Det. Invisible		  Blindness
+21.)    %X'00100000'  Aggravate Mst.		  Confusion
+22.)    %X'00200000'  Create Traps		  Poison
+23.)    %X'00400000'  Remove Trp,Door		  Haste Self
+24.)    %X'00800000'  Create Doors		  Slowness
+25.)    %X'01000000'  Recharge Item		  Det. Monster
+26.)    %X'02000000'  Genocide			  
+27.)    %X'04000000'  Darkness			  
+28.)    %X'08000000'  Prot. Scum		  
+29.)    %X'10000000'  Create Food		  Cure Blind
+30.)    %X'20000000'  Dispell Mutant		  Cure Confuse
+31.)    %X'40000000'  Blank Disk		  Cure Poison
+

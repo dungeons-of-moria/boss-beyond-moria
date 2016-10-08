@@ -1,0 +1,158 @@
+				   *************************
+Installation Docs and Manifest for ** BOSS : Beyond Moria **
+				   *************************
+
+				        (Version 2.0)
+
+MANIFEST:
+--------
+ 
+BOSS.PAS     - The main Pascal source program to the game
+
+*.INC        - These files are all of the include files used
+	       when compiling BOSS.PAS.  They have been created
+	       to ease finding certain sections of code.  These
+	       34 files require about 1 megabyte of storage.
+
+*.MAR        - These are the MACRO source files for some subroutines which
+               are needed by BOSS.PAS.  Note that these are identical to the
+               macro files from MORIA.  These 11 files require about 30k of
+               storage 
+
+*.DAT        - A set of data files that the program uses when it runs.
+	       All data files must have appropriate world
+	       protections set.
+             
+MONSTERS.DAT - Monster list.   			     [World Read]
+
+OBJECTS.DAT  - Dungeon items.			     [World Read]
+
+INVENT.DAT   - Store items.			     [World Read] 
+
+SKILLS.DAT   - Skill list			     [World Read] 
+
+HOURS.DAT    - A file containing the valid hours     [World Read]
+	       for playing BOSS. 
+
+MESSAGE.DAT  - This file is displayed as the opening [World Read]
+	       page of Boss when it is executed.  
+	       Messages can be changed, but please 
+	       don't change the credits.  
+
+BOSSCHR.DAT   - This file contains the database of   [World Read,Write,Execute]
+		valid Boss saved characters.  It is 
+		an encrypted file and so editing it 
+		may corrupt it.  
+
+BOSSTOP.DAT   - The high score file for Boss.        [World Read,Write]
+
+WIZARD.DAT    - This is a datafile containing the    [World Read]
+	        usernames of all valid wizards. 
+
+		A 'wizard' is a person that has
+		special game functions available for
+		bug testing and administrative needs.
+
+		Note that people in this file do not need
+		to enter the wizard password in
+		order to enter wizard mode.
+
+		The password is used in cases where
+		a non-wizard is playing and needs help
+		in fixing something.  
+
+
+QUOTES.DAT    - File of random quotes.	             [World Read]
+
+USERS.DAT     - List of everyone who has ever	     [World Read,Write]
+	        played your version of BOSS. 
+
+LOSER.DAT     - File full of usernames that you      [World Read]
+	        don't want to play your version of 
+		BOSS.  These users get mysteriously
+                disconnected.               
+
+PUTZS.DAT     - File of usernames that you may wish  [World Read]
+	        to discourage from playing.  These 
+		people get triple the usual random 
+		wierdnesses. (See mess_with_mind() 
+		in MISC.INC.)
+
+BUS.DAT       - A silly picture of a bus that        [World Read]
+	        appears when the player changes  
+		towns.
+
+BOSSLOG.DAT   - Playlog. CLEANLOG.COM can set this   [World Write] 
+		file up for you.
+
+NEWUSER.TXT   - File that gets displayed to first    [World Read]
+	        time players.  
+ 
+BOSSHLP.HLB   - The online help library.             [World Read]
+ 
+BOSSHLP.HLP   - The source code for the online 
+	        help libray.  
+
+WISH.LIST     - A text file containing some ideas 
+	        for further modifications to boss 
+		that we finally added or never got 
+		around to.
+
+BUGS.TXT      - Known bugs in BOSS.
+
+BUILD.COM     - a DCL com file that handles the nastiness of compiling this
+                monster, moving it into the right directory, and setting
+                appropriate protections on it.  Also handles other matters
+                such as maintaining the help files, etc.
+ 
+*.DOC	      - A bunch of support docs that help explain the
+	        monster and item files.  If you can figure out
+		how to customize your creatures and objects, 
+		go for it!
+
+
+Installation:
+-------------
+
+Ok.  Now that you know what everything is, here's what you do next:
+
+1) Move to the [.boss.dat] directory and run the CLEANLOG.COM
+   file to create a blank playlog.  Type "@cleanlog"
+
+2) Move back to your [.boss] directory and type "@build macros" to create
+   the macro library (the machine language patches to BOSS).
+
+3) Type "@build" to compile the entire program.  Sit back and wait.  This
+   takes a while.  There should be one warning from the compiler that you
+   can ignore, and one from the linker as well.  Don't sweat it, we don't.
+
+4) Edit STARTUP.COM to correctly define "datadir" and "bossdir" up at the top.
+
+5) Run the program once and it will create several other data
+   files that you need.  Just type "@startup" and let it go!
+
+6) Now you need to set the protections on all the files as listed above.
+   If you don't know how to do this, type "help set protection" and learn.
+   Another method of setting protections is by using acl's.  SETACLS.COM is
+   an example of how protections could be set up.  Type "help set/acl"
+   for more information.
+
+7) Inform your users of what you've done.  Have them put the line:
+
+     $ boss :== @your_disk:[your_directory.boss]startup.com
+
+   in their LOGIN.COM files.  Obviously, you have to replace "your_disk"
+   and "your_directory" with the appropriate values which you can find by
+   typing "show default".  This way, they'll be able to just type "boss"
+   at the command line to run the program.  If they have a save file, they
+   just type its name in after: "boss cool_wrestler.sav"
+
+8) If you have any major problems with the above or suggestions
+   on how to improve this system, feel free to mail us.
+
+					    raoul@u.washington.edu
+					    cloister@u.washington.edu
+
+9) Number nine...number nine...number nine...
+
+

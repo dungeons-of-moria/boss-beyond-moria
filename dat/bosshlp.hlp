@@ -1,0 +1,1689 @@
+1 ADVENTURING
+ 
+2 Armor-Class
+     Armor class is a number that describes the  amount  and  the
+quality of armor begin worn.  Armor class will generally run from
+about 0 to 100, but could become negative or greater  than 100 in
+some cases.                                            
+ 
+     The larger your armor class, the more protective it  is.   A
+negative  armor  class  would  actually  help get you hit.  Armor
+protects you in three manners.  One, it makes you  harder  to  be
+hit for damage.  A hit for no damage is the same as a miss.  Two,
+good armor will absorb some of the  damage  that  your  character
+would  have taken.  An armor class of 100 would absorb 25% of any
+damage meant for him.  Three, fire and acid damage are reduced by
+wearing  body  armor.  It is obvious that a high armor class is a
+must for surviving the lower levels of the Boss's realm.
+ 
+     Each piece of armor has an armor  class  adjustment,  and  a
+special  bonus.   Armor  bought  in  town  will have these values
+displayed with their description.  Armor that is found within the
+realm must be identified before these values will be displayed.
+Armor class values are always diplayed between a set of  brackets
+'[#,+#]'.   The  first value is the armor class of the item.  The
+second number is the special bonus of the item, and  will  always
+have a sign preceding the value.  There are a few cases where the
+form '[+#]' is used, meaning the object has no armor class,  only
+a special armor bonus if worn, for example, (DF) weapons.
+     Some pieces of armor will possess special  abilites  denoted
+with abbreviations.  More information can be found under items/armor.
+ 
+2 Bashing
+     Weight  is  the  primary  factor  in  being  able  to   bash
+something,  but  strength  plays  a  role  too.  After bashing, a
+character may be off balance for several  rounds  depending  upon
+his or her DEXTERITY.
+ 
+     Doors can be broken down by bashing them.  Once  a  door  is
+bashed open, it is forever useless and cannot be closed.
+ 
+     Chests too may be  bashed  open,  but  be  warned  that  the
+careless  smashing  of a chest often ruins the contents.  Bashing
+open a chest will not disarm any traps it may contain,  but  does
+allow the strong and ignorant to see what's inside.
+ 
+     Finally, a creature may be bashed.  If a shield is currently
+being  worn,  the  bash is a shield bash and will do more damage.
+In either case, a bash may throw an opponent off  balance  for  a
+number of rounds, allowing a player to get in a free hit or more.
+If the player is thrown off-balance, his opponent  may  get  free
+hits on him.  This is a risky attack.
+ 
+2 Stuck Objects
+     Some objects, mainly armor and weapons, have had curses laid
+upon  them.   These  horrible  objects  will  look like any other
+normal item, but will  detract  from  your  characters  stats  or
+abilities  if worn.  They will also be impossible to remove until
+they are demagnetized.
+ 
+     When a stuck item has been identified, an asterisk '*'  will
+appear  next  to the inventory letter of the item.  If you should
+wear a stuck item, you will immediately know it is stuck and  the
+asterisk will appear again.
+ 
+2 Death
+     If your character falls below 0 hit points, he has died  and
+cannot  be  restored.  A tombstone showing information about your
+character  will  be  displayed  with  the  option  to  print  the
+information to a file.
+ 
+     After  the  tombstone,  the  top fifty  list  of  heroes  is
+displayed.   If  your  score  beats  any  of  the top fifty, your
+character will join this elite rank of heroes.  Otherwise,  well,
+there is always next time...
+ 
+     It is important to keep in mind that dying isn't the worst
+thing in the world.  BOSS is just a game.  If your 40th level Sexy
+Con-Artist bites the dust, hey, that's life.  Roll up another one.
+ 
+2 Fighting
+     Attacking is simple in BOSS.  If you move into a  creature,
+you  attack  him.   You  can  attack  from a distance by firing a
+missile, or by special means such as aiming  a  ray gun.   Creatures
+attack  in  the same way, if they move into you, they attack you.
+Some creatures can attack you from a distance, and  alien  type
+creatures  can  breathe from  a  distance, but these are the only
+exceptions.
+ 
+     If you are wielding a weapon, the damage for the  weapon  is
+used  when you hit the creature.  If you are wielding no weapons,
+you get two fist strikes.  Note that very strong creatures can do
+a  lot  of  damage  with  their  fists...  A character may have a
+primary and secondary weapon.  A secondary weapon is kept on  the
+belt,  or  on  the  shoulder  for  immediate use.  You can switch
+between your primary and  secondary  weapons  by  using  the  'x'
+command.   Be  sure  you  are  wielding  the  proper  weapon when
+fighting.  Hitting an alien over the head with a purse will simply
+make it mad, and get you killed.
+ 
+     Missile weapons, such as pistols, can be wielded, and then
+the proper ammo  can  be fired  across the  room into  a target.
+ 
+     Hits and misses are determined by ability to  hit vs.  armor
+class.   A  miss  doesn't  necessarily mean you failed to hit the
+target, but only that you failed to do any damage.   Therefore  a
+'hit'  is  a  strike that does some damage.  Higher armor classes
+make it harder to do damage, therefore more misses.
+ 
+2 Light
+     There are two sources for light  once  inside  the  dungeon.
+Permanent light which has been specially placed within rooms, and
+a light source carried by the player.  If neither is present, the
+character  will  be  unable to map or see any attackers.  Lack of
+light will also affect searching, picking locks, and disarming.
+ 
+     A character must wield a flashlight or lantern in order  to
+supply his own light.  Once a light source has only 50 or  less
+turns left before burning out, the message "Your light is getting
+low" will be displayed at random intervals.  Once a flashlight is
+burnt out, it is useless and can be dropped.  A lantern can  be
+refilled  with batteries by using the Fill 'F' command.
+ 
+2 Mining
+     Much of the money within the tunnels can be found only by
+digging it out of the walls.  Many rich strikes exist within each
+level, but must  be  found  and  mined.   Quartz  veins  are  the
+richest,  yielding the most metals and gems, but magma veins will
+have some hordes hidden within.
+ 
+     Mining is virtually impossible without  a  pick  or  shovel.
+Picks and shovels have an additional special ability expressed as
+'(+#)'.  The higher the number, the better  the  special  digging
+ability of the tool.  Note that a pick or shovel also has plusses
+to hit and damage, and can be used as a weapon.  Several  very
+powerful digging tools exist in the game, but must be found.
+ 
+     When a vein of quartz or magma  is  located,  the  character
+should  wield his pick or shovel and begin digging out a section.
+When that section is removed, he should locate another section of
+the  vein,  and  begin  the process again.  Since granite rock is
+much harder to dig through, it is much faster to follow the  vein
+exactly and dig around the granite.
+ 
+     If the character has a floppy or device of treasure location,
+he  can  immediately locate all strikes of treasure within a vein
+shown on the screen.  This makes  mining  much  easier  and  more
+profitable.
+ 
+2 Objects
+     The tunnels are full of objects just waiting to be picked up
+and  used.   How  did  they get there?  Well, the main source for
+useful items are all the foolish adventurers that proceeded  into
+the  tunnels  before  you.   They  get  killed,  and  the helpful
+monsters scatter the various treasure throughout the realm.  Most
+cursed  items are placed there by the joyful servants of the Boss
+who enjoy a good joke when it gets you killed.
+ 
+     You pick up objects by moving on top of them.  You can carry
+up  to  52  different  items  in  your backpack while wearing and
+wielding many others.  Note that although you are limited  to  52
+different  items,  you  may  be  carrying  several  of  each item
+restricted only by the amount of weight your character can carry.
+Your  character's  weight  limit  is  determined by his Strength.
+Only one object may occupy any one given  floor  location,  which
+may or may not also contain one monster.  Note that doors, traps,
+and staircases are considered objects for this purpose.
+ 
+     Many objects found within the dungeon have special commands
+for their use.  Ray Guns must be aimed, Devices must be used, Floppy
+disks must be run, and potions must be quaffed.  In any case, you must
+first  be  able  to  carry an object before you can use it.  Some
+objects, such as chests, are very complex.  Chests contain  other
+objects  and  may  be  trapped,  and/or locked.  Read the list of
+player commands carefully for a further understanding of chests.
+Once in a while, a chest will contain another chest...
+ 
+     One item in particular will be discussed here.   The  Floppy
+of "Beam Me Up" can be found within the dungeon, or bought at
+the computer store in town.  It acts in two manners, depending upon
+your current  location.   If ran within the dungeon, it will teleport
+you back to town.  If ran in town, it  will  teleport  you  back
+down to the deepest level of the tunnels which your character
+has previously been.  This  makes  this  floppy  very  useful  for
+getting  back to the deeper levels of BOSS.   Once the floppy is
+executed it takes a while for the program to act, so don't  expect
+it to save you in a crisis.  Beware, however, of your soul plummeting
+to the depths of hell.
+ 
+     And lastly, a final warning.  Not all objects are what they
+seem.   Sparkly treasures lying  peacefully  about the dungeon have
+been known to bite...
+ 
+2 Secret Doors
+     Many secret doors are used within the dungeon to confuse and
+demoralize  adventurers  foolish  enough to enter.  But with some
+luck, and lots of concentration, you can find these secret doors.
+ 
+     Secret doors will sometimes hide rooms or corridors, or even
+entire  sections  of  that  level of the dungeon.  Sometimes they
+simply hide small empty closets or even dead ends.
+ 
+     Creatures in the tunnels will generally know  and  use these
+secret  doors.   If  they  leave one open, you will be able to go
+right through it.  If they close it behind them you will have  to
+search  for  the  catch  first.   Once  a  secret  door  has been
+discovered by you, it is drawn  as  a  known  door  and  no  more
+searching will be required to use it.  Of course, you'll probably
+still have to pick the lock...
+ 
+2 Staircases
+     Staircases are the manner in which you get deeper, or climb
+out of the Boss's realm.  The symbols for the up and down staircases
+are the same as the commands to use them.  A '<' represents an up
+staircase  and  a '>' represents a down staircase.  You must move
+your character over the staircase before you can use them.
+ 
+     Each level has several staircases, many leading up, and many
+leading down.  Be careful, though, because some staircases are
+very steep and will bring you more than one level up or down.  Be
+sure to look at the staircase first to see how steep it is.
+ 
+2 Weapons
+     Carrying a weapon in your backpack does you  no  good.   You
+must  wield a weapon before it can be used in a fight.  Note that
+a secondary weapon can be kept by wielding it and then using  the
+exchange  command  'x'.  A secondary weapon is not in use, simply
+ready to be switched with the current weapon if needed.
+ 
+     Weapons have two main characteristics;  their ability to hit
+and their ability to do damage, expressed as '(+#,+#)'.  A normal
+weapon would be '(+0,+0)'.  Many weapons in  BOSS   have  special
+bonuses  to  hit  and/or do damage.  Some weapons are cursed, and
+have penalties that hurt the player.   Note  that  cursed  swords
+are stuck and cannot be un-wielded until the curse is removed.
+ 
+     Missile  weapons,  such  as  pistols,  have  only  one major
+characteristic  which  is to hit, expressed '(+#)'.  This plus to
+hit is  added  to  that  of  the  missile  used,  if  the  proper
+weapon/ammo combination is used.
+ 
+     Although you recieve any  special bonuses  an  unidentified
+weapon  may  possess when you wield it, those bonuses will not be
+added in to the displayed values of to-hit  and  to-dam  on  your
+character  sheet.   You  must  identify  the  weapon  before  the
+displayed values reflect the real values used.
+ 
+     Finally, some rare weapons have *special* abilities.  These
+abilities augment the normal capabilities of the weapon.  More
+information about special weapons can be found under items/weapons.
+ 
+2 Winning
+     Once your character has progressed into killing aliens with
+but a mean glance and snap of his fingers, he may be ready to take
+on  the  Boss.  The Boss  will appear on every level after 2450
+meters, so don't go down there until you are ready for him.
+ 
+     The Boss cannot be killed  in  some of  the  easier  methods
+used  on  normal  creatures.   Because of the Boss's  cunning, he
+will teleport away to another level if a skill such  as  genocide
+is used upon him, and the Boss  cannot  be polymorphed, slept, or
+charmed.  Special skills like coldball are effective against  him
+as  are  weapons,  but  he is difficult to kill and if allowed to
+escape for a time can heal himself.
+ 
+     If you should actually survive the attempt  of  killing  the
+Boss,   you  will  recieve  the  status of WINNER.  Since you have
+defeated the toughest villain alive, your character is  ready  to
+retire  and  cannot  be  saved.   When  you  quit  the game, your
+character recieves a surprise bonus score and is entered into the
+top fifty list, probably at the top.
+ 
+2 Wizards
+     There are rumors of BOSS  Wizards which,  if  asked  nicely,
+can  explain  details  of the BOSS game that seem complicated to
+beginners.  In addition,  they  have  special  skills  which  can
+restore characters lost by accident, such as power-outs and such.
+ 
+1 BANKING
+     There is a savings and loan institution in the office building
+of every town, run by Danny Dollar.  Well, Danny is more of a figure-
+head for the s&l, sort of like Ronald McDonald is for McDonalds.
+While there's a Danny in every town, no one is sure which town has
+the real Danny Dollar.  In fact, no one even knows whether or not
+Danny is still working, or if he has retired.
+ 
+2 Deposits
+     Danny has a wife, three kids, a dog, and employees, so he takes a
+cut when you deposit, but only then.  His rates are displayed upon entering
+the establishment.  To be fair, however, your account does earn interest at
+the weekly rate listed.
+ 
+2 Withdrawls
+     Getting your money out is as easy as asking for it.
+ 
+2 Loans
+     Getting a loan is simple.  Danny will give you as much as he thinks
+you are worth, depending on your level.  Persumably higher level characters
+are going to live for a while, and are good for more money.  Your loan is
+charged interest at the advertised rate.
+ 
+2 Payments
+     It is necessary that you pay back your loans.  If you do not, several
+things may happen to you.  First, Danny will start charging you higher
+rates on your loan.  Second, he will take a bigger cut on your deposits.
+Third, he will pay you less interest on any money you have deposited.
+Fourth, and without warning, Danny may send out two of his large
+'enforcers' to collect on his loan.  They will beat you up and take your
+money.  Danny gives you some time to get your cashflow under control before
+he begins enforcing payments, and will warn you when he thinks it's time.
+Finally, if your loan is not payed off, Danny's enforcers will keep you
+from leaving town.
+ 
+1 CHARACTER
+     All characters have six main attributes which  modify  their
+basic   abilities.   These  six  attributes,  called  stats,  are
+STRENGTH,  INTELLIGENCE,  WISDOM,  DEXTERITY,  CONSTITUTION,  and
+CHARISMA.   Stats  may  vary  from  3 as a minimum to 18/200 as a
+maximum.  Because adventurers of interest tend to be better  than
+average  characters, BOSS  stats will average about 16, and are
+further  adjusted  by  qualities and class.
+ 
+     In addition to the more visible stats,  each  character  has
+certain  abilities  which  are  mainly determined by his quality
+and class, but are also modified by his stats.  The abilities are
+MELEE FIGHTING, GUNS/GRENADES, SAVING  THROW, STEALTH, DISARMING,
+WIERD DEVICES, PERCEPTION, SEARCHING, and INFRA-VISION.
+ 
+     Characters will be assigned an early history, with money and
+a social class based on that history.  Starting money is assigned
+based on history, charisma, and somewhat upon the  average  of  a
+character's  stats.   A  character  with below average stats will
+receive extra money to help him survive the first adventure.
+ 
+    Each character will also  have physical attributes such as  a
+race, a height, weight, sex, and a physical description.  None of
+these, except weight, play any part in the  game  other  than  to
+give  the  player  a "feeling" for his character.  Weight is used
+for computing carrying capacity and also for BASHING.
+ 
+      Finally each character is assigned HIT POINTS based on their
+race,  class,  and constitution.  Special skill users will also
+recieve Resources ("RSRC") which is expended when using skills.
+Your total resources are based on Wisdom for Gurus, Intelligence
+for Scientists, and Charisma for Con-Artists.
+ 
+2 Abilities
+     Characters possess nine different abilities which  can  help
+them  to survive.  The starting abilities of characters are based
+upon the quality and class of characters.  Abilities may be adjusted
+by  high  or  low  stats,  or  may increase with the level of the
+character.
+ 
+3 Melee-Fighting
+     Melee Fighting is the ability to hit and do damage with hand
+weapons or fists.  Normally a character gets a single blow from
+any weapon, but if his dexterity and strength are high enough, he
+may receive more blows per round with lighter weapons.  Strength
+and dexterity both modify the ability to  hit an  opponent.  In
+addition this skill increases with the level of the character.
+ 
+3 Guns/Grenades
+     Firing guns with ammo and throwing objects, such as grenades,
+is included in  the skill.  Different  stats  apply  to different
+weapons, but may modify the distance an object  is  thrown/fired,
+the  amount  of  damage  done, and the ability to hit a creature.
+This skill increases with the level of the character.
+ 
+3 Saving-Throw
+     A Saving Throw is the ability of a character to  resist  the
+effects of special skills used on him by another person/creature.
+This ability increases with the level of the character,  but  then
+most high level creatures are better at using their skills, so it
+tends to even out.
+ 
+3 Stealth
+     The  ability  to  move  silently  about  is   very   useful.
+Characters   with   good   stealth  can  usually  surprise  their
+opponents, gaining the first blow.  Also, creatures may  fail  to
+notice  a stealthy character entirely, allowing a player to avoid
+certain fights.
+ 
+3 Disarming
+     Disarming is the  ability  to  remove  traps  (safely),  and
+includes   picking  locks  on  traps  and  doors.   Note  that  a
+successful disarming will gain  the  character  some  experience.
+The  character  must have found a trap before it can be disarmed.
+Dexterity and intelligence both modify the ability to disarm, and
+this ability increases with the level of the character.
+ 
+3 Wierd-Devices
+     Using a special device such as a ray gun or device requires
+experience and knowledge.  This skill is modified by intelligence,
+and increases with the level of the character.
+ 
+3 Perception
+     Perception  is  the  ability  to  notice  something  without
+actively  seeking it out.  This skill is based entirely upon race
+and class, and will never improve unless specially enhanced.
+ 
+3 Searching
+     To search is to actively look for secret doors, floor traps,
+and  traps  on  chests.   Ninjas  are  the best at searching, but
+thieves, gurus and scientists are good at it, too.  Intelligence
+modifies  your  ability  of searching, and your ability will also
+increase with your level.
+ 
+3 Infra-Vision
+     Infra-vision is the ability to see heat sources.  Since most
+of  the  dungeon is cool or cold, infra-vision will not allow the
+player to see walls  and  objects.   Infra-vision  will  allow  a
+character  to  see  any  warm-blooded  creatures  up to a certain
+distance.  This ability works equally well with  or  with  out  a
+light  source.  Note that the majority of the creatures are cold
+blooded, and will not be detected unless lit up by  a light source.
+ 
+2 Classes
+     Once a quality has been chosen, you will need to pick a  class.
+Some  classes  may  not  be  available  to  aliens.  For the first
+few adventures it is suggested  that you run a wrestler or ninja.
+Special skill using classes tend to take much more experience with
+the game to keep them alive.
+ 
+3 Wrestler
+     A Wrestler is a hack-and-slash character, who solves most  of
+his  problems  by  cutting  them to pieces, but will occasionally
+fall back on the help of a special device.  His prime  stats  are
+Strength  and  Constitution, and a good Dexterity can really help
+at times.  A Wrestler has lots of hit points and will be good at Melee
+Fighting and using Guns/Grenades, but bad at most other skills.
+ 
+3 Scientist
+     A Scientist must live by his wits.  He cannot hope to simply
+hack his  way through the tunnels, and so must therefore use his
+special skills to defeat, deceive, confuse, and to escape with.  A
+scientist  is  not really  complete without a golf-cart of special
+devices to use in addition to his skills.  He can master the higher
+level  wierd  devices  far  easier  than  anyone  else. Intelligence
+is obviously his  primary stat.  There is no rule that says a scientist
+cannot become a good fighter, but skills are his true calling.
+ 
+3 Guru
+     A Guru is a character of holy devotion.  They explore  the
+dungeon  only  to  destroy  the  evil  that  lurks within, and if
+treasure just happens to fall into their packs;   well,  so  much
+more  to the glory of their church!  Gurus receive their prayers
+from their diety, and therefore do not choose which prayers they  will
+learn.   He  is familiar with special devices, preferring to call
+them instruments of his god, but is not as good as a  scientist in their
+use.   Gurus have good saving throws and a very Preceptive, and make
+decent fighters, preferring blunt weapons over edged ones.  Wisdom
+is the primary stat for the Guru.
+ 
+3 Ninja
+     A Ninja is a character that prefers to live by his  cunning,
+but  is  capable  of fighting his way out of a tight spot.  He is
+the master of traps and locks, no device being impossible for him
+to  over-come.   A ninja has a high stealth allowing him to sneak
+around many creatures without having to fight, or  sneak  up  and
+get  the  first  blow.   A  ninja's perception is extrememly high
+and many times he will notice a trap or secret  door before  having
+to  search.   A  ninja is better than wrestlers or wanderers with
+special devices, but still can not rely on their performance.
+Due to their special training, strength, and exceptional fighting
+skill, ninja's get more critical hits than other classes.  A ninja's
+primary stats are Strength and Dexterity.
+ 
+3 Soldier
+     A Soldier is a fighter/scientist.  He is a good fighter,  and
+the best  of  the  classes  with a missile weapon such as a gun.
+The soldier learns skills much more slowly than a scientist, but is
+capable of learning all but the most powerful skill.  Because a soldier
+is really a dual class character, it  requires  more  experience  to
+advance  him.  A soldier has a good stealth, good perception, good
+searching, a good saving throw, and is good with special devices.
+His primary stats are Intelligence and Dexterity.
+ 
+3 Wanderer
+     A Wanderer is a fighter/guru.  He is an average fighter,
+but not very good at missile weapons.  He receives prayers at a
+slower pace then the guru, and can receive all but the most powerful
+prayer.  Because a wanderer is really a dual class character, it
+requires more experience to advance him.  A wanderer lacks much in
+the way of abilities.  He is poor at  stealth,  searching,  and
+special  devices.  He has a decent saving throw due to his divine
+alliance.  His primary stats are Strength and Wisdom.
+ 
+3 Con-Artist
+      A Con-Artist is an alternative sort of profession using tricks
+of the mind as their special skills.  A con-artist relies on his
+charisma to out-wit his foes and to avoid thier dangerous blows.
+Their primary stat is Charisma.
+ 
+3 Thief
+      A Thief is a fighter/con-artist.  A good thief avoids direct
+contact with his foes and relies on his good stealth and con-artist
+tricks.  A thief learns tricks slower than a con-artist, but is a
+much better fighter.  He is the master of traps and locks, no device
+being impossible for him to over-come.  His primary stats are Charisma
+and Dexterity.
+ 
+2 Qualities
+     There are eight different qualities that you can choose from in
+BOSS.  The alien quality is restricted as to what profession it may
+be, and each quality has  it's  own  adjustments  to  a  character's
+abilities.
+ 
+3 Elite
+     Rather than having a speciality in one stat, the Elite quality
+gives a small bonus to each stat.  As an added extra, the elite
+character has especially high disarming, searching, melee fights, etc.
+An elite character needs a little extra experience to go up each
+level.
+ 
+3 Hefty
+     Hefty characters are given a huge bonus to their Strength and
+also bonuses to Constitution, Melee Fighting, Saving Throw, and
+Hit Points.
+ 
+3 Mad
+     Mad characters are given a huge bonus to their Intellegence and
+also bonuses to Dexterity and Wierd Device.
+ 
+3 Wise
+     Wise characters are given a huge bonus to their Wisdom and
+also bonuses to Intellegence, Searching, and Perception.
+ 
+3 Lucky
+     Lucky characters are given a huge bonus to their Dexterity and
+also bonuses to Wisdom, Disarming, Searching, Guns/Grenades, Saving
+Throw, and Perception.
+ 
+3 Healthy
+     Healthy characters are given a huge bonus to their Constitution
+and also bonuses to Strength and Melee Fighting.
+ 
+3 Sexy
+     Sexy characters are given a huge bonus to thier Charisma and
+also bonuses to Dexterity and Saving Throw.
+ 
+3 Alien
+     This quality means that you are a Jarwangian Alien.
+These Aliens have extrordinary Strength, Intellegence, Dexterity,
+and Constitution, plus 80' Infra-Vision.  Because of their
+unfamiliarity of our world, aliens need much more experience to
+gain levels.
+ 
+2 Sex
+     You may choose to be either a male or  a  female  character.
+Only height and weight are affected by a character's sex.  Female
+characters tend to be somewhat smaller  and  lighter  then  their
+male counterparts.  No adjustments to stats or abilities are made
+because of the sex of a character.
+ 
+ 
+2 Stats
+3 Strength
+  (STR)
+     Strength is important in fighting with weapons, or  hand  to
+hand.   A  high strength can improve your chances of hitting, and
+the amount of damage done with each  hit.   Characters  with  low
+strengths  may  receive  penalties.   Strength  is also useful in
+tunneling, body and shield bashing, etc.
+ 
+3 Intelligence
+  (INT)
+     Intelligence is the prime stat of a scientist  or soldier. A
+high intelligence increases a scientist's chances of learning spells,
+and in gaining resources.  No skill  may  be  learned  by scientists
+with intelligences  under 8.  Intelligence also modifies a character's
+chance of disarming traps, picking locks, and using wierd devices.
+ 
+3 Wisdom
+  (WIS)
+     Wisdom is the  prime  stat  of  a guru.   A  high  wisdom
+increases  the  chance  of  recieving  new prayers from a guru's
+diety, and in the  gaining  of resources.  Wisdom  also  modifies  a
+character's  chance  of  resisting  special  skills used upon his
+person.
+ 
+3 Dexterity
+  (DEX)
+     Dexterity is the combination of agility  and  quickness.   A
+high  dexterity  may allow a character to get multiple blows with
+lighter weapons, thus greatly increasing his kill power, and  may
+increase  his  chances  of hitting with any weapon.  Dexterity is
+also useful in picking locks and disarming traps.
+ 
+3 Constitution
+  (CON)
+     Constitution is a characters ability  to  resist  damage  to
+their  body,  and  to  recover from damage received.  Therefore a
+character with a high constitution will receive more hit  points,
+and be more resistant to poisons.
+ 
+3 Charisma
+  (CHR)
+     Charisma represents a character's personality,  as  well  as
+physical  looks.   A  character with a high charisma will receive
+better prices from store owners, whereas a character with a  very
+low  charisma  will  be  robbed blind.  A high charisma will also
+mean more money when the character starts out.  Charisma is very
+important for Con-Artists.  A high charisma will give make the
+skills and gaining of resources more efficient for thieves and
+con-artists.
+ 
+1 COMMANDS
+     All commands are  entered  by  pressing  a  single  key,  or
+control  sequence  (holding down the control key while pressing a
+key).  If a particular command  requires  additional  action,  it
+will  be  prompted  for, with one exception.  When a direction is
+required, no prompt is given unless and until an illegal response
+is given.
+ 
+2 Directions
+     In the following instructions, the symbol <Dir> refers to  a
+numeric  direction  based on your keypad.  It is not valid to use
+the number '5' in this context.  One exception to  this  is  with
+movement, in which case '5' will rest the character for one turn.
+ 
+     Commands which require a direction will not prompt  you  for
+one,  unless  you  input  an  illegal  direction.   Just  enter a
+direction after the entering the command.
+ 
+  Directions    \     |     /
+                 7    8    9
+               - 4         6 -
+                 1    2    3
+                /     |     \
+ 
+2 Movement
+     Movement is  accomplished  by  using  your  numeric  keypad.
+Simply  press  a  number and your character will move one step in
+that direction.  Pressing a '5' is equivalent to waiting for  one
+round  (More  efficient  resting  over  long  periods  of time is
+accomplished by using the Rest command).  You can only move  onto
+and through floor spots, and only if they contain no creatures or
+obstructing objects such as a closed door.
+ 
+     Moving your character  one  step  at  a  time  can  be  time
+consuming  and  boring, so a faster method has been supplied.  By
+using the Move command '.', you may move  in  a  direction  until
+something  interesting  happens.   For  instance, by pressing the
+period key '.' followed by the direction 8, your character  would
+continue  to  move  up the screen, only coming to a stop after at
+least one condition is satisfied.  These conditions are:
+ 
+  1.  A creature appears upon the screen, or a creature already  on
+      the screen moves.
+  2.  You move next to an  object,  or  feature  such  as  a  door,
+      staircase, or trap.
+  3.  You come to  a  wall,  and  have  more  than  one  choice  of
+      directions  from  which  to  continue,  or  are  in a dead in
+      passage.
+  4.  You come to a junction of several passages.
+ 
+Movement    \     |     /
+             7    8    9
+           - 4         6 -    5 rests the character for one turn.
+             1    2    3
+            /     |     \
+ 
+2 BASH
+  B <Dir> - Bash
+ 
+     The Bash command includes breaking open doors and chests, or
+bashing an opponent.  Two main factors determine the ability of a
+character  to  bash;   their  weight  and  their  strength.    In
+addition,  when  bashing  an  opponent, you will either perform a
+body bash, or if wielding a shield, perform a shield  bash  which
+is more effective.
+ 
+     Bashing a door can throw the character off-balance, but this
+will  not  generally  be  a problem.  Doors that have been jammed
+closed with spikes can only be opened by bashing.   Locked  doors
+may  also  be  bashed  open.   Note that bashing a door open will
+permanently break it.
+ 
+     Bashing a creature has effects on both the  player  and  his
+opponent.   Depending  on  a character's dexterity, he may or may
+not be thrown off-balance allowing free moves to  his  opponents.
+If   the   bash  is  successful,  the  opponent  will  be  thrown
+off-balance for 1 to 3 turns, thus allowing  the  character  free
+hits or a chance to run.
+ 
+     A player automatically performs a shield bash instead  of  a
+body  bash,  if  he is currently wearing a shield.  A shield bash
+adds the damage of a shield to that  of  the  bash,  so  is  more
+effective.   Note  that  size and material both affect the damage
+that a shield will do.
+ 
+2 CHARACTER
+  C       - Print character sheet to screen
+ 
+     This command allows the player to display his character
+information on the terminal screen.  All stats and abilitlies are
+shown, along with current bank balance information.  Note that
+the descriptors of the misc. abilities are subjective and do
+vary each time you use the shift-C command.  If you need to print
+your character info to a file, see the shift-P command.
+ 
+2 DISARM
+  D <Dir> - Disarm a trap.
+ 
+     You can attempt to disarm floor traps,  or  trapped  chests.
+If  you fail to disarm a trap, there is a chance that you blunder
+and set it off.  You can only disarm a  trap  on  a  chest  after
+finding it with the search command.
+ 
+2 EAT
+  E       - Eat some food.
+ 
+     A character must eat occasionally to remain effective.  As a
+character  grows  hungry,  a message will appear at the bottom of
+the screen saying "Hungry".  If a character remains  hungry  long
+enough, he will become weak and eventually start fainting.
+ 
+2 FILL
+  F       - Fill a lantern with batteries.
+ 
+     If your character is currently using a lantern for light, and
+if  he has a package of batteries in inventory, he may refill the
+lantern by using this command.  A lantern is capable of a maximum
+of 12000 turns of light.
+ 
+2 LOCATION
+  L       - Display map co-ordinates.
+ 
+     The Location command will display your  character's  current
+co-ordinates  as  shown  on  a  printed map (printed with the 'P'
+command).  Sectors contain up to 44 rows by 99 columns each.  The
+Location  command  will  display  the character's current row and
+column map co-ordinates, as well as the sector number.
+ 
+2 MIX_POTIONS
+  M       - Mix two potions together.
+ 
+     A player with good luck and intellegence can sometimes be able
+to mix together two potions and come out with a new, more powerful
+one.  The results are unpredictable, and so potion mixing should be
+done with caution.
+ 
+2 MORE-TOGGLE
+  Q       - Toggle the 'question-more' feature on and off.
+ 
+     This command does not take a turn.
+ 
+ 
+2 PRINT
+  P       - Print map or character sheet to file.
+ 
+     The Print command will write an entire map  of  the  dungeon
+floor  explored to a file.  Since the dungeon floor is large, the
+map is broken up into sectors, each containing up to 44 rows by 99
+columns.
+     This command also allows the player to print his entire
+character sheet info listing to a file.  The character's history,
+equipment list, and an inventory list are included.
+ 
+2 REST
+  R       - Rest for a number of turns.
+ 
+     You may rest one turn by pressing the '5' key.  Resting  for
+longer periods of time is accomplished by using the Rest command,
+followed by the number of turns you want to rest your  character.
+Resting  will  continue until the specified duration has expired,
+or something to wake the character happens, such  as  a  creature
+wandering  by.   It  is  sometimes  a good idea to rest a beat-up
+character until he regains some of his hit points, but be sure to
+have plenty of food if you rest often.
+ 
+     If you have accidently entered in a rest period  too  large,
+or  change  your mind about the resting period, you may wake your
+character up by pressing any key.
+ 
+2 SEARCHMODE
+  S       - Search mode toggle.
+ 
+     The Searching toggle will take the character into and out of
+searching mode.  When first pressed, the message "Searching" will
+appear at the bottom of the screen.  The character is now  taking
+two  turns  for each command, one for the command and one turn to
+search about him.  Note that this means he is  taking  twice  the
+time to move about the dungeon, and therefore twice the food.  If
+a creature should happen by  or  attack  you,  search  mode  will
+automatically  shut  off.  Otherwise you may turn off search mode
+by again pressing the 'S' key.
+ 
+2 TUNNEL
+  T <Dir> - Tunnel through rock.
+ 
+     Tunneling (Mining) is a very useful  art.   There  are  four
+kinds  of rock present in the dungeons of Moria;  Permanent Rock,
+Granite Rock, Magma Intrusion, and Quartz Veins.  Permanent  Rock
+is exactly that, permanent.  Granite is very hard, therefore hard
+to dig through, and  contains  no  valuable  metals.   Magma  and
+Quartz  veins  are  softer and sometimes bare valuable metals and
+gems, shown as a '$' or a '*' character.  You  can  tell  if  the
+metal  or  gems are embedded into the wall by trying to move onto
+them.  If you can't move over them, you'll have to dig them out.
+ 
+     Tunneling can be VERY difficult by hand, so when you dig  be
+sure  to  wield  either  a shovel or a pick.  Special shovels and
+picks can be found which allow the wielder  to  dig  much  faster
+than normal, and a good strength also helps.
+ 
+2 AIM
+  a <Dir> - Aim a ray gun.
+ 
+     Ray Guns must be aimed in a direction to be used.  Ray Guns are  a
+special  device  and therefore use the Special Devices ability of
+the player.  They will either affect  the  first  object/creature
+encountered,  or  affect anything in a given direction, depending
+upon the ray gun.  An obstruction such as door or wall will  general
+stop the effects of a ray gun from traveling further.
+ 
+2 BROWSE
+  b       - Browse a book.
+ 
+    You can only understand a book if you are trained in its arts.
+Therefore  a scientist  could read a tech manual, but not a holy
+book.  Fighter's will not be able to read either  kind  of  book.
+When  the  browse  command  is used, all of the skills or prayers
+contained in the book along with information about  it,  such  as
+it's level, the amount of resources used up in using it, and wether
+or not you know the skill or prayer will be displayed.  There are
+a  total  of  31  different  special skills in four books, and 31
+different prayers in four books.
+ 
+2 BERZERK
+  b       - Go Berzerk
+     A Wrestler character makes up for his lack of special skills
+by having *lots* of hit points and also by his ability to lose his
+head in battle and lash out at every opponent around him.  This
+skill is nicknamed 'Berzerking' and is quite effective.  There are
+currently no restrictions on the amount of times a Wrestler can
+go berzerk.
+ 
+2 CLOSE
+  c <Dir> - Close a door.
+ 
+     Non-intelligent and certain other creatures will not be able
+to  open  a  door.  Therefore shutting doors can be a life saver.
+You must be adjacent to an open door, and you cannot close broken
+doors.  Note that bashing a door open will break it.
+ 
+2 DROP
+  d       - Drop an object from you inventory.
+ 
+     You can drop a single object onto the floor beneath  you  if
+that  floor  spot  does not already contain an object.  Note that
+doors and traps are considered objects in  this  sense.   If  you
+drop  an  object  such  as  a  potion  or floppy, a single one is
+dropped onto the floor at a time.  Group objects such  as  arrows
+are all dropped at once onto the floor.
+ 
+2 EQUIPMENT
+  e       - Display a list of equipment being used.
+ 
+     Use the Equipment command  to  display  a  list  of  objects
+currently  being  used  by your character.  Note that each object
+has a specific place were it is placed, and that only one  object
+of  each  type  may  be used at any one time;  excepting rings of
+which two can be worn, one on each hand.
+ 
+2 FIRE
+  f <Dir> - Fire a Gun.
+ 
+    To use a gun with ammo, simply wield the gun and then specify
+which ammo clip you want to use after hitting the fire command. The
+caliber of the gun must match the ammo size, of course.
+ 
+2 Hurl
+  h <Dir> - Hurl an Item.
+ 
+     You  may  throw  any  object  carried  by  your   character.
+Depending  upon  the  weight of an object, it may travel across a
+room or drop down beside you.  If you throw an object such as a
+round of ammo, only one will be used at a time.
+ 
+     If you hurl at a  creature,  your  chance  of  hitting  the
+creature  is  determined  by  your pluses to hit, your ability at
+throwing, and the objects pluses to hit.  Once  the  creature  is
+hit,  the  object  may  or  may  not  do any actual damage to it.
+Certain objects in the  game can do  great  amounts  of  damage
+when  thrown,  but  it's  for you to figure out the obscure ones.
+Grenades are the most effective of thrown weapons, but be careful
+not to throw one too close to you, or you will be hit by the blast.
+ 
+ 
+2 HELP
+  h       - Enter the BOSS help library.
+ 
+     A subprocess is spawned and the HELP utility entered.   Help
+on  individual commands may be displayed without actually exiting
+your game.  You may return to your game by entering a <CONTORL>-Z
+character.
+ 
+2 INVENTORY
+  i       - Display a list of objects being carried.
+ 
+     The Inventory command displays a list of all  objects  being
+carried,  but  are  not  in  current use.  You may carry up to 22
+different kinds of objects, not including those in your equipment
+list.   Depending upon your strength, you will be able carry many
+identical objects before hitting your weight limit.
+ 
+2 JAM
+  j <Dir> - Jam a door with an iron spike.
+ 
+     Most humanoid and many intelligent creatures can simply open
+a  closed  door,  and  can  eventually get through a locked door.
+Therefore you may spike a door in order to jam  it.   Each  spike
+used  on  a door will increase it's strength.  It is very easy to
+jam a door so much as to make it impossible for your character to
+bash  it  down,  so  spike  doors wisely.  Note that the bigger a
+creature is, the easier it can bash a door down.  Therefore  four
+or  more  spikes  might be necessary to slow down an alien, where
+one spike would slow down a gang member.
+ 
+2 Skills
+  m       - Do a skill from a con artist or tech manual
+ 
+     First, a character must have learned a skill before  he  can
+cast it.  Next, when using a skill, he must read the skill from
+a manual, so a manual containing the skill must be in his  inventory.
+Each  skill has a chance of failure which starts out fairly large
+but decreases as a character gains levels.  If a  character  does
+not  have the available resources, he increases his chance of failure,
+and gambles on losing a point of constitution.  Note that since a
+character  must read the skill from a manual, he cannot be blind or
+confused when using a skill,  and  there  must  be  some  light
+present.
+ 
+2 LOOK
+  l <Dir> - Look in a direction.
+ 
+     The Look command is useful in identifying the exact type  of
+object  or  creature shown on the screen.  Also, if a creature is
+on top of an object, the look command will  describe  both.   You
+can  see  creatures  and  objects up to 200 feet away (20 units).
+Note that you  may  freely  use  the  Look  command  without  the
+creatures getting a move on you.
+ 
+2 OPEN
+  o <Dir> - Open a door, chest, or lock.
+ 
+     To open an object such as a door or chest you must  use  the
+Open  command.   If  the  object is locked, the Open command will
+attempt to pick the lock, based on  your  ability  at  disarming.
+Note  that if an object is trapped and you open it, the trap will
+be set off.
+ 
+2 PRAY
+  p       - Read a prayer.
+ 
+     First, a character must have learned a prayer before he  can
+read  it.   Next,  when  reading  a prayer, he must have the book
+containing the prayer in his inventory.  Each prayer has a chance
+of  failure  which  starts  out  fairly  large but decreases as a
+character gains  levels.   If  a  character  does  not  have  the
+available resources, he increases his chance of failure, and gamble
+on losing a point of constitution.  Note that since  a  character
+must  read the prayer from a book, he cannot be blind or confused
+and there must be some light present.
+ 
+2 QUAFF
+  q       - Quaff a potion.
+ 
+     To drink a potion use the Quaff command.  A  potion  affects
+the  player  in  some  manner.   The effects of the potion may be
+immediately noticed, or they may be subtle and unnoticed.  If you
+wish to try mixing potions, use the Mix command.
+ 
+2 READ
+  r       - Run a floppy in a computer.
+ 
+     Floppy disks in BOSS are strange alien constructs that react
+with the immediate environment when they are ran inside a computer.
+Some floppies will light up a room, while others will identify a
+player's inventory.  Cheap, earth made, computers will invariably
+'eat' a floppy once it is ran, but the more advanced (and expensive)
+computers are less likely to destroy the disk.
+ 
+2 SEARCH
+  s       - Search general area one turn.
+ 
+     The Search command can be used to locate  hidden  traps  and
+secret doors about the player.  Note that more than a single turn
+of searching will be required in most cases.  You  should  always
+search  a  chest  before  trying  to  open  it  because  they are
+generally trapped.
+ 
+2 TAKEOFF
+  t       - Take off a piece of equipment.
+ 
+     Use the Take-Off command to remove an object from  use,  and
+return  it  to  your inventory.  Occasionally you will run into a
+cursed item which cannot be removed.   Cursed  items  are  always
+bad, and can only be taken off after removing the curse.
+ 
+2 USE
+  u       - Use a wierd device.
+ 
+     The Use command will activate a wierd device.  Wierd Devices
+are bizarre alien devices that baffle earth's scientists.  The Boss
+has stolen many of them from both the Dasyians and the Jarwangians,
+and many have turned up in city stores.  Like floppys, most wierd
+devices have an area affect.  Becasue devices are generally more
+powerful than most other items, they are also harder to use correctly.
+ 
+2 VERSION
+  v       - Display current version of game.
+ 
+     The Version command displays the  credits  for  the  current
+version of Moria/BOSS.
+ 
+2 WEAR
+  w       - Wear or wield an item being carried.
+ 
+     To wear or wield  an  object  in  your  inventory,  use  the
+Wear/Wield  command.  If an object is already in use for the same
+function, it  is  automatically  removed  first.   Note  that  an
+objects bonuses cannot be gained until it is worn or wielded.
+ 
+2 EXCHANGE
+  x       - Exchange primary and secondary weapons.
+ 
+     A secondary weapon is any weapon which may be needed  often.
+Instead  of  searching  through  your  inventory, you may use the
+exchange command to keep the weapon ready.  For instance, if  you
+wanted  to  use your gun most of the time, but needed an axe for
+close combat, you  could  wield  your  axe,  use  the  exchange
+command to make it the secondary weapon, then wield your gun.  If
+the axe was suddenly needed, simply use the exchange command to
+switch between the gun and the axe.
+ 
+2 IDENTIFY
+  /       - Identify a character shown on screen.
+ 
+     Use the identify  command  to  find  out  what  a  character
+displayed  on  the  screen stands for.  For instance, by pressing
+'/.', you can find out that the '.'  stands  for  a  floor  spot.
+When  used  with  a  creature, the identify command will tell you
+only what class of  creature  the  symbol  stands  for,  not  the
+specific  creature,  therefore  use  the  look  command  for this
+information.
+ 
+2 COMMANDS
+  ?       - Display a list of commands.
+ 
+     The ?  command displays a one page quick reference help page
+on the screen.
+ 
+2 REPEAT
+  ^M      - Repeat last message.
+ 
+     The <Control>-M (Carriage-Return or Enter key) command  will
+re-display  the  last  message printed on the message line at the
+top of your screen.
+ 
+2 REDRAW
+  ^R      - Redraw the screen.
+ 
+     To redraw the entire screen, use the <Control>-R command.
+ 
+2 QUIT
+  ^Y      - Quit the game without saving.
+ 
+     To exit the game  without  saving  your  character  use  the
+<Control>-Y  command.  Once exited in this manner, your character
+is non-recoverable.
+ 
+2 SAVE
+  ^Z      - Save your character and quit the game.
+ 
+     To save your game so that it can be restarted later, use the
+<Control>-Z  command.   The save file can be moved about at will,
+but do not edit it.  Note that a copy of a saved  character  will
+not work after that character has died.
+ 
+2 SHELL
+  $       - Shell out of game.
+ 
+     Use the Shell command '$' to temporarily exit  the  game  to
+execute  DCL  commands.  You may re-enter the game by typing in a
+log command.
+ 
+2 UP
+  <       - Go up an up-staircase.
+ 
+     If you move onto an up-staircase you may use the '<' command
+to  go  up  one level.  There are always several staircases going
+up on every dungeon level. Going up a staircase will always take
+you to a new dungeon area except for the city level, which remains
+the same until you go to the next city.
+ 
+2 DOWN
+  >       - Go down a down-staircase.
+ 
+     If you are on top of a down-staircase you may  use  the  '>'
+command  to  go  down  one  level.  There are always several
+staircases going down on each level, including the city level.
+Going down will always take you to a new dungeon area.
+ 
+2 GO
+  . <Dir> - Move in direction.
+ 
+     The  Move  command  '.'  will  move  you  in  the  indicated
+direction   until   one  of  several  conditions  happen.   These
+conditions  include,  a  creature  appearing  on  the  screen,  a
+creature  already on the screen moving, an object or feature such
+as a door, a staircase, or a trap is adjacent to  the  character,
+character  comes  into a junction of passages, or character comes
+to a wall with no choice or more than one  choice  of  continuing
+directions.
+ 
+1 COMPUTERS
+     Part of a character's survivial in BOSS will depend on the
+computer that the character buys or finds in the dungeon.  A
+computer is needed to run Floppy Disks.  Most computers will always
+successfully run a disk, but in doing so will usually corrupt the
+data and 'eat' the disk.  Some computers are less 'hungry' then
+others and this is immediately apparent in the relative price of the
+model.  Current computer efficiency ranges from 1% to 70%.
+ 
+1 DISCLAIMER
+     BOSS (Moria) is intended for Public Domain, and may not be
+sold  or marketed IN ANY FORM without the permision and written
+consent from the author Robert Alan Koeneke.  I retain all copyrights
+to this  program,  in  either the original or modified forms, and no
+violation,  deletion,  or  change  of  the  copyright  notice  is
+allowed.   Futhermore,  I will have no liability or responsibilty
+to any user with respect to loss or  damage  caused  directly  or
+indirectly by this program.
+ 
+1 HELP
+You can get help on a topic by typing in the first few letters of
+the topic or subtopic.
+ 
+If a topic is abbreviated, the text for all topics which match the
+abbreviation is displayed.
+ 
+To exit from a topic simply hit the return key.
+ 
+1 ITEMS
+ 
+   There are a lot of different types of items in BOSS.  Knowing what
+they can do and how they can be used is key to winning the game.
+ 
+ 
+2 WEAPONS
+ 
+   Anything in the game can potentially be used as a weapon.  However,
+some things cannot be wielded effectively as a weapon.  Real weapons
+come in three types, and there are also special abilities that some
+rare weapons may contain.
+ 
+3 SPORTS_EQUIPMENT
+ 
+   Sports equipment are specialized types of weapons that can be
+purchased in the Pro Shop.  They are generally cheaper than weapons
+found in the Weapon Shop.
+ 
+Sports Equipment        Cost   Weight   Damage
+ 
+Towel                     1       2     2d3
+Hair Brush                1       1     2d2
+Umbrella                  10      10    1d6
+Hat Stand                 15      70    1d8
+Aligator Skin Purse       30      15    1d4
+Walking Stick             10      10    1d4
+Ping Pong Paddle          5       2     2d2
+Tennis Racket             40      25    2d4
+Jai-Lai Scoop             45      20    1d6
+Bowling Pin               5       30    1d6
+Golf Club (9 iron)        60      35    3d3
+Golf Club (1 wood)        80      40    3d4
+Cricket Bat               50      65    2d5
+Baseball Bat (wooden)     30      80    2d6
+Baseball Bat (aluminum)   35      70    3d6
+Baseball Bat (spiked)     50      100   4d6
+Croquet Mallet            10      10    2d5
+Hockey Stick              50      30    2d4
+Snow Ski Pole             50      30    1d10
+Foil                      100     35    1d10
+Water Ski                 150     100   2d5
+Surf Board                200     50    3d3
+ 
+3 HAND-TO-HAND
+ 
+Type                    Cost   Weight  Damage
+ 
+Lead Pipe                 2       15    2d3
+Wrench                    10      15    1d5
+Hammer                    10      15    1d6
+Crowbar                   20      25    2d4
+Hand Axe                  100     50    4d4
+Chainsaw                  250     100   5d5
+Flail                     300     150   5d4
+Katana                    350     150   6d4
+Long Sword                375     250   7d4
+Broadsword                400     250   8d4
+Two-Handed Sword          500     275   9d4
+Battle Axe                600     300  10d4
+ 
+ 
+3 DISTANCE
+ 
+Thrown Weapons         Cost   Weight  Damage
+ 
+Frisbee                   1       1     1d3
+Baseball                  10      5     2d4
+Lawn Dart                 10      20    1d10
+Large Brick               1       50    1d7
+Throwing Knife            50      15    2d5
+Throwing Star             40      1     2d4
+Dynamite                  20      5     2d5
+Fragmentation Grenade     50     10     4d5
+Incendiary Grenade        50     10     4d6
+ 
+ 
+Guns                     Cost   Weight  Damage   Bursts
+ 
+Shotgun                   130     40      2d4      2
+Pistol (45cal)            100     20      2d5
+Rifle (45cal)             150     40      3d5
+Machine Gun (45cal)       500     105     2d5      6
+Pistol (9mm)              120     20      2d4
+Uzi (9mm)                 700     50      2d4      6
+Laser Pistol              300     20      3d8
+Laser Rifle               500     50      4d8
+Heavy Laser               900     200     6d8
+Laser Machine Gun        1500     120     3d8      4
+ 
+3 Special-Weapons
+      You may discover many weapons that have special and powerful
+   abilities.  These abilities augment the normal capabilities of the
+   weapon.  Special weapons are denoted by the following abbreviations:
+ 
+4 Defender
+    (DF)
+         A special weapon that actually helps the wielder  defend
+    himself, thus increasing his armor class.
+ 
+4 Frost-Brand
+    (FB)
+         A special weapon of ice that delivers a cold critical to
+    heat based creatures.
+ 
+4 Flame-Tongue
+    (FT)
+         A special weapon of flame that delivers a heat  critical
+    to cold based creatures.
+ 
+4 Holy-Avenger
+    (HA)
+         A Holy Avenger is by far the most powerful  of  weapons.
+    Holy  Avengers  have  been  known  to increase several of the
+    wielder's stats, to actually  increase  the  wielder's  armor
+    class (because of the terror the weapon spawns in it's foes),
+    and to actually help the wielder to fight more effectively.
+ 
+4 Kill-Alien
+    (KA)
+         A Kill Alien weapon is a special purpose  weapon created
+    by the  Jarwangian race with the sole purpose to defeat  the
+    Daisyians.  Therefore, when used against an alien,  the  amount
+    of damage done is greatly increased.
+ 
+4 Kill-Scum
+    (KS)
+         A Kill Scum weapon is a  special  purpose  weapon  whose
+    sole  intent  is  to  destroy  scummy life forms.  When  used
+    against a scummy creature the damage done is greatly increased.
+ 
+4 Kill-Creature
+    (KC)
+         A Kill Creature weapon is a special purpose weapon whose
+    sole intent is to destroy all the vile creatures in the realm.
+    A creature is usually non-intellegent and very hungry.
+ 
+4 Kill-Mutant
+    (KM)
+         A Kill Mutant weapon is a special purpose  weapon  whose
+    sole  intent  is to destroy all living mutants.  This weapon
+    is hated and feared by the intelligent mutants, for a  single
+    blow from this weapon is capable of much damage to them.
+ 
+4 Destroyer
+    (DST)
+        A super leathal weapon of unknown origin.  Known for its
+    awesome damage potential.  Unfortunately with its great power
+    comes a greater weight.  Conan would have liked this kind of
+    weapon.
+ 
+5 Rare
+     There are rumors of *very* special weapons that the minions
+  of the Boss have created.  One such rumor is about a weapon called
+  "Slicer".  This weapon is said to do double damage before adding on
+  other special bonuses.  How sharp is your blade? (or towel for that
+  matter)
+ 
+2 DIGGING_IMPLEMENTS
+ 
+   Some items are particularly useful in aiding you to dig for things.
+ 
+Type                    Cost   Weight  Damage  Tunnel
+ 
+Sturdy Shovel             20      50    1d4     1
+Pick Axe                  50      70    1d5     2
+Jack Hammer               550     220   3d5     4
+Diamond Tipped Drill      2200    40    2d5     5
+ 
+2 ARMOR
+ 
+   Armor is worn to give you defense against physical attacks.  Having a
+high armor class will actually result in your taking less damage in
+battles.
+ 
+  Armors                 Cost  Weight  Armor
+ 
+Pair of Nikes             4       5     2
+Pair of Suede Pumps       6       5     2
+Pair of Combat Boots      20      40    4
+ 
+Baseball Cap              4       5     1
+Bicycle Helmet            12      15    2
+Motorcycle Helmet         30      20    4
+Football Helmet           75      20    5
+Steel Helmet              200     100   6
+ 
+Bath Robe                 4       15    2
+Spandex Jumpsuit          25      20    4
+Cowboy Suit               35      25    5
+Bullet-Proof Vest         55      30    6
+Ski Jacket                75      90    6
+Fire-Proof Suit           200     110   7
+Flak Jacket               230     150   8
+Kevlar Vest               430     130   12
+Cheap Riot Armor          430     250   12
+Riot Armor                530     220   14
+Space Suit                800     250   16
+Slightly Rusty Chainmail  300     280   22
+Really Old Platemail      400     290   24
+Electrically Powered Ar.  3000    300   30
+Nuclear Powered Armor     10000   260   50
+ 
+Raincoat                  3       10    1
+ 
+Black Leather Gloves      3       5     1
+Set of Gauntlets          35      25    2
+ 
+Silver Hubcap             100     10    2
+Garbage Can Lid           1       30    2
+Stop Sign                 20      60    3
+Serving Platter           40      90    4
+Small Riot Shield         110     75    6
+Large Riot Shield         220     100   10
+ 
+3 Special-Armor
+     Some pieces of armor will possess special abilites  denoted
+with abbreviations.  The following is a list those abilities:
+ 
+   (RA)   =  Resist Acid             1/4 damage, armor immune to corrosion.
+   (RC)   =  Resist Cold and Frost   1/2 damage.
+   (RF)   =  Resist Heat and Fire    1/4 damage.
+   (RL)   =  Resist Lightning        1/4 damage.
+   (RG)   =  Resist Poison Gas       1/2 damage.
+ (Resist) =  All of the Above
+   (P)    =  Protection       Extra bonus to armor class, but is slightly
+                                more heavy in weight.
+   (CR)   =  Combat Ready     Bonus to hit in melee, very light in weight.
+   (W)    =  Weightless       Built by Daisyian anti-gravity scientists.
+                                Weighs almost nothing.
+ 
+3 Rare-Armor
+    Rumors abound about *very* special armor types that the Boss's
+  minions have either created or stolen from who knows where.  Here is
+  a list of armors that are rumored to exist:
+    Qwethleg - Some sort of nightmare armor that even gives a bonus to
+               hit when attacking.
+    Fi-Yoh   - Possibly created by the Jarwangian Gurus.
+    Jarth    - Something Eddie (the Boss's nephew) keeps talking about.
+               He says it can make you dodge or survive most anything.
+    ?????    - Who knows what else is out there?
+ 
+2 COMPUTERS
+ 
+   In order to run any Floppy Disks that you have, it is necessary that you
+own, and be wielding a computer.  The efficiency rating on a computer
+relates to it's propensity for destroying floppies after they have been
+used.
+ 
+  Computers              Cost  Weight  Efficiency
+ 
+Vic-20                    20      30     1%  (Sounds right, doesn't it?)
+Laptop Computer           400     50    10%
+Mini-Computer             1200    90    30%
+Mini-Super Computer       2000    200   50%
+Matrix Computer           5000    20    70%
+ 
+1 NEWS
+ 
+   In order to take the bus, you must first defeat the mob boss of
+   your current city.  The mob bosses are major henchlings of the Boss.
+   They can be found somewhere on the 500 meter level tunnel below the 
+   city.  Their ASCII representation is a capital P.   
+
+   There are lots of corpses to be found.  Currently the corpses have
+   no valuable use.  
+
+   Monsters multiply differently now.  You may find packs of 
+   previously non-multiplying monsters.  Be careful, they may be
+   more dangerous.
+
+   We have implemented the long promised time limit to the game.
+   You have 100 game days (subject to change) before the Boss takes
+   over the world and you lose.
+ 
+   (KR) Kill Robot and (RG) Resist Gas items have been added to the
+   game.  Robot monsters include Bots, Drones, Seekers, Borgs, and
+   a few others.  If you should use either of these new items please
+   send mail to Raoul.
+ 
+   Also, don't forget about these useful commands:
+                 W   - toggle wall patterns
+                 b   - go berzerk (for Wrestler class only)
+                 k   - display kill list
+                 M   - mix potions
+                 Q   - toggle question-more
+ 
+1 OLD-NEWS
+   The winning conditions have been extended a bit.  If you should
+   get lucky enough to defeat the Boss, be warned that another may
+   take his place.  The number of Boss's you defeat will be
+   reflected in your score when you die or decide to retire.
+ 
+   A few of the stores have changed a bit.  You'll now find potions
+   and food at the Bar and Grill.  Guns and ammo have been
+   relocated to the Gun Shop.
+ 
+   Be the first kid on the block to own and use a new laser gun!
+   You'll find them in the Gun Shop.  They're expensive, but
+   worth it.  (And don't forget to buy power pack ammo.)
+ 
+1 SCORE
+   Calculation of your final score happens when your character dies,
+or kills the Boss and retires.  If you die, your score is based on
+your experience, plus a small amount per dungeon level you explored,
+minus any outstanding debt from the bank.  If you win, you get a big
+bonus for winning, and another bonus based on how fast you did it,
+measured in game days.
+ 
+1 SUMMARY
+    The game of BOSS places you in the role of vigilante, on a quest for
+truth, justice, and the American way as you gather knowledge and power
+so that you may defeat the Boss, an evil and powerful underworld figure who
+lurks in his lair, skulking like a rat, somewhere deep under the surface of
+the earth, where good and pure mortals live their lives.  The Boss is bad.
+He has no shame, and no honor.  The Boss is a coward, and keeps himself
+protected by hiring all sorts of street scum to guard him.  It is your task
+to defeat these underlings who protect him, to penetrate his defenses and
+confront him in his underground lair, a veritable city under the earth.
+ 
+    Your lowly and wimpy character will start his/her trek in Seattle, the
+Emerald City.  There, you should purchase all the things that you will need
+to survive the trials and travails that await you.  You are given some
+basic amenities, and if you're gutsy, you can survive on these mere items.
+ 
+    The pits under Seattle are rumored to be about ten levels deep, extending
+a half kilometer under the city.  At the deepest level of the city you will
+find one of the Boss's major henchman.  After defeating him and when you
+fell confident that you are ready for the next stage of your quest, you can
+then catch a bus to the next town, a little further east, and a little
+further into the Boss's demense.  Being closer to him, things will be more
+dangerous.  Occasionally, you will see the carcass of a fellow vigilante whose
+luck was not so good.  Your travels will eventually lead you to New York City,
+the very heart of the Boss's territory.  Things are rough in New York, and
+even rougher underneath.  Because the Boss is such a spineless coward, the
+pits under New York are especially deep.
+ 
+    It is common (if unacknowledged publicly) knowledge that the Boss has
+joined forces with factions from three alien races, the Jarwangians, the
+Vogons, and the Daisyians.  The Jarwangians are more or less nice guy
+aliens, and have been duped or drugged into the Boss's servitude.  The
+Vogons, well, nobody really likes the Vogons anyway, not even the Boss, so
+even he hires relatively few of them.  The Daisyians are just plain really
+mean.  Daisyians have no remorse, no compassion.  They are completely
+without feeling.  They would just as soon beat up their aging grandmother
+as you, and probably have already done so.  Rule number one:  unless you're
+looking for trouble, *don't* mess with a Daisyian.  Of course, rule number
+one is pretty useless, because the Daisyian will probably come looking for
+you anyway.
+ 
+    The Boss isn't content with simple association with extra-terrestrials,
+however.  He has also hired an elite core of scientists (well, not so much
+hired as blackmailed, but, that's the Boss for you) to perform genetic
+experiments on poor hapless victims, in the aim of creating a master race
+of accounting executives, who would them infiltrate the entire world's
+banking system, and make the Boss the richest man on the planet.
+ 
+    Note that the Boss is no fool.  He didn't get to his position of power
+and prestige by being a fool.  He will be aware of you, and will occasionally
+exert his influence to cause strange and unpleasant things to happen.  You
+will perhaps think they are accidents, but be warned, they are not...
+ 
+    Time is short, potential hero.  Rumors are afoot that the Boss's plans are
+drawing to a close, and within three or four months or so, they may reach
+fruitation.  This would be a death-knell for freedom and justice everywhere.
+Do not waste time.  Good luck, brave vigilante, the causes of freedom
+(and justice, too) are resting upon you.
+ 
+1 SYMBOLS
+     Symbols  on  your  map  can  be  broken  down   into   three
+categories;  Features of the dungeon such as walls, floor, doors,
+and traps;  Objects which can be  picked  up  such  as  treasure,
+weapons, special devices, etc;  and Monsters which may or may not
+move  about  the  dungeon,  but  are  mostly  harmful   to   your
+character's well being.
+ 
+     Note that some symbols can be in  more  than  one  category.
+Also  note  that treasure may be imbedded in a wall, and the wall
+must be removed before the treasure can be picked up.
+ 
+     It will not be necessary to remember all of the symbols  and
+their  meanings.   A simple command;  the '/';  will identify any
+character appearing on your map.  See the section on commands for
+further help.
+ 
+ 
+Features :
+  .  A floor space, or hidden trap. K  Entrance to K-Mart.
+  #,8,&,@  A wall.                  C  Entrance to Computer Store.
+  '  An open door.                  B  Entrance to Black Market.
+  +  A closed door.                 T  Entrance to Temple.
+  ^  A trap.                        +  Entrance to Bar and Grill.
+  <  A staircase up.                P  Entrance to Pro Shop.
+  >  A staircase down.              G  Entrance to Gun Shop
+  ;  A loose floor stone.           W  Entrance to Weapon Shop.
+  :  Obstructing rubble.            L  Entrance to Leather 'n Chains
+ ' ' An open pit. (Blank)           <  Stairs to Office Building
+ 
+Objects  :
+  !  A vial of chemicals.           ?  A floppy disk.
+  "  An amulet.                     [  Hard armor.
+  $  Money.                         /  Sports Equipment.
+  &  A chest.                       ]  Misc. armor.
+  (  Soft armor.                    _  An alien device.
+  )  A shield.                      {  Ammo.
+  *  Gems or Grenades.              |  A melee weapon.
+  -  A ray gun.                     }  A Gun (Laser, Shotgun, etc.)
+  ~  Misc.                          %  Computer.
+  =  A ring.                        ,  Food.
+ 
+Monsters :
+  a  Animals.                       A  Aliens.
+  b  Bats.                          B  The Boss.
+  c  cloister.                      C  Acidic Cubes.
+  d  Androids.                      D  Droids.
+  e  Ectoplasms.                    E  Evil Things.
+  f  Walking Fungi.                 F  Mind Flayers.
+  g  Gang Members.                  G  Genies.
+  h  Hackers.                       H  Hounds/Horses.
+  i  Insect Swarms.                 I  Insane Lads.
+  j  Jackals.                       J  Jarwangian Molds.
+  k  Kitchen Utensils.              K  King Mutant
+  l  Lasers.                        L  Mutants.
+  m  Machinery.                     M  Mutants.
+  n  ???                            N  Nothingness.
+  o  Oorbs.                         O  Oozes.
+  p  People.                        P  Power People.
+  q  ???                            Q  Queen Mutant.
+  r  Rodents.                       R  Ropers.
+  s  Acid Trips.                    S  Snake.
+  t  Giant Ticks/Trekkies.          T  ???
+  u  Unknowns.                      U  ???
+  v  Vogons.                        V  Vortexes.
+  w  Worms.                         W  Warbots/Snarfbangers.
+  x  Spiders.                       X  Momifractors.
+  y  Yokels.                        Y  Yeth Hounds.
+  z  Zymoggers/Zippy.               Z  Zarg!
+  $  Creeping Coins.                ,  Mushroom Patch.
+  ?  Computer Viruses.              |  Animated Swords.
+  0 - 9  Patrol Robots.             *  Gems.
+ 
+1 CITY
+    You will begin your quest in the city of Seattle, the Emerald city,
+not to be confused in any way with the land of Oz, which is rumored to
+exist in other parts of the game.  The city consists of 12 buildings.  11
+shops, and an office building.  There are also stairs down, and various
+people and pigeons in the city.  Not all of them are nice.
+ 
+2 Buildings
+    You may enter any of the shops, provided it's during business hours.
+Once inside, you may buy and sell items, as in any normal store in the real
+world.  In fact, I wonder why i'm bothering to tell you all this.  Why
+don't you just read the rest of the information about the stores themselves.
+ 
+    Once inside a store, his inventory will appear on the screen along
+with  a set of options for your character.  You may browse the store's
+inventory if it takes more than one page to  display, and  you  may sell
+or purchase items in his inventory.  You can execute your inventory and
+equipment commands to see what you are carrying.  Not shown with the
+options are the wear, take-off, and exchange commands which will also work,
+but were excluded to keep the options simple.
+ 
+    Stores do not always have everything in stock.  As the game progresses,
+they  may  get new items so check from time to time.  Also, if you sell
+them an item, it may get  sold  to  a  customer while  you  are
+adventuring so don't always expect to be able to get back anything you have
+sold.
+ 
+    Store owners will not buy harmful or useless items.   If  an object is
+unidentified, they will pay you some base price for it.  Once they have
+bought  it  they  will  immediately  identify  the object.   If  it  is  a
+good  object,  they will add it to their inventory.  If it was a bad
+bargain, they simply throw  the  item away.   In  any  case,  you  may
+receive some knowledge of the item if another is encountered.
+ 
+3 Bar_and_Grill
+     The Bar and Grill serves all manner of drugs, chemicals, drinks,
+food items and even the occasional bagel.  It's a good restaurant. You
+can get all sorts of non-perishable foods, fit to take with you on your
+travels.  But beware, the owner of the restaurant was a hippie back in
+the sixties, and he sells some foods with rather interesting side effects.
+The entrance to this store is a `+'.
+ 
+3 Leather_and_Chains
+      Leather & Chains is where the town's  armor  is sold. All
+sorts  of  protective  gear  may  be  bought  and sold here.  The
+entrance to this shop is a 'L'.
+ 
+3 K-Mart
+     K-Mart  sells  clothing, flashlights, lanterns, and batteries.
+All of these items, and others, can be sold back to K-Mart for money.
+The entrance to this store is a 'K'.
+ 
+3 Alien_Artifacts
+     The Alien Artifact store is the  most  expensive  of  all  the
+"legal" stores.   It  deals  in  all  sorts of ray guns and alien
+devices.  The entrance to this store is a 'A'.
+ 
+3 Temple
+     The Temple deals in healing and restoration potions, as well
+as amulets, rings and some approved priestly weapons.  The entrance
+to the Temple is a 'T'.
+ 
+3 Weapon_Shop
+     The Weapon Shop  is  where  the  town's  weapons are legally
+bought and sold.  Hand and thrown weapons may be purchased here,
+but guns and ammo are only sold at the Gun Shop.  The entrance to
+the Weapon Shop is a 'W'.
+ 
+3 Computer_Store
+     Well duh!  They sell computers and floppy disks here.
+The entrance is a 'C'.
+ 
+3 Guild
+     The guild is hidden.  We can't tell you what the entrance looks like.
+They sell con-artist and thieves manuals there, and other stuff that sneaky
+kinds of people use.
+ 
+3 Gun_Shop
+     Boise Gun fanciers weren't satisfied with the quality of service at the
+Weapon Shop and so opened up a chain of speciality Gun shops across the
+nation.  All types of guns and lasers can be purchased along with their
+corresponding ammo.  The entrance is a 'G'.
+ 
+3 Pro_Shop
+     This is a sports supply store.  You can buy all sorts of things that
+can be used as general weapons and armor here.  The entrance is a 'P'.
+ 
+3 Black_Market
+     The Black Market stocks all manner of illicit and hard to get items.
+Beware, though, the items in this store are *really* expensive.  The owner
+is also kind of a snob, and won't let you in if you don't have enough money.
+ 
+3 Office_Building
+     The office building is a towering structure, dwarfing all the other
+structures in the city.  If you dare enter this massive structure, you will
+gain access to its refurbished interior and also the hotel, bank,
+NewsInc Ltd, and medical clinic.
+ 
+2 Supplies
+     Your character will begin his adventure with  some  supplies already
+on  him.   Use  the  Inventory 'i' command to check what these supplies
+are.  It will be necessary to buy  other  supplies before  continuing into
+the dungeon, however, so be sure to enter each of the stores.
+ 

@@ -1,0 +1,35 @@
+Things we want to someday maybe add to BOSS if we ever figure out how to do
+them:
+
+  /
+\/-  more skills/book.  like, lots.  use other integer fields in the
+     treasure record for more flags.  what a hack.
+  /
+\/-  add new monster/weapon flags:  slay robot
+
+  /
+\/-  add police to the town level that appear if a 'good' person
+     is attacked.
+  /
+\/-  add badguys to defeat at each succesive 500meter level
+     Player must defeat this badguy before catching bus.
+
+--   give creatures specific treasure types.
+
+--   more stuff in the office building.  finish the hospital, and the newsinc.
+     implement the critical hit system vs. the player, so that the hospital
+     is needed.  
+
+--   summon particular monsters (item/monster ability)
+
+--   make the creatures talk
+
+--   send in the clones
+
+--   do-it-yourself  storage area - rentable apartment
+
+--   game film's for some of the more interesting random wierdnesses in the
+     game.
+
+--   add anything else worthwhile that comes to mind.
+

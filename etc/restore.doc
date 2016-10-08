@@ -1,0 +1,48 @@
+
+  While playing any game including Boss, the worst can happen:
+  You can lose connection from the VAX, an unrecoverable error causes the 
+  game to crash, or just in the case where someone turns your terminal off.
+  
+  If you saved your character at any time prior to this, then you are in 
+  luck.  The save file will normally be 'corrupted' and not usable again,
+  but a special function available only to your local Boss administrator
+  can 'un-corrupt' it.
+
+Here's what you need to do to restore a corrupted save file:
+
+  1.  Send the save file to your local Boss administrator.
+      Type:    SEND/FILE/VMSDUMP filename username-of-admin
+
+  2.  The admin will restore the file and send it back to you.
+      All you need to do is RECEIVE the file and go back to 
+      playing Boss.
+
+
+Here's what the Boss administrator needs to do:
+
+  1.  RECEIVE the save file.
+  2.  Make sure your username is in the file WIZARD.DAT
+      This file should be located in the [.BOSS.DAT] directory.
+  2.  While in the Boss directory type @startup to enter the game.
+  3.  After all the intro stuff is skimmed through, and the town map
+      appears, type control-p to turn 'wizard' mode on.
+  4.  Then type control-v
+  5.  Enter the name of the save file and hit return.
+  6.  This should repair the save file.
+      If not, possible errors include:
+      a.  You misspelled the save file name.
+      b.  The file was not sent with the /VMSDUMP qualifier.
+      c.  Something went wrong with the fabric of the space/time continuum.
+  7.  Next, type control-y to exit the game.
+  8.  Then send the file back to the user.  
+      Type:  SEND/FILE/VMSDUMP filename username
+      (At this point I often forget who sent the file, so it's a good idea
+      to rename the file to the same name as the user who sent it right 
+      after you first receive it.)
+  9.  Be happy!  But if you start to get too many restore save file requests
+      from the same person, be suspicious of cheating.
+
+
+				  -Robert Gulledge
+				   Univ. of Washington
+				   raoul@max.u.washington.edu

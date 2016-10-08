@@ -1,0 +1,5 @@
+
+   There is a severe bug that rarely occurs when a player goes down a 
+ staircase or trap door that leads to a dungeon level that doesn't exist.
+ Normally the new level is translated to a higher existing level and all
+ is fine.  But very rarely the game locks up.  Cause unknown.
