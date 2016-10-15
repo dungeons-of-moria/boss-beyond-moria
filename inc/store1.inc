@@ -1,5 +1,5 @@
 { Returns the value for any given object }
-[psect(store$code)] function item_value(item : treasure_type) : integer;
+function item_value(item : treasure_type) : integer;
  
       function search_list(x1,x2 : integer) : integer;
         var
@@ -22,7 +22,7 @@
             item_value := cost;
             if (tval in [19,20,21,23,30,31,32,33,34,35,36]) then
               BEGIN     { Weapons and armor }
-                if (index(name,'^') > 0) then
+                if (pos('^',name) > 0) then
                   item_value := search_list(tval,subval)*number
                 else if (tval in [20,21,22,23]) then
                   BEGIN
@@ -37,14 +37,14 @@
               END
             else if (tval in [9,10,11,12,13,82,84]) then
               BEGIN     { Ammo, Spikes, Thrown and Grenades }
-                if (index(name,'^') > 0) then
+                if (pos('^',name) > 0) then
                   item_value := search_list(tval,1)*number
                 else
                   item_value := (cost+(tohit+todam+toac)*10)*number
               END
             else if (tval in [70,71,75,76,80]) then
               BEGIN     { Potions, Scrolls, and Food }
-                if (index(name,'|') > 0) then
+                if (pos('|',name) > 0) then
                   case tval of
                     70,71 : item_value :=  20;
                     75,76 : item_value :=  20;
@@ -54,25 +54,25 @@
               END
             else if (tval in [40,45]) then
               BEGIN     { Rings and amulets }
-                if (index(name,'|') > 0) then
+                if (pos('|',name) > 0) then
                   case tval of
                     40 : item_value := 45;
                     45 : item_value := 45;
                     otherwise
                   END
-                else if (index(name,'^') > 0) then
+                else if (pos('^',name) > 0) then
                   item_value := abs(cost);
               END
             else if (tval in [55,60,65]) then
               BEGIN     { Wands rods, and staves}
-                if (index(name,'|') > 0) then
+                if (pos('|',name) > 0) then
                   case tval of
                     55 : item_value := 70;
                     60 : item_value := 60;
                     65 : item_value := 50;
                     otherwise ;
                   END
-                else if (index(name,'^') = 0) then
+                else if (pos('^',name) = 0) then
                   BEGIN
                     item_value := cost + trunc(cost/20.0)*p1
                   END
@@ -82,7 +82,7 @@
  
  
 { Asking price for an item } 
-[psect(store$code)] function sell_price (snum : integer;
+function sell_price (snum : integer;
                                          item : treasure_type ) : integer;
       var
         i1 : integer;
@@ -105,10 +105,9 @@ END;
  
  
 { Check to see if he will be carrying too many objects }
-[psect(store$code)] function store_check_num(store_num : integer) : boolean;
+function store_check_num(store_num : integer) : boolean;
       var    
-        item_num,i1 : integer;
-        flag : boolean;
+        i1 : integer;
       BEGIN
         store_check_num := false;
         with store[store_num] do
@@ -126,10 +125,10 @@ END;
                              
                      
 { Add the item in TEMPORARY_SLOT to store's inventory. }
- [psect(store$code)] procedure store_carry( store_num : integer;
+procedure store_carry( store_num : integer;
                                             var ipos  : integer);
       var
-        item_num,item_val,typ,subt,icost,dummy : integer;
+        item_num,item_val,typ,subt,icost : integer;
         flag : boolean;
                                         
 { Insert TEMPORARY_SLOT at given location }
@@ -198,7 +197,7 @@ END;
  
 { Destroy an item in the store's inventory.  Note that if 'one_of' is false,
   an entire slot is destroyed }
-[psect(store$code)] procedure store_destroy(store_num,item_val : integer;
+procedure store_destroy(store_num,item_val : integer;
                         one_of : boolean);
       var
                 i2 : integer;
@@ -228,14 +227,14 @@ END;
  
                  
 { Creates an item and inserts it into store's inven }
-[psect(store$code)] procedure store_create(store_num : integer);
+procedure store_create(store_num : integer);
       var
         i1,tries,dummy : integer;
       BEGIN                   
         tries := 0;
         with store[store_num] do
           repeat              
-            i1 := store_choice[store_num,randint(store$choices)];
+            i1 := store_choice[store_num,randint(storeXchoices)];
             temporary_slot := inventory_init[i1];
             magic_treasure(temporary_slot,obj_town_level);
             if (store_check_num(store_num)) then
@@ -250,7 +249,7 @@ END;
       END;                    
 
  {Add Black Market items to the inventory}
-[psect(store$code)] procedure do_black_market;
+procedure do_black_market;
 var
    indx,iptr,inven_num : integer;
 
@@ -280,7 +279,7 @@ END;
 { Rotate stock, create sales, and up-keep the store's inventory. }
 { Remember Doofus, that this procedure only works when there's a }
 { dungeon floor in existance.}
-[psect(store$code)] procedure store_maint;
+procedure store_maint;
       var
         i1,i2,i3,i4	: integer;
 
@@ -302,20 +301,20 @@ END;
 		    end;
 		end;
 {Maint.}      insult_cur := 0;
-              if (store_ctr > store$max_inven) then
-                for i2 := 1 to (store_ctr-store$max_inven+2) do
+              if (store_ctr > storeXmax_inven) then
+                for i2 := 1 to (store_ctr-storeXmax_inven+2) do
                   store_destroy(i1,randint(store_ctr),false)
               else
-                if (store_ctr < store$min_inven) then
+                if (store_ctr < storeXmin_inven) then
                   BEGIN
-                    for i2 := 1 to (store$min_inven-store_ctr+2) do
+                    for i2 := 1 to (storeXmin_inven-store_ctr+2) do
                       store_create(i1)
                   END
                 else
                   BEGIN
-                    for i2 := 1 to (1+randint(store$turn_around)) do
+                    for i2 := 1 to (1+randint(storeXturn_around)) do
                       store_destroy(i1,randint(store_ctr),true);
-                    for i2 := 1 to (1+randint(store$turn_around)) do
+                    for i2 := 1 to (1+randint(storeXturn_around)) do
                       store_create(i1)
                   END
             END
@@ -323,7 +322,7 @@ END;
                     
                               
 { Initializes the town stores with inventory }
-[psect(store$code)] procedure store_init;
+procedure store_init;
       var
         i2,i3 : integer;
       BEGIN
@@ -338,6 +337,3 @@ END;
                 end;
             End;
       END;            
-
-
-

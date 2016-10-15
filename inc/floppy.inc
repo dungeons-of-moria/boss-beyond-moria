@@ -1,10 +1,10 @@
         { Running Disk Programs              -RAK- (RLG)  }
 	{Player Must have a computer (tval=29) wielded}
-[psect(misc2$code)] procedure read;
+procedure read;
       var
-                i1	                           : unsigned;
-                i2,i3,i4,item_val,y,x,failure_rate : integer;
-                redraw,ident,first,flag		   : boolean;
+                i1                              : unsigned;
+                i2,i3,item_val,y,x,failure_rate : integer;
+                redraw,ident,first              : boolean;
      BEGIN
        first := true;
        reset_flag := true;
@@ -124,7 +124,7 @@
           27 :  ident := unlight_area(char_row,char_col);
           28 :  ident := protect_evil;
           29 :  ident := create_food;
-          30 :  ident := dispell_creature(%X'0008',60);
+          30 :  ident := dispell_creature($0008,60);
           31 :  begin
                   msg_print('That disk appeared to be blank.');
                   ident := true;

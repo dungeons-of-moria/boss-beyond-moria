@@ -1,9 +1,10 @@
 { Handles the gravestone and the top fifty routines, and
   also the 100-day time limit routine. }
-[psect(death$code)] procedure upon_death;
+
+procedure upon_death;
 
 var
-	points : integer;
+	points : longint;
    
  
 { Prints the gravestone of the character }
@@ -12,21 +13,19 @@ var
         str1,str2,str3,str4,str5,str6,str7,str8 : vtype;
         dstr : array [0..19] of vtype;
         fnam : vtype;
-	command : char;
         f1 : text;
         i1 : integer;
-        deathdate : packed array [1..11] of char;
-        flag : boolean;
+        deathdate : string[10];
       BEGIN
-        date(deathdate);
+	deathdate := formatdatetime('dd-mm-yyyy',now);
         str1 := fill_str(py.misc.name,31);
         str2 := fill_str(py.misc.title,31);
         str3 := fill_str(py.misc.tclass,31);
-        writev(str4,'Level : ',py.misc.lev:1);
+        str4 := 'Level : ' + inttostr(py.misc.lev);
         str4 := fill_str(str4,31);
-        writev(str5,py.misc.exp:1,' Exp');
+        str5 := inttostr(py.misc.exp) + ' Exp';
         str5 := fill_str(str5,31);
-        writev(str6,py.misc.au:1,' Dollars');
+        str6 := inttostr(py.misc.au) + ' Dollars';
         str6 := fill_str(str6,31);
         str7 := 'Died near ' + townlist[town_num].town_name;
         str7 := fill_str(str7,31);
@@ -48,183 +47,176 @@ dstr[13] := '         | '+str6+                       ' |          |    |';
 dstr[14] := '         | '+str7+                       ' |         _|____|_';
 dstr[15] := '         |            killed by            |';
 dstr[16] := '         | '+str8+                       ' |';
-dstr[17] := '         |           '+deathdate+'           |';
+dstr[17] := '         |           '+deathdate+'            |';
 dstr[18] := '        *|   *     *     *    *   *     *  | *';
 dstr[19] := '________)/\\_)_/___(\/___(//_\)/_\//__\\(/_|_)_______';
         clear(1,1);
         for i1 := 0 to 19 do
-          dprint(dstr[i1],i1+1);
-        flush;
-        if (get_com('Print to file? (Y/N)',command)) then
-          case command of
-            'y','Y':  BEGIN
-                        prt('Enter Filename:',1,1);
-                        flag := false;
-                        repeat
-                          if (get_string(fnam,1,17,60)) then
-                            BEGIN
-                              if (length(fnam) = 0) then fnam:='BOSSCHR.DIE';
-                              open (f1,file_name:=fnam,error:=continue);
-                              if (status(f1) <> 0) then
-                                prt('Error creating> ' + fnam,2,1)
-                              else
-                                BEGIN
-                                  flag := true;
-                                  rewrite(f1,error:=continue);
-                                  for i1 := 0 to 19 do
-                                    writeln(f1,dstr[i1],error:=continue);
-                                END;
-                              close(f1,error:=continue);
-                            END
-                          else
-                            flag := true;
-                        until(flag)
-                      END;
-            otherwise
-          END;
-        flush;
-        if (get_com('Print character sheet to file? (Y/N)',command)) then
-          case command of
-            'y','Y' :  character_print;
-            otherwise;
+          prt(dstr[i1],i1+1,1);
+        fnam := py.misc.name + '.txt';
+        assign(f1,fnam);
+        if total_winner_num > 0 then
+          { Procedure kingly already created file. -MB }
+          append(f1)
+        else
+          rewrite(f1);
+        if IOResult = 0 then
+          begin
+            for i1 := 0 to 19 do
+              writeln(f1,dstr[i1]);
+            character_print
+          end
+        else
+          begin
+            writeln('Error in opening ',fnam);
+            writeln('Character dump not saved.');
+            readln
           end;
+        close(f1)
       END;
  
  
  
-{ Enters a players name on the top forty list }
-    procedure top_fifty(pts : integer);
+{ Enters a players name on the top fifty list }
+    procedure top_fifty(pts : longint);
+    const top_scores = 50;
       var
-        list 			  : array [1..50] of vtype;
-        blank			  : packed array [1..13] of char;
-        i1,i2,i4,n1,mwk5,trys     : integer;
-        o1,o2,o3,o4		  : vtype;
-        f1			  : text;
-        flag,file_flag		  : boolean;
-	command			  : char;
+        list        : array [1..top_scores] of hiscore_type;
+        place       : byte;
+        flag        : boolean; { set to true if player makes high score }
+        f1          : text;
+        player      : string;
+        i2,n1       : integer;
+        spc1        : string[2];
+        spc2        : string[4];
+        line        : string;
       BEGIN
-        if (wizard) then exit;
+        clrscr;
         clear(1,1);
-        for i1 := 1 to 50 do
-          list[i1] := '';
-        n1 := 1;
-        priv_switch(1);
-        trys := 0;
-        file_flag := false;
-        repeat
-          open (f1,file_name:=boss_top,
-                organization:=sequential,history:=old,
-                sharing:=none,error:=continue);
-          if (status(f1) = 2) then
-            BEGIN
-              trys := trys + 1;
-              if (trys > 5) then
-                file_flag := true
-              else
-                sleep(2);
-            END
-          else
-            file_flag := true;
-        until(file_flag);
-        if ((status(f1) <> 0) and (status(f1) <> 2)) then
-          open (f1,file_name:=boss_top,
-                organization:=sequential,history:=new,
-                sharing:=none,error:=continue);
-        if (status(f1) <> 0) then
-          BEGIN
-            writeln('Error in opening ',boss_top);
-            writeln('Please contact local BOSS Wizard.');
-            exit;
-          END;
+        assign(f1,BOSS_TOP);
+{ File opening loop removed. If first try fails next four are 
+  likely to fail as well. -MB }
         reset(f1);
-        while ((not eof(f1)) and (n1 <= 50)) do
+        if (IOResult <> 0) then
           BEGIN
-            readln(f1,list[n1],error:=continue);
-            n1 := n1 + 1;
+            writeln('Error in opening ',BOSS_TOP);
+            writeln('Please contact local BOSS Wizard.');
+            readln;
+            halt(0)
+          END;
+        n1 := 1;
+        while ((not eof(f1)) and (n1 <= top_scores)) do
+          BEGIN
+            with list[n1] do
+              readln(f1, playername, score, spc1, charactername, level,
+                spc2, race, tclass);
+            n1 := n1 + 1
           END;
         n1 := n1 - 1;                
-        i1 := 1;
+        place := 1;
         flag := false;
-        while ((i1 <= n1) and (not flag)) do
+        while ((place <= n1) and (not flag)) do
           BEGIN
-            readv(list[i1],blank,i4);
-            if (i4 < pts) then
+            if (list[place].score < pts) then
               flag := true
             else
-              i1 := i1 + 1;
+              inc(place)
           END;
-        if ((flag) or (n1 = 0) or (n1 < 50)) then
+        if flag then
           BEGIN
-            for i2 := 49 downto i1 do
-              list[i2+1] := list[i2];
-            o1 := username;
-	    o2 := pad(py.misc.name,' ',24);
-	    o3 := pad(py.misc.race,' ',12);
-	    o4 := pad(py.misc.tclass,' ',11);	    
-            writev(list[i1],pad(o1,' ',13),pts:7,'  ',o2,'  ',
-		                 py.misc.lev:2,'    ',o3,'  ',o4);
-            if (n1 < 50) then
-              n1 := n1 + 1;
-            flag := false;
+            close(f1);
+            prt('Enter your name:', 1, 1);
+            get_string(player, 1, 18, 12);
+            rewrite(f1);
+            for i2 := 1 to place - 1 do { unchanged places }
+              with list[i2] do
+                writeln(f1, padright(playername, 12), score:8, '  ',
+                  padright(charactername, 25), level:3, '    ', 
+                  padright(race, 13), tclass);
+
+            writeln(f1, padright(player, 12), pts:8, '  ',
+              padright(py.misc.name, 25), py.misc.lev:3, '    ',
+              padright(py.misc.race, 13), py.misc.tclass);
+
+            if n1 < top_scores then { still adding to full table }
+              inc(n1);
+            for i2 := place + 1 to n1 do
+              with list[i2 - 1] do
+                writeln(f1, padright(playername, 12), score:8, '  ',
+                  padright(charactername, 25), level:3, '    ',
+                  padright(race, 13), tclass);
           END;
-        rewrite(f1);
-        for i1 := 1 to n1 do
-          writeln(f1,list[i1]);
         close(f1);    
-        priv_switch(0);
+        reset(f1);    
+        clear(1,1);
 	writeln;
 	writeln;
-	writeln;
-        prt('Username      Points  Character               Level   Quality       Class',3,1);
-        for i1 := 1 to n1 do
+        writeln('Username      Points  Character               Level   Quality       Class');
+        for i2 := 1 to n1 do
           BEGIN
-             writeln(list[i1]);
-             if ((i1 mod 20) = 0) then
-               begin
-	         msg_flag := true;
-		 msg_print('');
-                 clear(4,1);
-               end;
-             mwk5:=i1
+            readln(f1, line);
+            writeln(line);
+            if ((i2 mod 20) = 0) then
+              begin
+                msg_flag := true;
+                msg_print('');
+                clear(4,1)
+              end
           END;
-        mwk5:=mwk5+2;
-        writeln;
-        put_qio
+        close(f1);    
+        writeln
       END;
  
  
 { Change the player into a King! }
     procedure kingly;
+    var fnam : string;
+        f1 : text;
+        i1 : byte;
+
+const crown_ascii_art : array[1..15] of string[50] =
+(
+        '                                  #              ',
+        '                                #####            ',
+        '                                  #              ',
+        '                            ,,,  $$$  ,,,        ',
+        '                        ,,=$   "$$$$$"   $=,,    ',
+        '                      ,$$        $$$        $$,  ',
+        '                      *>         <*>         <*  ',
+        '                      $$         $$$         $$  ',
+        '                      "$$        $$$        $$"  ', 
+        '                       "$$       $$$       $$"   ',
+        '                        *#########*#########*    ',
+        '                        *#########*#########*    ',
+        '                          Veni, Vidi, Vici!      ',
+        '                      You have slain the BOSS!   ',
+        '                        And saved the world!     '
+);
+
       BEGIN
 { Change the character attributes.}
         dun_level := 0;
         died_from := 'Ripe Old Age';
         with py.misc do
-          BEGIN
-	    if (lev <= max_player_level) then
+          BEGIN 
+            if lev <= max_player_level then
               lev := lev + max_player_level;
             max_exp := 1000000*total_winner_num + randint(1000);
             exp := max_exp
           END;
 { Let the player know that he did good.}
         clear(1,1);
-        dprint('                                  #',2);
-        dprint('                                #####',3);
-        dprint('                                  #',4);
-        dprint('                            ,,,  $$$  ,,,',5);
-        dprint('                        ,,=$   "$$$$$"   $=,,',6);
-        dprint('                      ,$$        $$$        $$,',7);
-        dprint('                      *>         <*>         <*',8);
-        dprint('                      $$         $$$         $$',9);
-        dprint('                      "$$        $$$        $$"',10); 
-        dprint('                       "$$       $$$       $$"',11);
-        dprint('                        *#########*#########*',12);
-        dprint('                        *#########*#########*',13);
-        dprint('                          Veni, Vidi, Vici!',16);
-        dprint('                      You have slain the BOSS!',17);
-        dprint('                        And saved the world!',18);
-        flush;
-        pause(24);
+        fnam := py.misc.name + '.txt';
+        assign(f1,fnam);
+        rewrite(f1);
+        if IOResult = 0 then
+          for i1 := 0 to 19 do
+            writeln(f1,crown_ascii_art[i1]);
+{ Deliberate silent fail. Procedure print_tomb will signal problems. -MB }
+        close(f1);
+        for i1 := 0 to 19 do
+          writeln(crown_ascii_art[i1]);
+        pause(24)
       END;
  
  
@@ -234,9 +226,9 @@ dstr[19] := '________)/\\_)_/___(\/___(//_\)/_\//__\\(/_|_)_______';
       begin
         points := trunc(max_exp/expfact) +
            100*(max_lev + townlist[town_num].lev_plus) - principal;
-        if (total_winner_num > 0) then
+        if total_winner_num > 0 then
           begin      
-	    kingly;
+            kingly;
             lev := lev + max_player_level;
             points := points + 1000000*total_winner_num + 1000*(100-day);
             exp := max_exp
@@ -244,10 +236,10 @@ dstr[19] := '________)/\\_)_/___(\/___(//_\)/_\//__\\(/_|_)_______';
       end;
     print_tomb;
     top_fifty(points);
-    exit;
+    halt(0)
   END;
 
-[psect(death$code)] procedure time_out;
+procedure time_out;
    
 BEGIN
   clear(1,1);
@@ -266,7 +258,5 @@ BEGIN
   prt('content.  But it will do absolutely no good at all.',13,3);
   pause(24);
   out_of_time := true;
-  draw_cave;
+  draw_cave
 END;
-
-

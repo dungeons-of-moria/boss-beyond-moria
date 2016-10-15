@@ -1,5 +1,5 @@
  { Print Moria credits }
-[psect(misc1$code)]    procedure game_version;
+procedure game_version;
 BEGIN
 clear(1,1);
 prt('  BOSS : Beyond Moria',1,1);
@@ -28,7 +28,7 @@ prt('(405)-321-2925                    (405) 360-6792',21,1);
  
  
         { Light up the dungeon                                  -RAK-   }
-[psect(wizard$code)]  procedure wizard_light;
+procedure wizard_light;
     var
         i1,i2,i3,i4     : integer;
         flag            : boolean;
@@ -52,7 +52,7 @@ prt('(405)-321-2925                    (405) 360-6792',21,1);
     end;
  
 {Activates either print_monsters  or  print_objects}
-[psect(wizard$code)]  procedure print_stuff_to_file;
+procedure print_stuff_to_file;
 
   BEGIN
     If (get_com('Print to File:  (M)onsters or (O)bjects ?',command)) then
@@ -65,7 +65,7 @@ prt('(405)-321-2925                    (405) 360-6792',21,1);
  
  
 { Wizard routine for gaining on stats }
-[psect(wizard$code)]  procedure change_character;
+procedure change_character;
     var
         tmp_val                 : integer;
         tmp_str                 : vtype;
@@ -75,7 +75,7 @@ prt('(405)-321-2925                    (405) 360-6792',21,1);
           prt('(3 - 50) Strength     = ',1,1);
           get_string(tmp_str,1,26,10);
           tmp_val := -999;
-          readv(tmp_str,tmp_val,error:=continue);
+          tmp_val := strtoint(tmp_str);
           if ((tmp_val > 2) and (tmp_val < 51)) then
             begin
               str  := tmp_val;
@@ -86,7 +86,7 @@ prt('(405)-321-2925                    (405) 360-6792',21,1);
           prt('(3 - 50) Intelligence = ',1,1);
           get_string(tmp_str,1,26,10);
           tmp_val := -999;
-          readv(tmp_str,tmp_val,error:=continue);
+          tmp_val := strtoint(tmp_str);
           if ((tmp_val > 2) and (tmp_val < 51)) then
             begin
               int  := tmp_val;
@@ -96,7 +96,7 @@ prt('(405)-321-2925                    (405) 360-6792',21,1);
           prt('(3 - 50) Wisdom       = ',1,1);
           get_string(tmp_str,1,26,10);
           tmp_val := -999;
-          readv(tmp_str,tmp_val,error:=continue);
+          tmp_val := strtoint(tmp_str);
           if ((tmp_val > 2) and (tmp_val < 51)) then
             begin
               wis  := tmp_val;
@@ -106,7 +106,7 @@ prt('(405)-321-2925                    (405) 360-6792',21,1);
           prt('(3 - 50) Dexterity    = ',1,1);
           get_string(tmp_str,1,26,10);
           tmp_val := -999;
-          readv(tmp_str,tmp_val,error:=continue);
+          tmp_val := strtoint(tmp_str);
           if ((tmp_val > 2) and (tmp_val < 51)) then
             begin
               dex  := tmp_val;
@@ -116,7 +116,7 @@ prt('(405)-321-2925                    (405) 360-6792',21,1);
           prt('(3 - 50) Constitution = ',1,1);
           get_string(tmp_str,1,26,10);
           tmp_val := -999;
-          readv(tmp_str,tmp_val,error:=continue);
+          tmp_val := strtoint(tmp_str);
           if ((tmp_val > 2) and (tmp_val < 51)) then
             begin
               con  := tmp_val;
@@ -126,7 +126,7 @@ prt('(405)-321-2925                    (405) 360-6792',21,1);
           prt('(3 - 50) Charisma     = ',1,1);
           get_string(tmp_str,1,26,10);
           tmp_val := -999;
-          readv(tmp_str,tmp_val,error:=continue);
+          tmp_val := strtoint(tmp_str);
           if ((tmp_val > 2) and (tmp_val < 51)) then
             begin
               chr  := tmp_val;
@@ -139,7 +139,7 @@ prt('(405)-321-2925                    (405) 360-6792',21,1);
           prt('(1 - 32767) Hit points = ',1,1);
           get_string(tmp_str,1,26,10);
           tmp_val := -1;
-          readv(tmp_str,tmp_val,error:=continue);
+          tmp_val := strtoint(tmp_str);
           if ((tmp_val > 0) and (tmp_val < 32768)) then
             begin
               mhp  := tmp_val;
@@ -153,7 +153,7 @@ prt('(405)-321-2925                    (405) 360-6792',21,1);
           prt('(0 - 32767) Resources  = ',1,1);
           get_string(tmp_str,1,26,10);
           tmp_val := -999;
-          readv(tmp_str,tmp_val,error:=continue);
+          tmp_val := strtoint(tmp_str);
           if ((tmp_val > -1) and (tmp_val < 32768)) then
             begin
               mana  := tmp_val;
@@ -161,60 +161,60 @@ prt('(405)-321-2925                    (405) 360-6792',21,1);
               prt_mana;
             end;
        end;
-          writev(tmp_str,'Current=',srh:1,'  (0-100) Searching = ');
+          tmp_str := 'Current=' + inttostr(srh) + '  (0-100) Searching = ';
           tmp_val := length(tmp_str);
           prt(tmp_str,1,1);
           get_string(tmp_str,1,tmp_val+1,10);
           tmp_val := -999;
-          readv(tmp_str,tmp_val,error:=continue);
+          tmp_val := strtoint(tmp_str);
           if ((tmp_val > -1) and (tmp_val < 201)) then
             srh  := tmp_val;
-          writev(tmp_str,'Current=',stl:1,'  (0-10) Stealth = ');
+          tmp_str := 'Current=' + inttostr(stl) + '  (0-10) Stealth = ';
           tmp_val := length(tmp_str);
           prt(tmp_str,1,1);
           get_string(tmp_str,1,tmp_val+1,10);
           tmp_val := -999;
-          readv(tmp_str,tmp_val,error:=continue);
+          tmp_val := strtoint(tmp_str);
           if ((tmp_val > -1) and (tmp_val < 11)) then
             stl  := tmp_val;
-          writev(tmp_str,'Current=',disarm:1,'  (0-100) Disarming = ');
+          tmp_str := 'Current=' + inttostr(disarm) + '  (0-100) Disarming = ';
           tmp_val := length(tmp_str);
           prt(tmp_str,1,1);
           get_string(tmp_str,1,tmp_val+1,10);
           tmp_val := -999;
-          readv(tmp_str,tmp_val,error:=continue);
+          tmp_val := strtoint(tmp_str);
           if ((tmp_val > -1) and (tmp_val < 201)) then
             disarm := tmp_val;
-          writev(tmp_str,'Current=',save:1,'  (0-100) Save = ');
+          tmp_str := 'Current=' + inttostr(save) + '  (0-100) Save = ';
           tmp_val := length(tmp_str);
           prt(tmp_str,1,1);
           get_string(tmp_str,1,tmp_val+1,10);
           tmp_val := -999;
-          readv(tmp_str,tmp_val,error:=continue);
+          tmp_val := strtoint(tmp_str);
           if ((tmp_val > -1) and (tmp_val < 201)) then
             save := tmp_val;
-          writev(tmp_str,'Current=',bth:1,'  (0-200) Base to hit = ');
+          tmp_str := 'Current=' + inttostr(bth) + '  (0-200) Base to hit = ';
           tmp_val := length(tmp_str);
           prt(tmp_str,1,1);
           get_string(tmp_str,1,tmp_val+1,10);
           tmp_val := -999;
-          readv(tmp_str,tmp_val,error:=continue);
+          tmp_val := strtoint(tmp_str);
           if ((tmp_val > -1) and (tmp_val < 201)) then
             bth  := tmp_val;
-          writev(tmp_str,'Current=',bthb:1,'  (0-200) Guns/Grenade = ');
+          tmp_str := 'Current=' + inttostr(bthb) + '  (0-200) Guns/Grenade = ';
           tmp_val := length(tmp_str);
           prt(tmp_str,1,1);
           get_string(tmp_str,1,tmp_val+1,10);
           tmp_val := -999;
-          readv(tmp_str,tmp_val,error:=continue);
+          tmp_val := strtoint(tmp_str);
           if ((tmp_val > -1) and (tmp_val < 201)) then
             bthb := tmp_val;
-          writev(tmp_str,'Current=',au:1,'  Money = ');
+          tmp_str := 'Current=' + inttostr(au) + '  Money = ';
           tmp_val := length(tmp_str);
           prt(tmp_str,1,1);
           get_string(tmp_str,1,tmp_val+1,10);
           tmp_val := -999;
-          readv(tmp_str,tmp_val,error:=continue);
+          tmp_val := strtoint(tmp_str);
           if (tmp_val > -1) then
             begin
               au := tmp_val;
@@ -226,7 +226,7 @@ prt('(405)-321-2925                    (405) 360-6792',21,1);
     end;
  
         { Wizard routine for creating objects                   -RAK-   }
-[psect(wizard$code)]  procedure wizard_create;
+procedure wizard_create;
     var
         tmp_val                 : integer;
         tmp_str                 : vtype;
@@ -246,7 +246,7 @@ prt('(405)-321-2925                    (405) 360-6792',21,1);
             prt('Tval   : ',1,1);
             get_string(tmp_str,1,10,10);
             tmp_val := 0;
-            readv(tmp_str,tmp_val,error:=continue);
+            tmp_val := strtoint(tmp_str);
             flag := true;
             case tmp_val of
               1,13,15 : tchar := '~';
@@ -286,17 +286,18 @@ prt('(405)-321-2925                    (405) 360-6792',21,1);
           prt('Subval : ',1,1);
           get_string(tmp_str,1,10,10);
           tmp_val := 1;
-          readv(tmp_str,tmp_val,error:=continue);
+          tmp_val := strtoint(tmp_str);
           subval := tmp_val;
           prt('Weight : ',1,1);
           get_string(tmp_str,1,10,10);
           tmp_val := 1;
-          readv(tmp_str,tmp_val,error:=continue);
+          tmp_val := strtoint(tmp_str);
           weight := tmp_val;
           prt('Number : ',1,1);
           get_string(tmp_str,1,10,10);
           tmp_val := 1;
-          readv(tmp_str,tmp_val,error:=continue);
+          tmp_val := strtoint(tmp_str);
+          weight := tmp_val;
           number := tmp_val;
           prt('Damage : ',1,1);
           get_string(tmp_str,1,10,5);
@@ -304,34 +305,35 @@ prt('(405)-321-2925                    (405) 360-6792',21,1);
           prt('+To hit: ',1,1);
           get_string(tmp_str,1,10,10);
           tmp_val := 0;
-          readv(tmp_str,tmp_val,error:=continue);
+          tmp_val := strtoint(tmp_str);
           tohit := tmp_val;
           prt('+To dam: ',1,1);
           get_string(tmp_str,1,10,10);
           tmp_val := 0;
-          readv(tmp_str,tmp_val,error:=continue);
+          tmp_val := strtoint(tmp_str);
+          tohit := tmp_val;
           todam := tmp_val;
           prt('AC     : ',1,1);
           get_string(tmp_str,1,10,10);
           tmp_val := 0;
-          readv(tmp_str,tmp_val,error:=continue);
+          tmp_val := strtoint(tmp_str);
           ac := tmp_val;
           prt('+To AC : ',1,1);
           get_string(tmp_str,1,10,10);
           tmp_val := 0;
-          readv(tmp_str,tmp_val,error:=continue);
+          tmp_val := strtoint(tmp_str);
           toac := tmp_val;
           prt('P1     : ',1,1);
           get_string(tmp_str,1,10,10);
           tmp_val := 0;
-          readv(tmp_str,tmp_val,error:=continue);
+          tmp_val := strtoint(tmp_str);
           p1 := tmp_val;
           prt('Flags (In HEX): ',1,1);
           flags := get_hex_value(1,17,8);
           prt('Cost : ',1,1);
           get_string(tmp_str,1,10,10);
           tmp_val := 0;
-          readv(tmp_str,tmp_val,error:=continue);
+          tmp_val := strtoint(tmp_str);
           cost := tmp_val;
           if (get_com('Allocate? (Y/N)',command)) then
             case command of
@@ -352,7 +354,7 @@ prt('(405)-321-2925                    (405) 360-6792',21,1);
         end;
     end;
 
-[psect(wizard$code)]  procedure make_nice_character;
+procedure make_nice_character;
 
         BEGIN
           with py.misc do
@@ -372,7 +374,7 @@ prt('(405)-321-2925                    (405) 360-6792',21,1);
 	    else
 	      Begin
                 max_exp := 200000; exp := max_exp;
-                au := 90000;     
+                au := 90000;
                 bth := 200; 
                 ptohit := 50;    ptodam := 50;  
 		pac := 100;      ptoac := 100;
@@ -396,7 +398,7 @@ prt('(405)-321-2925                    (405) 360-6792',21,1);
           draw_cave;
         END;
 
-[psect(wizard$code)]  procedure change_location;
+procedure change_location;
 
 var
     i1,i2	: integer;
@@ -407,7 +409,7 @@ BEGIN
    prt(') ? ',1,24);
    get_string(tmp_str,1,29,5);
    i1 := -1;
-   readv(tmp_str,i1,error:=continue);
+   i1 := strtoint(tmp_str);
    i2 := (i1 div 100);
    if (i1 > 99) then  {change town}
      begin
@@ -416,7 +418,6 @@ BEGIN
            msg_print('You beam yourself to '+townlist[i2].town_name);
            msg_print('');
            town_num := i2;
-           town_seed := get_seed;
            store_init;  store_maint;
            py.misc.max_lev := 0;
            office_char_row := -1; office_char_col := -1;
@@ -435,7 +436,7 @@ BEGIN
 END;
 
 
-[psect(wizard$code)]  procedure really_heal_character;
+procedure really_heal_character;
      BEGIN 
        remove_curse;
        cure_blindness;
@@ -453,10 +454,10 @@ END;
      END;
 
 
-[psect(wizard$code)]  procedure show_values;
+procedure show_values;
 
       var
-	i1,i2,i3,row,col			    : integer;
+	i1,i3		    : integer;
 Begin
 	clear(1,1);
 	with py.misc do
@@ -534,7 +535,7 @@ Begin
         draw_cave;
   End;
 
-[psect(wizard$code)]  procedure item_stats;
+procedure item_stats;
 
 var
    i1			: unsigned;
@@ -580,7 +581,7 @@ var
  END;
 
 
-[psect(wizard$code)]  procedure beckon_creature;
+procedure beckon_creature;
   VAR
        monster,y,x	: integer;
        tmp_str		: vtype;	 
@@ -590,7 +591,7 @@ var
     prt(') ? ',1,29);
     get_string(tmp_str,1,33,4);
     monster := -1;
-    readv(tmp_str,monster,error:=continue);
+    monster := strtoint(tmp_str);
     if (monster > 0) then
       Begin
         repeat

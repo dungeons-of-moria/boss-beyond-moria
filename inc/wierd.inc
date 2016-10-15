@@ -1,10 +1,10 @@
-[psect(wierd$code)]  function query_max_wierd : integer;
+ function query_max_wierd : integer;
   Begin
     query_max_wierd := 18;
   End;
 
 
-[psect(wierd$code)]  procedure random_wierdness(wierd_type : integer;
+procedure random_wierdness(wierd_type : integer;
 						force_wierd: boolean);
    const
        max_wierd = 18;
@@ -17,7 +17,6 @@
        jstr	      : vtype;
 BEGIN
 
-if (putzuser) then mess_with_mind;
 repeat
   was_wierd := true;
   if (wierd_type = 0) then wierd_type := randint(max_wierd);
@@ -52,7 +51,7 @@ repeat
      5: begin
           msg_print(' ');
 	  i1 := wierd_chance*max_wierd*3000;
-	  writev(jstr,'You know, there''s a random one in ',i1:1);
+	  jstr := 'You know, there''s a random one in ' + inttostr(i1);
           msg_print(jstr);
 	  msg_print('chance that you will just spontaneously win the game.');
           msg_print(' ');

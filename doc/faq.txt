@@ -1,0 +1,303 @@
+Newsgroups: rec.games.moria
+Path: moe.ksu.ksu.edu!zaphod.mps.ohio-state.edu!rpi!batcomputer!cornell!uw-beaver!news.u.washington.edu!stein.u.washington.edu!cloister
+From: cloister@stein.u.washington.edu (cloister bell)
+Subject: monthly BOSS FAQ list posting.
+Message-ID: <1992Dec1.202250.26654@u.washington.edu>
+Summary: same old FAQ list, folks.
+Keywords: BOSS FAQ
+Sender: news@u.washington.edu (USENET News System)
+Organization: University of Washington
+Date: Tue, 1 Dec 1992 20:22:50 GMT
+Lines: 290
+
+                      Monthly BOSS F.A.Q. List
+This FAQ covers BOSS version 2.0, released March 1, 1992.  Changes and New
+features are documented at the end of this document.  
+
+Just what *is* BOSS anyway?
+    If you've played moria in any of its incarnations (why else would you be
+    reading rec.games moria?), then BOSS will seem inherently familiar to you.
+    BOSS is what you get when you take moria, modernize it (magic becomes
+    science, monsters become more realistic beasts, items get updated, etc.),
+    add a lot of new features (different dungeon types, monsters, lots of
+    new items, multiple towns, etc.) and give it a twisted sense of humor.
+    There's a lot of in jokes in BOSS that make it much more fun to play,
+    especially for people who are already sci-fi/comedy fans.  
+
+    BOSS is also easier than moria.  You're all familiar with people posting to
+    rec.games.moria things like "I *finally* won!!!" and "five years and only
+    one winner so far."  The idea behind BOSS is to make it the sort of game
+    you can win in a weekend, instead of in a few weeks.  I know BOSS is less
+    serious than moria, hopefully it's as much or more fun.
+
+    If you're the person responsible for your site, you will find BOSS much
+    more customizable than moria.  We have taken much of the data out of the
+    program and put it into separate data files.  This has the effect of making
+    the executable smaller (a definite plus), and the benefit that you can
+    change monsters, items, class and skill names, and other things without
+    re-compiling the code.  For instance, you could rename the Green Daisyan
+    Lieutenant to the name of your system administrator, or you could change
+    the Soldier skill "Alter Position" to "Dodge".  You can have lots of fun
+    making BOSS more familar to the local culture wherever you are.
+
+What's the object of the game?
+    Like moria, the object is to become a powerful character who defeats the
+    mega-monster at the end of the game.  In BOSS, that monster is the Boss, a
+    mean, rotten, disgusting and vile mafia figure who's out to control the
+    world.  To do this you must travel far in search of his hide-out deep
+    under the sewers of New York City, battle terrible alien creatures, and
+    survive against almost impossible odds along the way.  
+
+Where can I get a copy of BOSS?
+    BOSS is available for anonymous FTP from ftp.cis.ksu.edu in the
+    pub/Games/Moria directory.  We have placed a compressed .tar file there as
+    well as the uncompressed files themselves.  If you get the .tar.Z file,
+    make sure you're in binary mode when you transfer. 
+
+    For those who do not have anonymous FTP access, RLG or I would be happy to
+    e-mail you the source code.  Drop us a line (our addresses are listed at
+    the bottom) and let us know.
+
+    The current version is brand new, having been released on March 1, 1992.  
+    This version contains much that is new.  Many of the changes are on the
+    administrative level, and so the player will not see evidence of them.
+    But they have been made so that upkeep on the code is easier.  But even
+    from the players' perspective there are a few new features, to say the
+    least. 
+
+What platforms does BOSS currently run on?
+    Currently BOSS runs only on Digital Equipment Corporation VAX mainframes
+    running VMS.  RLG and I are finishing up some things on the VMS version
+    that we've meant to do for a long time, after which we will rebuild it in C
+    which will make it much more portable.  We hope someday to have BOSS
+    available not only for Unix and VMS, but also for p.c's, mac's, amigas,
+    etc.  Our goal is to have BOSS as widely distributable as umoria is now.
+
+    There is, even, some progress on this front.  The unix/C port is underway
+    even as you read this.  All the features are there (almost) and it
+    compiles, we just need to de-bug the heck out of it now.  
+
+What do I need in order to install BOSS?
+    Several things.  First, working knowledge of VMS file management, and the
+    ability to follow directions.  Second, access to a VAX-VMS mainframe.
+    Third, about 6500 free blocks of disk space (for source files and
+    temporary space in order to compile).  If you have any difficulties
+    installing BOSS, feel free to send RLG or me mail.
+
+What's the deal with the different races?
+     There are three races in BOSS, humans, Jarwangians, and Daysians.  The
+     Jarwangians are the 'nice guy' aliens, a peaceful and technologically
+     advanced race.  They make some neat items.  The Daysians are the 'bad 
+     guy' aliens.  They are also an advanced race, but they are warlike.
+     Daysians make some of the best combat gear in the game.  There's a bit
+     of that demented humor in the name 'Daysian'.  See if you can find it.
+     The BOSS employs many Daysians to protect him, and to kill you.  He
+     also employs a variety of low-life human types for this also.
+
+Is there a time limit on the game?  
+     Yes.  The long announced time limit on the game has really been
+     implemented.  Yes way, Ted, your character can really get munched if s/he
+     doesn't win in time.  But the time limit is pretty long, so you'd have to
+     be dogging it to get caught.
+
+Why are there different towns, and how are they different?
+     Rather than having one extremely deep dungeon as in moria, BOSS has
+     several shallower dungeons, one per town.  Each town's dungeon is 500
+     meters deep, except for the last one, which is 2500 meters deep.  Each
+     town's dungeon takes up where the last town left off, with a couple of
+     levels of overlap.  The net result is about the same start-to-finish
+     difficulty as in moria.  You cannot find the BOSS until you get to the
+     bottom of the last dungeon.  The game follows a cross-country trek,
+     from Seattle to the Big Apple.  On a new-features note, RLG is currently
+     working on a scheme for each town having its own distinct monster list.
+     Should be interesting when it happens. 
+
+How do the busses work, and is it possible to get back to a previous town?
+     To catch a bus you must have 1) completed the current town's dungeon,
+     2) have paid off your loan, if any, and 3) kill the town's local Mob
+     Boss.  Then you may go to the hotel and climb aboard.  And of course
+     there isn't any way to get back to previous towns.  This isn't like
+     moria, where if you get in over your head you can retreat a few levels.
+     You're dealing with the mafia here, and they aren't terribly forgiving
+     when it comes to cocky low level adventurers.
+
+Are there monsters that give negative experience?
+     Yes.  They're only on the town level, though.  Don't kill things in
+     town, it's not nice.  (Well, except for the gang members, and dirty
+     harry, etc...)  The idea here is to be saving the good townspeople from
+     the vile, evil, repulsive and disgusting BOSS, not killing them on the
+     way.  If there are any others, then congratulations, you've found a bug.
+     Send me or RLG mail about it.
+
+What are the qualifications for various part time jobs in the hotel?
+     What jobs you can get are based on your level.  There are plans to
+     make these based on one or more applicable character stats, but that
+     hasn't been done yet.
+
+How does Danny Dollar do business?  Does he cheat?  Sometimes it seems like
+he doesn't pay as much interest as he should.
+     Danny dollar doesn't cheat.  He's honest, but stingy as heck.  The
+     interest rate is per week.  RLG and I figured that with the time-scale
+     of the game, it didn't make sense to have it any less often than that.
+     The interest rates he charges on loans and gives on deposits are based
+     on your credit rating, which is a function of your loan.  If you get
+     behind on your payments, he'll charge you more on your loan, and give
+     you less on your account.  Eventually, he'll just take money from your
+     account.  If you have a loan, it's a good idea to pay some of it off
+     every time you see him.  There's a special routine for real deadbeats
+     that you really don't want to see.  Keep those loans under control. 
+
+How does potion mixing work?
+     Potion mixing is a random thing, modified by your intelligence.  Mixed
+     potions will either evaporate, blow up (ouch!), or become something
+     else.  If they do mix sucessfully, you'll get something that's on
+     average more powerful than you started with, but can be either good or
+     bad... 
+
+What's with disease?  There isn't any of that in moria.
+     Disease is the only really new thing that monsters can do to you.
+     Some monsters can inflict you with disease when they hit you.  If this
+     happens, you'll get a message like "the <whatever> gives you a social
+     disease!" or something.  Disease doesn't have any immediate bad
+     effect, but does cause certain potions to be ineffective.  You get
+     healed at the medical clinic in the office building.  Cost of a cure
+     is proportional to how many times you've been diseased.
+
+What do the special flags on armor and weapons mean?  Not all of them are
+listed in the help files.
+     True enough.  To be fair, here they are:
+     Armors:
+     (Resist):  Resists everything.  Acid, fire, cold, lightning.
+     (RA)    :  Resists acid.
+     (RF)    :  Resists fire.
+     (RC)    :  Resists cold.
+     (RL)    :  Resists lightning.
+     (RG)    :  Resists gas.
+     (P)     :  Protection.  Extra armor class value.
+     (CR)    :  Combat ready.  Is much less cumbersome than regular armor.
+     (W)     :  Weightless.  Neat, huh?
+  (Qwethleg) :  Unique items.  You have to figure these out for yourself.
+    (Fi-Yoh) :  Don't ask me where RLG came up with these names.  
+     (Jarth) :
+     (?????) :
+
+     Weapons:
+     (DF)    :  Defender.
+     (FB)    :  Frost-brand
+     (FT)    :  Flame-tongue.
+     (HA)    :  Holy avenger.
+     (KA)    :  Kill alien.
+     (KC)    :  Kill creature.
+     (KM)    :  Kill monster.
+     (KR)    :	Kill robot.
+     (KS)    :  Kill scum.
+     (DST)   :  Destroyer.  Does +20 damage.
+     (Slicer):  Does double the normal weapon damage.
+     (Razor) :	Does four times normal weapon damage.
+
+What's the deal with strange items like the Acme Personal Force Field, and the
+45 Caliber Silver Bullet?
+     Those are 'objets du jour'.  RLG and I got in the habit of taking one
+     or two of the junk items in the item list (like moria's broken stick),
+     and every day or so changing them into something random, bizarre, and
+     hopefully funny.  These items usually have some interesting powers,
+     that are worth checking out.  The ones in particular that are in the game
+     are the ones that just happened to be there when we released the game.
+     Expect them to change.  In fact, one of the changes we made to the code
+     for this release makes it easy for local BOSS wizards to add and change
+     items.
+ 
+How is the score calculated?
+     Your score when you die or win is calculated as follows:  score =
+     (experience / your exp. multiplier) + (100*deepest dungeon level you
+     attained) + (bonuses for killing the BOSS) + (bonus for finishing fast).
+     The experience multiplier varies with class and race, and balances out
+     how hard each class is to get to 42nd level.
+
+If the mainframe goes down, or the game crashes, how can I restore my
+character file?
+     If you saved your character at any time prior to this, then you are in 
+     luck.  The save file will normally be 'corrupted' and not usable again,
+     but a special function available only to your local Boss administrator
+     can 'un-corrupt' it.
+
+     Here's what you need to do to restore a corrupted save file:
+
+     1.  Send the save file to your local Boss administrator.
+         Type:    SEND/FILE/VMSDUMP filename username-of-admin
+
+     2.  The admin will restore the file and send it back to you.
+         All you need to do is RECEIVE the file and go back to 
+         playing Boss.
+
+
+     Here's what the Boss administrator needs to do:
+
+     1.  RECEIVE the save file.
+     2.  Make sure your username is in the file WIZARD.DAT
+         This file should be located in the [.BOSS.DAT] directory.
+     2.  While in the Boss directory type @startup to enter the game.
+     3.  After all the intro stuff is skimmed through, and the town map
+         appears, type control-p to turn 'wizard' mode on.
+     4.  Then type control-v
+     5.  Enter the name of the save file and hit return.
+     6.  This should repair the save file.
+         If not, possible errors include:
+         a.  You misspelled the save file name.
+         b.  The file was not sent with the /VMSDUMP qualifier.
+         c.  Something went wrong with the fabric of the space/time continuum.
+     7.  Next, type control-y to exit the game.
+     8.  Then send the file back to the user.  
+         Type:  SEND/FILE/VMSDUMP filename username
+         (At this point I often forget who sent the file, so it's a good idea
+         to rename the file to the same name as the user who sent it right 
+         after you first receive it.  In fact, when you get into the receive
+	 utility, you have the option of changing the name when you save it.)
+     9.  Be happy!  But if you start to get too many restore save file requests
+         from the same person, be suspicious of cheating.
+
+Changes and New features from version 1.0 to version 2.0
+     Visible to player:
+     Finally added the time limit on the game.
+     New monsters and items.
+     Local Mob Bosses added for each town.
+     New rules on catching the bus (see bus section).
+     Corpses added.  Currently they're useless.
+     Monster multiplication algorithm changed; monsters now swarm in packs.
+     Kill Robot (KR) and Resist Gas (RG) items have been added to the game.
+     Character stats and character generation completely changed.  Stats are
+        now a GURPS(tm)-like system, with players able to allocate creation
+	points however they like when creating their character.
+     Monsters have intelligence now, and some are now able to dodge your blows.
+     Save files are compatible from the previous release.  Upon first playing
+        the old save file with the new version, your character will be
+	converted to the new stat system.  This conversion process is really
+	complicated and you may not like what happens to your charcter, but
+	you have the option.
+     Help files updated (well, maybe not all the way, but some).
+
+     Transparent changes (stuff only a Bosswiz would care about):
+     All the items, monsters, and other data have been moved into separate
+        data files.  You may now change the monsters and items without
+	re-compiling the program.
+     The random quotes have been pulled out into a file, and may be easily
+        customized for your site.
+     Code has been somewhat re-organized.  Things are now where they ought to
+        be, where they sometimes weren't before.
+     Fixed some bugs, including the money/charisma bug.
+     Probably some other stuff we can't remember right now.     
+
+Thank you for reading this list, or at least skimming to the end.  Thanks also
+to all those out there who have gotten BOSS for their systems.  We had fun
+writing it, and it's nice to know that it wasn't for nothing.  
+
+(signed)
+
+Robert Gulledge, A.K.A. raoul@u.washington.edu
+Jason Black,     A.K.A. cloister@u.washington.edu
+
+-- 
++-------------------------------------------------+---------------------------+
+|tactical nuclear sdi stealth nsafood signature.  | cloister@u.washington.edu |
++-------------------------------------------------+---------------------------+
+

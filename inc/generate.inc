@@ -1,6 +1,6 @@
 
 { Generates a random dungeon level }
-[psect(generate$code)] procedure generate_cave;
+procedure generate_cave;
     type
         coords = record
                 y : integer;
@@ -9,12 +9,9 @@
     var
         doorstk : array [1..100] of coords;
         doorptr : integer;
-	i1	: integer; 
  
 { Always picks a correct direction }
       procedure correct_dir(var rdir,cdir : integer; y1,x1,y2,x2 : integer);
-        var
-                test_dir  : integer;
         BEGIN
           if (y1 < y2) then
             rdir :=  1
@@ -680,7 +677,7 @@
     procedure tunnel(row1,col1,row2,col2 : integer);
 
       var
-        tmp_row,tmp_col,row_dir,col_dir,i1,i2,tmp   : integer;
+        tmp_row,tmp_col,row_dir,col_dir,i1,i2   : integer;
         tunstk: array [1..1000] of coords;
         wallstk : array [1..1000] of coords;
         tunptr,wallptr : integer;
@@ -816,7 +813,6 @@
         bm_found : boolean;
  
 BEGIN
-        seed := get_seed;
         row_rooms := 2*trunc(cur_height/screen_height);
         col_rooms := 2*trunc(cur_width /screen_width);
         for i1 := 1 to row_rooms do
@@ -917,7 +913,6 @@ BEGIN
         alloc_level,i1,i2,rx,ry	:	integer;
 	row_dir,col_dir		:	integer;
 BEGIN
-        seed := get_seed; 
 	case number of
 	  1: Begin
 	       for i1 := 1 to cur_height do
@@ -1008,11 +1003,9 @@ END;
         room_type = array [1..20,1..20] of boolean;
       var
         room_map    : room_type;
-        i1,i2,i3,i4,y1,x1,y2,x2,pick1,pick2,row_rooms,col_rooms,
-        alloc_level,bx,by : integer;
+        i1,i2,i3,row_rooms,col_rooms : integer;
         yloc,xloc  : array [1..400] of worlint;
       BEGIN
-        seed := get_seed;
         row_rooms := 2*trunc(cur_height/screen_height);
         col_rooms := 2*trunc(cur_width /screen_width);
         for i1 := 1 to row_rooms do
@@ -1117,11 +1110,10 @@ END;
       type
         room_type = array [1..3,1..3] of boolean;
       var
-        y,x,i1,i2,i3,i4,i5    : integer;
+        i1,i2,i3,i4,i5    : integer;
         rooms : array [1..max_doors] of integer;
  
       BEGIN
-        seed := town_seed;
         for i1 := 1 to max_doors do rooms[i1] := i1;
         i4 := max_doors;      {i4 is store counter}
         for i1 := 1 to 3 do    {y value}
@@ -1141,7 +1133,6 @@ END;
                 if (cave[i1,i2].fval <> dopen_floor.ftval) then
                   cave[i1,i2].pl := true;
             place_stairs(2,3,0);
-            seed := get_seed;
             alloc_monster([1,2],min_malloc_tn,3,true);
           END
         else
@@ -1150,7 +1141,6 @@ END;
               for i2 := 1 to cur_width do
                 cave[i1,i2].pl := true;
             place_stairs(2,3,0);
-            seed := get_seed;
             alloc_monster([1,2],min_malloc_td,3,true);
          END;
       END;

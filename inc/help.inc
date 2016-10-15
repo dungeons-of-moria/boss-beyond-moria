@@ -1,4 +1,4 @@
-[psect(misc2$code)] procedure ident_char;
+procedure ident_char;
     var
         command         : char;
     BEGIN
@@ -95,7 +95,7 @@
  
  
         { Help for available commands}
-[psect(misc2$code)] procedure help;
+procedure help;
     begin
       clear(1,1);
 prt('B <Dir> Bash (object/creature)|  q        Quaff a potion.',1,1);
@@ -109,11 +109,11 @@ prt('R       Rest for a period.    |  x        Exchange weapon.',8,1);
 prt('S       Search Mode.          |  /        Identify a character.',9,1);
 prt('T <Dir> Tunnel.               |  ?        Display this panel.',10,1);
 prt('a       Aim & fire a ray gun. |  k        Display the Kill list.)',11,1);
-prt('b       Browse a book.        |  H        Get Help on a subject.',12,1);
-prt('c <Dir> Close a door.         |  ^M       Repeat the last message.',13,1);
-prt('d       Drop an item.         |  ^R       Redraw the screen.',14,1);
-prt('e       Equipment list.       |  ^Y       Quit the game.',15,1);
-prt('f       Fire a gun.           |  ^Z       Save character and quit.',16,1);
+prt('b       Browse a book.        |  ^M       Repeat the last message.',12,1);
+prt('c <Dir> Close a door.         |  ^R       Redraw the screen.',13,1);
+prt('d       Drop an item.         |  ^Y       Quit the game.',14,1);
+prt('e       Equipment list.       |  ^Z       Save character and quit.',15,1);
+prt('f       Fire a gun.           |',16,1);
 prt('h       Hurl an item.         |',17,1);
 prt('i       Inventory list.       |  < Go up an up-staircase.',18,1);
 prt('j <Dir> Jam a door with spike.|  > Go down a down-staircase.',19,1);
@@ -127,7 +127,7 @@ prt('p       Read a prayer.        |            1  2  3',23,1);
  
 
 {Displays the list of all the monsters -NBT}
-[psect(misc2$code)] procedure do_all_mons;
+procedure do_all_mons;
 
 Begin
    Clear(1,1);
@@ -153,12 +153,13 @@ prt(' Y ???			 Z Zarg!!',22,1);
    End;
 
 {Displays a particular monster's "character sheet" -NBT}
-[psect(misc2$code)] procedure do_mon_out (moncode : integer);
+procedure do_mon_out (moncode : integer);
 
 Var 
-    nbt_out_val, otw, attstr, attx : vtype;
-    cur_line, xpos, atype, adesc,i : integer;
-    damstr			   : dtype;
+    nbt_out_val, otw, attstr,attx  : vtype;
+    cur_line, xpos                 : integer;
+    atype, adesc                   : system.integer; {sscanf secure}
+    damstr			   : ansistring;
 
 BEGIN
    clear (1,1);
@@ -176,88 +177,88 @@ BEGIN
       nbt_out_val := 'HD = ' + hd;
       prt (nbt_out_val,2,58);
       cur_line := 5;
-      if (uand(%X'80000000',cmove) <> 0) then
+      if (($80000000 and cmove) <> 0) then
         begin
          cur_line := 7;
          prt ('This creature is a ***Win Creature***',3,20);
         end;
-      if (uand(%X'00080000',cmove) <> 0) then
+      if (($00080000 and cmove) <> 0) then
         begin
          prt('Creature eats/kills other creatures.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'0001',cdefense) <> 0) then
+      if (($0001 and cdefense) <> 0) then
         begin
          prt('Creature is an Alien.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'0002',cdefense) <> 0) then
+      if (($0002 and cdefense) <> 0) then
         begin
          prt('Creature is a Creature.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'0004',cdefense) <> 0) then
+      if (($0004 and cdefense) <> 0) then
         begin
          prt('Creature is Scum.',((cur_line + 1) div 2),(41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'0008',cdefense) <> 0) then
+      if (($0008 and cdefense) <> 0) then
         begin
          prt('Creature is a Mutant.',((cur_line + 1) div 2),(41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'0010',cdefense) <> 0) then
+      if (($0010 and cdefense) <> 0) then
         begin
          prt('Creature harmed by cold.',((cur_line + 1) div 2),
              (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'0020',cdefense) <> 0) then
+      if (($0020 and cdefense) <> 0) then
         begin
          prt('Creature harmed by fire.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'0040',cdefense) <> 0) then
+      if (($0040 and cdefense) <> 0) then
         begin
          prt('Creature harmed by poison.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'0080',cdefense) <> 0) then
+      if (($0080 and cdefense) <> 0) then
         begin
          prt('Creature harmed by acid.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'0100',cdefense) <> 0) then
+      if (($0100 and cdefense) <> 0) then
         begin
          prt('Creature harmed by blue light.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'0200',cdefense) <> 0) then
+      if (($0200 and cdefense) <> 0) then
         begin
          prt('Creature harmed by erosion',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'1000',cdefense) <> 0) then
+      if (($1000 and cdefense) <> 0) then
         begin
          prt('Creature can''t be charmed/slept.',((cur_line + 1) div 2),
              (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'2000',cdefense) <> 0) then
+      if (($2000 and cdefense) <> 0) then
         begin
          prt('Creature seen with Infra-Vision.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'4000',cdefense) <> 0) then
+      if (($4000 and cdefense) <> 0) then
         begin
          prt('hit points',2,69);
          prt('Creature has MAX hit points',((cur_line + 1) div 2),
@@ -265,60 +266,60 @@ BEGIN
          cur_line := cur_line + 1;
         end;
       if (cur_line mod 2) = 0 then cur_line := cur_line + 1;
-      if (uand(%X'00010000',cmove) <> 0) then
+      if (($00010000 and cmove) <> 0) then
         begin
          prt('Creature is invisible.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'00100000',cmove) <> 0) then
+      if (($00100000 and cmove) <> 0) then
         begin
          prt('Creature picks up objects.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'00200000',cmove) <> 0) then
+      if (($00200000 and cmove) <> 0) then
         begin
          prt('Creature multiplies.',((cur_line + 1) div 2),(41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'01000000',cmove) <> 0) then
+      if (($01000000 and cmove) <> 0) then
         begin
          prt('Creature carries objects.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'02000000',cmove) <> 0) then
+      if (($02000000 and cmove) <> 0) then
         begin
          prt('Creature carries gold, gems, etc.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'04000000',cmove) <> 0) then
+      if (($04000000 and cmove) <> 0) then
         begin
          prt('Has object/gold 60% of time.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'08000000',cmove) <> 0) then
+      if (($08000000 and cmove) <> 0) then
         begin
          prt('Has object/gold 90% of time.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'10000000',cmove) <> 0) then
+      if (($10000000 and cmove) <> 0) then
         begin
          prt('Has 1d2 object(s)/gold.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'20000000',cmove) <> 0) then
+      if (($20000000 and cmove) <> 0) then
         begin
          prt('Has 2d2 object(s)/gold.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
        end;
-      if (uand(%X'40000000',cmove) <> 0) then
+      if (($40000000 and cmove) <> 0) then
         begin
          prt('Has 4d2 object(s)/gold.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
@@ -329,123 +330,123 @@ BEGIN
       cur_line := cur_line + 2;
       nbt_out_val := '    Uses skills 1 out of every    turns.';
       prt(nbt_out_val,((cur_line + 1) div 2),1);
-      prt_num('',int(uand(%X'F',spells)),((cur_line + 1) div 2),33);
+      prt_num('',($F and spells),((cur_line + 1) div 2),33);
       cur_line := cur_line + 2;
-      if (uand(%X'00000010',spells) <> 0) then
+      if (($00000010 and spells) <> 0) then
         begin
          prt('Can teleport short.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'00000020',spells) <> 0) then
+      if (($00000020 and spells) <> 0) then
         begin
          prt('Can teleport long.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'00000040',spells) <> 0) then
+      if (($00000040 and spells) <> 0) then
         begin
          prt('Teleport player to itself.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'00000080',spells) <> 0) then
+      if (($00000080 and spells) <> 0) then
         begin
          prt('Cause light wounds.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'00000100',spells) <> 0) then
+      if (($00000100 and spells) <> 0) then
         begin
          prt('Cause serious wounds.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'00000200',spells) <> 0) then
+      if (($00000200 and spells) <> 0) then
         begin
          prt('Hold person.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'00000400',spells) <> 0) then
+      if (($00000400 and spells) <> 0) then
         begin
          prt('Cause blindness.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'00000800',spells) <> 0) then
+      if (($00000800 and spells) <> 0) then
         begin
          prt('Cause confusion.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'00001000',spells) <> 0) then
+      if (($00001000 and spells) <> 0) then
         begin
          prt('Cause fear.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'00002000',spells) <> 0) then
+      if (($00002000 and spells) <> 0) then
         begin
          prt('Summon a creature.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'00004000',spells) <> 0) then
+      if (($00004000 and spells) <> 0) then
         begin
          prt('Summon a mutant.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'00008000',spells) <> 0) then
+      if (($00008000 and spells) <> 0) then
         begin
          prt('Slow person.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'00010000',spells) <> 0) then
+      if (($00010000 and spells) <> 0) then
         begin
          prt('Drains resources for healing.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'00020000',spells) <> 0) then
+      if (($00020000 and spells) <> 0) then
         begin
          prt('**Unknown spell value**',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'00040000',spells) <> 0) then
+      if (($00040000 and spells) <> 0) then
         begin
          prt('**Unknown spell value**',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'00080000',spells) <> 0) then
+      if (($00080000 and spells) <> 0) then
         begin
          prt('Breathes Lightning Breath.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'00100000',spells) <> 0) then
+      if (($00100000 and spells) <> 0) then
         begin
          prt('Breathes Gas Breath.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'00200000',spells) <> 0) then
+      if (($00200000 and spells) <> 0) then
         begin
          prt('Breathes Acid Breath.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'00400000',spells) <> 0) then
+      if (($00400000 and spells) <> 0) then
         begin
          prt('Breathes Frost Breath.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'00800000',spells) <> 0) then
+      if (($00800000 and spells) <> 0) then
         begin
          prt('Breathes Fire Breath.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
@@ -454,43 +455,43 @@ BEGIN
       if (cur_line mod 2) = 0 then cur_line := cur_line + 1;
       prt('-- Movement:',((cur_line + 1) div 2),1);
       cur_line := cur_line + 2;
-      if (uand(%X'00000001',cmove) <> 0) then
+      if (($00000001 and cmove) <> 0) then
         begin
          prt('Moves only to attack.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'00000002',cmove) <> 0) then
+      if (($00000002 and cmove) <> 0) then
         begin
          prt('Moves and attacks normally.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'00000008',cmove) <> 0) then
+      if (($00000008 and cmove) <> 0) then
         begin
          prt('20% random movement.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'00000010',cmove) <> 0) then
+      if (($00000010 and cmove) <> 0) then
         begin
          prt('40% random movement.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'00000020',cmove) <> 0) then
+      if (($00000020 and cmove) <> 0) then
         begin
          prt('75% random movement.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'00020000',cmove) <> 0) then
+      if (($00020000 and cmove) <> 0) then
         begin
          prt('Can open doors.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
          cur_line := cur_line + 1;
         end;
-      if (uand(%X'00040000',cmove) <> 0) then
+      if (($00040000 and cmove) <> 0) then
         begin
          prt('Can phase through walls.',((cur_line + 1) div 2),
             (41 - 40*(cur_line mod 2)));
@@ -502,18 +503,18 @@ BEGIN
      attstr := damage;
      while (length(attstr) > 0) do
        begin
-        xpos := index(attstr,'|');
+        xpos := pos('|',attstr);
         if (xpos > 0) then
           begin
-           attx := substr(attstr,1,xpos-1);
-           attstr := substr(attstr,xpos+1,length(attstr)-xpos);
+           attx := copy(attstr,1,xpos-1);
+           attstr := copy(attstr,xpos+1,length(attstr)-xpos);
           end
         else
           begin
            attx := attstr;
            attstr := '';
           end;
-        readv(attx,atype,adesc,damstr);
+	sscanf(attx, '%d%d%s', [@atype, @adesc, @damstr]);
     CASE atype of
 {Normal attack  }     1  : otw := 'normal damage.';
 {Poison Strength}     2  : otw := 'lowering strength.';
@@ -559,7 +560,7 @@ Draw_cave;
 end;
 
 {Displays info about monsters -NBT}
-[psect(misc2$code)] procedure mon_info;
+procedure mon_info;
 
 Var choice : char;
     quitflag : boolean;
@@ -617,7 +618,7 @@ Begin
 		msg_print('Enter the number for your choice:');
 		get_string(dummy,1,36,10);
 		aux_code := 999;
-		readv(dummy,aux_code,error:=continue);
+		aux_code := strtoint(dummy);
 	     Until ((aux_code > 0) and (aux_code <= howmany));
 	     howmany := 0;
 	     i := 0;
@@ -634,7 +635,7 @@ end;
 
 
 {Help for available wizard commands}
-[psect(wizard$code)] procedure wizard_help;
+procedure wizard_help;
     begin
       clear(1,1);
           prt('^A - Remove Curse and Cure all maladies.',1,1);
@@ -663,48 +664,14 @@ end;
  
  
  
-{Spawn a process to use HELP utility on the BOSS help library -RAK-}
-[psect(misc2$code)] procedure moria_help(help_level : vtype);
-    var                         
-        dcl_command                     : varying [120] of char;
-        flag_bits                       : unsigned;
- 
-        { Spawn a shell and execute DCL command                 -RAK-   }
-    [external(LIB$SPAWN)] function dcl(
-        %DESCR command  : varying [a] of char;
-            dum2        : integer := %immed 0;
-            dum3        : integer := %immed 0;
-        %REF flags      : unsigned;
-            dum5        : integer := %immed 0;
-            dum6        : integer := %immed 0;
-            dum7        : integer := %immed 0;
-            dum8        : integer := %immed 0;
-            dum9        : integer := %immed 0;
-            dum10       : integer := %immed 0 ) : integer;
-        external;
+{Disabled. -MB}
+procedure moria_help(help_level : vtype);
  
     begin
-      flag_bits := %X'00000006';
-      prt('[Entering Boss Help Library, Use ^Z to resume game]',1,1);
-      put_qio;
-      dcl_command := 'HELP/PAGE/NOLIBLIST/LIBRARY='+BOSS_HLP;
-      dcl_command := dcl_command + ' ' + help_level;
-      dcl(dcl_command,flags:=flag_bits);
+      prt('Help files should be available in /doc directory.',1,1);
     end;
 
 
-
-[psect(misc2$code)] procedure moria_help_lbr(help_level : vtype);
-    [external(LBR$OUTPUT_HELP)] function output_help(
-	%REF output_routine : unsigned;
-	%REF output_width   : unsigned;
-	%DESCR line_desc    : varying [a] of char;
-	%DESCR library_name : varying [b] of char;
-        %REF flags      : unsigned) : integer;
-        external;
  
-    begin
-    end;
-
-
-
+//    begin
+//    end;

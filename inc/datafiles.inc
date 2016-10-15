@@ -1,38 +1,38 @@
  { Flag string to Hex conversion }
-[psect(datafiles$code)] function gethex(string : usernam_type) : unsigned;
+function gethex(str0 : usernam_type) : unsigned;
 const mult=7;
 var  
-     i,chnum,jindex,qcntr  : integer;
-     ch                    : char;
+     chnum,jindex,qcntr  : integer;
      num		   : unsigned;
 Begin
   gethex := 0;
   qcntr  := 0;
   jindex := 1;
+  num := 0; //XXX: guesswork
   repeat
-    if((string[jindex]>='A')and(string[jindex]<='F'))
+    if((str0[jindex]>='A')and(str0[jindex]<='F'))
       then
-        chnum:=ord(string[jindex])-ord('A')+10
+        chnum:=ord(str0[jindex])-ord('A')+10
       else
-        chnum:=ord(string[jindex])-ord('0');
-    if (string[jindex]='''') then
+        chnum:=ord(str0[jindex])-ord('0');
+    if (str0[jindex]='''') then
       qcntr := qcntr + 1;
     if(qcntr>0)and(((jindex-4)>=0)and((jindex-4)<=7))then
-      num:=num+(16**(mult-(jindex-4)))*chnum;
+      num+=trunc(intpower(16,mult-(jindex-4)))*chnum;
     jindex := jindex + 1;
   until(qcntr=2);
   gethex := num;
 End;
 
 { Read in the creature data from an external file }
-[psect(datafiles$code)] procedure read_creatures;
+procedure read_creatures;
   var 
     count,indx  : integer;
     infile	: text;
     flagstr	: usernam_type;
   BEGIN
     {read creatures from external file}
-      open (infile,BOSS_MON,readonly);
+      assign(infile,BOSS_MON);
       reset(infile);
       readln(infile,max_creatures);
       for count := 1 to max_creatures do
@@ -59,7 +59,7 @@ End;
   END;
 
 { Read in the master object list.  It's about time someone did this. -RLG}
-[psect(datafiles$code)] procedure read_objects;
+procedure read_objects;
   var
 	count   : integer;
 	infile  : text;
@@ -67,7 +67,7 @@ End;
 	dummy   : vtype;
   Begin
     { Read objects from external file }
-      open (infile,BOSS_OBJ,readonly);
+      assign(infile,BOSS_OBJ);
       reset(infile);
       readln(infile,max_objects);
       for count := 1 to max_objects do
@@ -88,7 +88,7 @@ End;
       close(infile);
   END;
 
-[psect(datafiles$code)] procedure read_inventory_list; {The obvious sequel. -RLG}
+procedure read_inventory_list; {The obvious sequel. -RLG}
   var
 	count   : integer;
 	infile  : text;
@@ -96,7 +96,7 @@ End;
 	dummy   : vtype;
   Begin
     { Read store inventory objects from external file }
-      open (infile,BOSS_INV,readonly);
+      assign(infile,BOSS_INV);
       reset(infile);
       readln(infile,inven_init_max);
       for count := 1 to inven_init_max do
@@ -117,7 +117,7 @@ End;
   END;
 
 { Initialize, restore, and get the ball rolling. }
-[psect(datafiles$code)] procedure read_data;
+procedure read_data;
 Begin
   read_creatures;
   read_objects;
@@ -129,32 +129,32 @@ End;
 {Loads skill data from file into skill_list array. -RLG}
 {Seems like a better way to handle the skill lists. }
 {But geez did this take a lot of work to implement!!! }
-{I was warned.. 
+{I was warned..} 
 
 { I should have listened to what my mother used to say. }
 { What did she say? }
 { I don't know.  I wasn't listening. }
 
-[psect(datafiles$code)] procedure get_skill_data(number : byteint);
+procedure get_skill_data(number : byteint);
   VAR
-    pos     : byteint;
+    pos0    : byteint;
     dummy   : vtype;
     infile  : text;
 	
   BEGIN
-      open (infile,SKILLS,readonly);
+      assign(infile,SKILLS);
       reset(infile);
 
       repeat
         repeat
           readln(infile,dummy);
-	until( substr(dummy,1,2) = '**');
-	readln(infile,pos);
-      until(pos = number);
+	until( copy(dummy,1,2) = '**');
+	readln(infile,pos0);
+      until(pos0 = number);
 
-      for pos := 1 to max_skills do
+      for pos0 := 1 to max_skills do
         begin
-          with skill_list[pos] do
+          with skill_list[pos0] do
             begin
 	      readln(infile,sname); 	
 	      readln(infile,slevel,smana,sexp,sfail);

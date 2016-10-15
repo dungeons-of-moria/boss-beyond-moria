@@ -1,5 +1,5 @@
 { Creatures movement and attacking are done from here }
-  procedure creatures;
+  procedure creatures(attack : boolean);
       VAR
            i1,i2,i3,moldy,moldx    : integer;
  
@@ -24,13 +24,13 @@
                               BEGIN
                                 if (py.flags.see_inv) then
                                   flag := true
-                                else if (uand(%X'10000',cmove) = 0) then
+                                else if ($10000 and cmove) = 0 then
                                   flag := true
                               END
 { Infra vision. }
                               else if (py.flags.see_infra > 0) then
                                 if (cdis <= py.flags.see_infra) then
-                                  if (uand(%X'2000',cdefense) <> 0) then
+                                  if ($2000 and cdefense) <> 0 then
                                     flag := true
                           END;
 { Light it up. }
@@ -44,7 +44,6 @@
                           search_off;
                         if (py.flags.rest > 0) then
                           rest_off;
-                        flush;
                         if (find_flag) then
                           BEGIN
                             find_flag := false;
@@ -72,7 +71,6 @@
         VAR
                 i1,i2,i3 : integer;
                 mm : mm_type;
-                out_val : vtype;
                 move_test : boolean;
  
 { Choose correct directions for monster movement }
@@ -238,17 +236,18 @@
 { Make an attack on the player (chuckle...) }
         PROCEDURE make_attack(monptr : integer);
           VAR
-                xpos,atype,adesc,dam,i1,i2,i3,i4,i7 : integer;
-                attstr,attx,cdesc,mdesc,ddesc : vtype;
-                damstr : dtype;
+                xpos,dam,i1,i2,i7 : integer;
+		atype, adesc : system.integer; { sscanf secure }
+                attstr,attx,cdesc,ddesc : vtype;
+                damstr : ansistring;
                 flag : boolean;
           BEGIN
             with m_list[monptr] do
             with c_list[mptr] do
               BEGIN
                 attstr := damage;
-                if ((uand(%X'10000',cmove) <> 0) and
-                    (not(py.flags.see_inv)))then
+                if (($10000 and cmove) <> 0) and
+                    (not py.flags.see_inv) then
                   cdesc := 'It '
                 else if (py.flags.blind > 0) then
                   cdesc := 'It '
@@ -257,7 +256,7 @@
                 else
                   cdesc := 'The ' + name + ' ';
 { For 'DIED_FROM' string }
-                if (uand(%X'80000000',cmove) <> 0) then
+                if ($80000000 and cmove) <> 0 then
                   ddesc := 'The ' + name
                 else
                   ddesc := '& ' + name;
@@ -267,21 +266,21 @@
 { End DIED_FROM }
                 while (length(attstr) > 0) do
                   BEGIN
-                    xpos := index(attstr,'|');
+                    xpos := pos('|',attstr);
                     if (xpos > 0) then
                       BEGIN
-                        attx := substr(attstr,1,xpos-1);
-                        attstr := substr(attstr,xpos+1,length(attstr)-xpos)
+                        attx := copy(attstr,1,xpos-1);
+                        attstr := copy(attstr,xpos+1,length(attstr)-xpos)
                       END
                     else
                       BEGIN
                         attx := attstr;
                         attstr := ''
                       END;
-                    readv(attx,atype,adesc,damstr);
+		    sscanf(attx, '%d%d%s', [@atype, @adesc, @damstr]);
                     flag := false;
                     if (py.flags.protevil > 0) then
-                      if (uand(cdefense,%X'0004') <> 0) then
+                      if (cdefense and $0004) <> 0 then
                         if ((py.misc.lev+1) > level) then
                           BEGIN
                             atype := 99;
@@ -581,7 +580,7 @@
 {Lose experience  }       19:   BEGIN
                                 msg_print('You feel your life draining away!');
                                   i1:=damroll(damstr)+
-                                        (py.misc.exp div 100)*mon$drain_life;
+                                        (py.misc.exp div 100)*monXdrain_life;
                                   lose_exp(i1)
                                 END;
 {Aggravate monster}       20:   aggravate_monster(5);
@@ -650,7 +649,7 @@
                                 {Lose experience}
                                 msg_print('You feel your life draining away!');
                                   i1:=damroll(damstr)+
-                                        (py.misc.exp div 100)*mon$drain_life;
+                                        (py.misc.exp div 100)*monXdrain_life;
                                 lose_exp(i1);
                                 {Poison Strength}
                                 take_hit(damroll(damstr),ddesc);
@@ -782,13 +781,13 @@
                     if (fopen) then
                       tflag := true
 { Creature moves through walls? }
-                    else if (uand(movebits,%X'40000') <> 0) then
+                    else if (movebits and $40000) <> 0 then
                       tflag := true
 { Creature can open doors? }
                     else if (tptr > 0) then
         with t_list[tptr] do
           with m_list[monptr] do
-            if (uand(movebits,%X'20000') <> 0) then
+            if (movebits and $20000) <> 0 then
               BEGIN     
 { Creature can open doors. }
                 CASE tval of
@@ -878,8 +877,8 @@ Scare Monster trap} if (tflag) then
                                 BEGIN
                                   msg_print('Your hands stop glowing.');
                                   py.flags.confuse_monster := false;
-                                  if ((randint(max_mons_level) < level) or
-                                      (uand(%X'1000',cdefense) <> 0)) then
+                                  if (randint(max_mons_level) < level) or
+                                      (($1000 and cdefense) <> 0) then
                                     BEGIN
                 msg_print('The ' + name + ' is unaffected.')
                                     END
@@ -898,7 +897,7 @@ Scare Monster trap} if (tflag) then
                          (newx <> m_list[monptr].fx))) then
                         BEGIN
 { Creature eats other creatures? }
-                          if (uand(movebits,%X'80000') <> 0) then
+                          if (movebits and $80000) <> 0 then
                             delete_monster(cptr)
                           else
                             tflag := false
@@ -908,7 +907,7 @@ Scare Monster trap} if (tflag) then
                       with m_list[monptr] do
                         BEGIN
 { Pick up or eat an object }
-                          if (uand(movebits,%X'100000') <> 0) then
+                          if (movebits and $100000) <> 0 then
                             with cave[newy,newx] do
                               if (tptr > 0) then
                                 if (t_list[tptr].tval < 100) then
@@ -942,7 +941,7 @@ took_turn  := true if creature casts a spell }
             with m_list[monptr] do
               with c_list[mptr] do
                 BEGIN
-                  chance := int(uand(spells,%X'0000000F'));
+                  chance := spells and $0000000F;
 { 1 in x chance of casting spell }
                   if (randint(chance) <> 1) then
                     BEGIN
@@ -970,8 +969,8 @@ took_turn  := true if creature casts a spell }
                       flag := true;
                       if (not(ml)) then
                         flag := false
-                      else if ((uand(%X'10000',c_list[mptr].cmove) <> 0) and
-                          (not(py.flags.see_inv))) then
+                      else if (($10000 and c_list[mptr].cmove) <> 0) and
+                          (not py.flags.see_inv) then
                         flag := false
                       else if (py.flags.blind > 0) then
                         flag := false;
@@ -980,7 +979,7 @@ took_turn  := true if creature casts a spell }
                       else
                         cdesc := 'It ';
 { For 'DIED_FROM' string }
-                      if (uand(%X'80000000',cmove) <> 0) then
+                      if ($80000000 and cmove) <> 0 then
                         ddesc := 'The ' + name
                       else
                         ddesc := '& ' + name;
@@ -988,7 +987,7 @@ took_turn  := true if creature casts a spell }
                       temporary_slot.number := 1;
                       objdes(ddesc,1,true,'t');
 { End DIED_FROM. Extract all possible spells into spell_choice }
-                      i1 := uand(spells,%X'FFFFFFF0');
+                      i1 := spells and $FFFFFFF0;
                       i3 := 0;
                       while (i1 <> 0) do
                         BEGIN
@@ -1200,8 +1199,8 @@ took_turn  := true if creature casts a spell }
               if (not(move_test)) then
                 BEGIN
 { 75% random movement }
-                  if ((randint(100) < 75) and
-                    (uand(cmove,%X'00000020') <> 0)) then
+                  if (randint(100) < 75) and
+                    ((cmove and $00000020) <> 0) then
                     BEGIN
                       mm[1] := randint(9);
                       mm[2] := randint(9);
@@ -1211,8 +1210,8 @@ took_turn  := true if creature casts a spell }
                       mon_move := make_move(monptr,mm)
                     END
 { 40% random movement }
-                  else if ((randint(100) < 40) and
-                    (uand(cmove,%X'00000010') <> 0))  then
+                  else if (randint(100) < 40) and
+                    ((cmove and $00000010) <> 0) then
                     BEGIN
                       mm[1] := randint(9);
                       mm[2] := randint(9);
@@ -1222,8 +1221,8 @@ took_turn  := true if creature casts a spell }
                       mon_move := make_move(monptr,mm)
                     END
 { 20% random movement }
-                  else if ((randint(100) < 20) and
-                    (uand(cmove,%X'00000008') <> 0))  then
+                  else if (randint(100) < 20) and
+                    ((cmove and $00000008) <> 0) then
                     BEGIN
                       mm[1] := randint(9);
                       mm[2] := randint(9);
@@ -1233,7 +1232,7 @@ took_turn  := true if creature casts a spell }
                       mon_move := make_move(monptr,mm)
                     END
 { Normal movement }
-                  else if (uand(cmove,%X'00000002') <> 0) then
+                  else if (cmove and $00000002) <> 0 then
                     BEGIN
                       if (randint(200) = 1) then
                         BEGIN
@@ -1248,7 +1247,7 @@ took_turn  := true if creature casts a spell }
                       mon_move := make_move(monptr,mm);
                     END
 { Attack, but don't move }
-                  else if (uand(cmove,%X'00000001') <> 0) then
+                  else if (cmove and $00000001) <> 0 then
                     if (m_list[monptr].cdis < 2) then
                       BEGIN
                         get_moves(monptr,mm);

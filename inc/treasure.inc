@@ -2,7 +2,7 @@
   Chance increases with each dungeon power  }
 
 {Pre-declared in MISC.INC}
-procedure magic_treasure;
+procedure magic_treasure(var item : treasure_type; power : integer);
 
   { parameters: 
      var item : treasure_type;
@@ -14,30 +14,24 @@ procedure magic_treasure;
  
 { Boolean : is object enchanted }
     function magik(chance : integer) : boolean;
-      BEGIN
-        if (randint(100) <= chance) then
-          magik := true
-        else
-          magik := false;
+      begin
+        magik := (randint(100) <= chance)
       end;
  
     procedure inc_damage(var dice : dtype; amount : integer);
       var
-        num,sides,i1  : integer;
+        i : byte;
+	amnt, sides : integer;
       begin
-        for i1 := 1 to length(dice) do
-	if (dice[i1] = 'd') then
-          dice[i1] := ' ';
-	num := 0;
-	sides := 0;
-	readv(dice,num,sides,error:=continue);
-	i1 := num*amount;
-	if ((i1 > 9) and (sides > 99)) then
-          i1 := 9
-        else if ((i1 > 99) and (sides > 9)) then
-          i1 := 99;
-        dice := '';
-        writev(dice,i1:1,'d',sides:1);
+      i := pos('d', dice);
+      amnt := strtoint(copy(dice,1,i-1));
+      sides := strtoint(copy(dice,i+1,length(dice)-i));
+      amnt *= amount;
+      if (amnt > 9) and (sides > 99) then
+        amount := 9
+      else if (amnt > 99) and (sides > 9) then
+        amnt := 99;
+      dice := inttostr(amnt) + 'd' + inttostr(sides)
       end;
 
 { Enchant a bonus based on degree desired   }
@@ -89,33 +83,33 @@ procedure magic_treasure;
                         if (magik(special)) then
                           case randint(12) of
                         1     : begin
-                                  flags := uor(flags,%X'023C0000');
+                                  flags := (flags or $023C0000);
                                   name := name + ' (Resist)';
                                   toac := toac + 5;
                                   cost := cost + 3500;
                                 end;
                         2     : begin 
-                                  flags := uor(flags,%X'00100000');
+                                  flags := (flags or $00100000);
                                   name := name + ' (RA)';
                                   cost := cost + 1000;
                                 end;
                         3,4   : begin 
-                                  flags := uor(flags,%X'00080000');
+                                  flags := (flags or $00080000);
                                   name := name + ' (RF)';
                                   cost := cost + 600;
                                 end;
                         5,6   : begin
-                                  flags := uor(flags,%X'00200000');
+                                  flags := (flags or $00200000);
                                   name := name + ' (RC)';
                                   cost := cost + 600;
                                 end;
                           7   : begin 
-                                  flags := uor(flags,%X'02000000');
+                                  flags := (flags or $02000000);
                                   name := name + ' (RL)';
                                   cost := cost + 500;
                                 end;
                           8   : begin 
-                                  flags := uor(flags,%X'00040000');
+                                  flags := (flags or $00040000);
                                   name := name + ' (RG)';
                                   cost := cost + 1000;
                                 end;
@@ -149,7 +143,7 @@ procedure magic_treasure;
 				  toac := toac + m_bonus(2,40,power);
 				  p1 := p1 + m_bonus(1,30,power);
 				  {Wisdom and Regeneration}
-				  flags := uor(flags,%X'00000810');
+				  flags := (flags or $00000810);
 				  cost := cost + 2000 + p1*200;
 				end;
 			  3   : begin
@@ -157,7 +151,7 @@ procedure magic_treasure;
 				  toac := toac + m_bonus(2,40,power);
 				  p1 := p1 + m_bonus(1,30,power);
 				  {Dexterity and Resistance}
-				  flags := uor(flags,%X'02380002');
+				  flags := (flags or $02380002);
 			  	  cost := cost + 2500 + p1*200;
 				end;
 				
@@ -171,7 +165,7 @@ procedure magic_treasure;
                       begin
                         toac := -m_bonus(1,40,power);
                         cost := 0;
-                        flags := uor(%X'80000000',flags);
+                        flags := ($80000000 or flags);
                       end
                   end;
            21,23: begin { Weapons   }
@@ -183,7 +177,7 @@ procedure magic_treasure;
                           case randint(18) of
 			    1 : begin  
 			       { Str,KS,KM,See-Invis}
-                                  flags := uor(flags,%X'01018001');
+                                  flags := (flags or $01018001);
                                   tohit := tohit + 5;
                                   todam := todam + 5;
                                   toac  := toac + randint(4);
@@ -194,7 +188,7 @@ procedure magic_treasure;
                                 end;
 			    2 : begin  
 			        {Stl,Regen,See-Invis,FeatherFall}
-                                  flags := uor(flags,%X'05000900');
+                                  flags := (flags or $05000900);
                                   tohit := tohit + 3;
                                   todam := todam + 3;
                                   toac  := toac + 5 + randint(5);
@@ -205,49 +199,49 @@ procedure magic_treasure;
                                   cost  := cost + 7000;
                                 end;
                           3,4 : begin  
-                                  flags := uor(flags,%X'00004000');
+                                  flags := (flags or $00004000);
                                   tohit := tohit + 3;
                                   todam := todam + 3;
                                   name := name + ' (KC)';
                                   cost := cost + 5000;
                                 end;
                           5,6 : begin  
-                                  flags := uor(flags,%X'00002000');
+                                  flags := (flags or $00002000);
                                   tohit := tohit + 3;
                                   todam := todam + 3;
                                   name := name + ' (KA)';
                                   cost := cost + 4000;
                                 end;
                           7,8 : begin  
-                                  flags := uor(flags,%X'00008000');
+                                  flags := (flags or $00008000);
                                   tohit := tohit + 3;
                                   todam := todam + 3;
                                   name := name + ' (KS)';
                                   cost := cost + 4000;
                                 end;
                          9,10 : begin  
-                                  flags := uor(flags,%X'00010000');
+                                  flags := (flags or $00010000);
                                   tohit := tohit + 2;
                                   todam := todam + 2;
                                   name := name + ' (KM)';
                                   cost := cost + 3000;
                                 end;
                         11,12 : begin  
-                                  flags := uor(flags,%X'00080000');
+                                  flags := (flags or $00080000);
                                   tohit := tohit + 1;
                                   todam := todam + 3;
                                   name := name + ' (KR)';
                                   cost := cost + 3500;
                                 end;
                         13,14 : begin
-                                  flags := uor(flags,%X'00040000');
+                                  flags := (flags or $00040000);
                                   tohit := tohit + 1;
                                   todam := todam + 3;
                                   name := name + ' (FT)';
                                   cost := cost + 2000;
                                 end;
-                        15,16 : begin  
-                                  flags := uor(flags,%X'00020000');
+                        15,16 : begin
+                                  flags := (flags or $00020000);
                                   tohit := tohit + 1;
                                   todam := todam + 3;
                                   name := name + ' (FB)';
@@ -261,7 +255,7 @@ procedure magic_treasure;
                                 end;
 			   18 : begin
 			          {See-Invis}
-				  flags := uor(flags,%X'01000000');
+				  flags := (flags or $01000000);
 			          name := name + '  :)';
 				  cost := cost*2;
 				end;
@@ -284,7 +278,7 @@ procedure magic_treasure;
                       begin
                         tohit := -m_bonus(1,55,power);
                         todam := -m_bonus(1,55,power);
-                        flags := uor(%X'80000000',flags);
+                        flags := ($80000000 or flags);
                         cost := 0;
                       end
                   end;
@@ -294,7 +288,7 @@ procedure magic_treasure;
                     else if (magik(cursed)) then
                       begin
                         tohit := -m_bonus(1,50,power);
-                        flags := uor(%X'80000000',flags);
+                        flags := ($80000000 or flags);
                         cost := 0;
                       end;
                   end;
@@ -308,7 +302,7 @@ procedure magic_treasure;
                     else if (magik(cursed)) then
                       begin
                         tohit := -m_bonus(1,50,power);
-                        flags := uor(%X'80000000',flags);
+                        flags := ($80000000 or flags);
                         cost := 0;
                       end;
                   end;
@@ -328,7 +322,7 @@ procedure magic_treasure;
                         3 : begin
                               p1 := -m_bonus(1,30,power);
                               cost := 0;
-                              flags := uor(%X'80000000',flags);
+                              flags := ($80000000 or flags);
                             end;
                       end;
                   end;
@@ -344,13 +338,13 @@ procedure magic_treasure;
                                   name := name + ' of Slaying';
                                 end;
                             3  :begin
-                                  flags := uor(%X'00800000',flags);
+                                  flags := ($00800000 or flags);
                                   name := name + ' of Free Action';
                                   cost := cost + 1000;
                                 end;
                             4  :begin
 			        {Dex,Stealth}
-                                  flags := uor(%X'00000102',flags);
+                                  flags := ($00000102 or flags);
 			          p1 := m_bonus(1,30,power);
                                   name := name + ' of Thievery';
                                   cost := cost + p1*500;
@@ -362,19 +356,19 @@ procedure magic_treasure;
                         if (magik(special)) then
                           case randint(2) of
                             1 : begin
-                                  flags := uor(%X'80000002',flags);
+                                  flags := ($80000002 or flags);
                                   name := name + ' of Clumsiness';
                                   p1 := 1;
                                 end;
                             2 : begin
-                                  flags := uor(%X'80000001',flags);
+                                  flags := ($80000001 or flags);
                                   name := name + ' of Weakness';
                                   p1 := 1;
                                 end;
                           end;
                         toac := -m_bonus(1,40,power);
                         p1   := -m_bonus(1,10,power);
-                        flags := uor(%X'80000000',flags);
+                        flags := ($80000000 or flags);
                         cost := 0;
                       end
                   end;
@@ -385,18 +379,18 @@ procedure magic_treasure;
                         if (magik(special)) then
                           case randint(12) of
                             1 : begin
-                                  flags := uor(%X'00001000',flags);
+                                  flags := ($00001000 or flags);
                                   name := name + ' of Speed';
                                   p1 := 1;
                                   cost := cost + 5000;
                                 end;
                       2,3,4,5 : begin
-                                  flags := uor(%X'00000100',flags);
+                                  flags := ($00000100 or flags);
                                   name := name + ' of Stealth';
                                   cost := cost + 500;
                                 end;
                       otherwise begin
-                                  flags := uor(%X'04000000',flags);
+                                  flags := ($04000000 or flags);
                                   name := name + ' of Slow decent';
                                   cost := cost + 250;
                                 end
@@ -406,16 +400,16 @@ procedure magic_treasure;
                       begin
                         case randint(3) of
                           1 : begin
-                                flags := uor(%X'80001000',flags);
+                                flags := ($80001000 or flags);
                                 name := name + ' of Slowness';
                                 p1 := -1;
                               end;
                           2 : begin
-                                flags := uor(%X'80000200',flags);
+                                flags := ($80000200 or flags);
                                 name := name + ' of Noise';
                               end;
                           3 : begin
-                                flags := uor(%X'80000000',flags);
+                                flags := ($80000000 or flags);
                                 name := name + ' of Great Mass';
                                 weight := weight*5;
                               end;
@@ -433,19 +427,19 @@ procedure magic_treasure;
                 1,2,3,4,5  :  case randint(3) of
                                 1 : begin
                                       p1 := randint(2);
-                                      flags := uor(%X'00000008',flags);
+                                      flags := ($00000008 or flags);
                                       name := name + ' (%P1) of Intelligence';
                                       cost := cost + p1*500;
                                     end;
                                 2 : begin
                                       p1 := randint(2);
-                                      flags := uor(%X'00000010',flags);
+                                      flags := ($00000010 or flags);
                                       name := name + ' (%P1) of Wisdom';
                                       cost := cost + p1*500;
                                     end;
                                 3 : begin
                                       p1 := 1 + randint(4);
-                                      flags := uor(%X'40000000',flags);
+                                      flags := ($40000000 or flags);
                                       name := name + ' (%P1) of Infra-Vision';
                                       cost := cost + p1*250;
                                     end;
@@ -454,37 +448,37 @@ procedure magic_treasure;
                                 1 : begin
                                       p1 := randint(3);
 				      {STR,CON,DEX,Free Action}
-                                      flags := uor(%X'00800007',flags);
+                                      flags := ($00800007 or flags);
                                       name := name + ' (%P1) of Might';
                                       cost := cost + 1000 + p1*500;
                                     end;
                                 2 : begin
                                       p1 := randint(3);
-                                      flags := uor(%X'00000030',flags);
+                                      flags := ($00000030 or flags);
                                       name := name + ' (%P1) of Lordliness';
 				      toac := toac + randint(10);
                                       cost := cost + 1000 + p1*500;
                                     end;
                                 3 : begin
                                       p1 := randint(3);
-                                      flags := uor(%X'01380008',flags);
+                                      flags := ($01380008 or flags);
                                       name := name + ' (%P1) of Jarwangia';
                                       cost := cost + 3000 + p1*500;
                                     end;
                                 4 : begin
                                       p1 := randint(3);
-                                      flags := uor(%X'00000020',flags);
+                                      flags := ($00000020 or flags);
                                       name := name + ' (%P1) of Beauty';
                                       cost := cost + 750;
                                     end;
                                 5 : begin
                                       p1 := 1 + randint(4);
-                                      flags := uor(%X'01000040',flags);
+                                      flags := ($01000040 or flags);
                                       name := name + ' (%P1) of Seeing';
                                       cost := cost + 1000 + p1*100;
                                     end;
                                 6 : begin
-                                      flags := uor(%X'00000800',flags);
+                                      flags := ($00000800 or flags);
                                       name := name + ' of Regeneration';
                                       cost := cost + 1500;
                                     end;
@@ -494,40 +488,40 @@ procedure magic_treasure;
                     else if (magik(cursed)) then
                       begin
                         toac := -m_bonus(1,45,power);
-                        flags := uor(%X'80000000',flags);
+                        flags := ($80000000 or flags);
                         cost := 0;
                         if (magik(special)) then
                           case randint(7) of
                             1 : begin
                                   p1 := -1;
-                                  flags := uor(%X'00000008',flags);
+                                  flags := ($00000008 or flags);
                                   name := name + ' of Stupidity';
                                 end;
                             2 : begin
                                   p1 := -1;
-                                  flags := uor(%X'00000010',flags);
+                                  flags := ($00000010 or flags);
                                   name := name + ' of Dullness';
                                 end;
                             3 : begin
-                                  flags := uor(%X'08000000',flags);
+                                  flags := ($08000000 or flags);
                                   name := name + ' of Blindness';
                                 end;
                             4 : begin
-                                  flags := uor(%X'10000000',flags);
+                                  flags := ($10000000 or flags);
                                   name := name + ' of Timidness';
                                 end;
                             5 : begin
                                   p1 := -1;
-                                  flags := uor(%X'00000001',flags);
+                                  flags := ($00000001 or flags);
                                   name := name + ' of Weakness';
                                 end;
                             6 : begin
-                                  flags := uor(%X'00000400',flags);
+                                  flags := ($00000400 or flags);
                                   name := name + ' of Teleportation';
                                 end;
                             7 : begin
                                   p1 := -1;
-                                  flags := uor(%X'00000020',flags);
+                                  flags := ($00000020 or flags);
                                   name := name + ' of Ugliness';
                                 end;
                           end;
@@ -539,7 +533,7 @@ procedure magic_treasure;
                 1,2,3,4,5,6 :   if (magik(cursed)) then
                                   begin
                                     p1 := -m_bonus(1,20,power);
-                                    flags := uor(%X'80000000',flags);
+                                    flags := ($80000000 or flags);
                                     cost := -cost;
                                   end
                                 else
@@ -550,7 +544,7 @@ procedure magic_treasure;
                           7 :   if (magik(cursed)) then  {Speed}
                                   begin
                                     p1 := -randint(3);
-                                    flags := uor(%X'80000000',flags);
+                                    flags := ($80000000 or flags);
 				    cost := -cost;
                                   end
                                 else
@@ -567,7 +561,7 @@ procedure magic_treasure;
                                   if (magik(cursed)) then
                                     begin
                                       todam := -todam;
-                                      flags := uor(%X'80000000',flags);
+                                      flags := ($80000000 or flags);
                                       cost := -cost;
                                     end
                                 end;
@@ -577,7 +571,7 @@ procedure magic_treasure;
                                   if (magik(cursed)) then
                                     begin
                                       tohit := -tohit;
-                                      flags := uor(%X'80000000',flags);
+                                      flags := ($80000000 or flags);
                                       cost := -cost;
                                     end
                                 end;
@@ -586,7 +580,7 @@ procedure magic_treasure;
                                   if (magik(cursed)) then
                                     begin
                                       toac := -toac;
-                                      flags := uor(%X'80000000',flags);
+                                      flags := ($80000000 or flags);
                                       cost := -cost;
                                     end
                                 end;
@@ -597,7 +591,7 @@ procedure magic_treasure;
                                     begin
                                       tohit := -tohit;
                                       todam := -todam;
-                                      flags := uor(%X'80000000',flags);
+                                      flags := ($80000000 or flags);
                                       cost := -cost;
                                     end
                                 end;
@@ -608,7 +602,7 @@ procedure magic_treasure;
 		    if (magik(cursed)) then
                       begin
                         p1 := -m_bonus(1,20,power);
-                        flags := uor(%X'80000000',flags);
+                        flags := ($80000000 or flags);
                         cost := -cost;
                       end
                     else
@@ -680,7 +674,7 @@ procedure magic_treasure;
                 2      : begin
                                   toac := toac + m_bonus(1,20,power);
                                   p1 := randint(3);
-                                  flags := uor(%X'00000100',flags);
+                                  flags := ($00000100 or flags);
                                   name := name + ' of Stealth (%P1)';
                                   cost := cost + p1*500;
                                 end;
@@ -691,7 +685,7 @@ procedure magic_treasure;
                     else if (magik(cursed)) then
                       case randint(3) of
                         1 : begin
-                              flags := uor(%X'80000200',flags);
+                              flags := ($80000200 or flags);
                               name := name + ' of Irritation';
                               ac   :=  0;
                               toac  := -m_bonus(1,10,power);
@@ -700,14 +694,14 @@ procedure magic_treasure;
                               cost :=  0;
                             end;
                         2 : begin
-                              flags := uor(%X'80000000',flags);
+                              flags := ($80000000 or flags);
                               name := name + ' of Vulnerability';
                               ac   := 0;
                               toac := -m_bonus(10,100,power+50);
                               cost := 0;
                             end;
                         3 : begin
-                              flags := uor(%X'80000000',flags);
+                              flags := ($80000000 or flags);
                               name := name + ' of Enveloping';
                               toac  := -m_bonus(1,10,power);
                               tohit := -m_bonus(2,40,power+10);
@@ -722,35 +716,35 @@ procedure magic_treasure;
                                     name := name + '^ (Empty)';
                                   end;
                       2  : begin
-                                    flags := uor(%X'00000001',flags);
+                                    flags := ($00000001 or flags);
                                     name := name + '^ (Locked)';
                                   end;
                       3,4       : begin
-                                    flags := uor(%X'00000011',flags);
+                                    flags := ($00000011 or flags);
                                     name := name + '^ (Poison Needle)';
                                   end;
                       5,6       : begin
-                                    flags := uor(%X'00000021',flags);
+                                    flags := ($00000021 or flags);
                                     name := name + '^ (Poison Needle)';
                                   end;
                       7,8,9     : begin
-                                    flags := uor(%X'00000041',flags);
+                                    flags := ($00000041 or flags);
                                     name := name + '^ (Gas Trap)';
                                   end;
                       10,11     : begin
-                                    flags := uor(%X'00000081',flags);
+                                    flags := ($00000081 or flags);
                                     name := name + '^ (Explosion Device)';
                                   end;
                       12,13,14  : begin
-                                    flags := uor(%X'00000101',flags);
+                                    flags := ($00000101 or flags);
                                     name := name + '^ (Summoning Runes)';
                                   end;
                       15,16,17  : begin
-                                    flags := uor(%X'00000071',flags);
+                                    flags := ($00000071 or flags);
                                     name := name + '^ (Multiple Traps)';
                                   end;
                       otherwise   begin
-                                    flags := uor(%X'00000181',flags);
+                                    flags := ($00000181 or flags);
                                     name := name + '^ (Multiple Traps)';
                                   end;
                     end;
@@ -774,35 +768,35 @@ procedure magic_treasure;
                                   end;
                            4,5   :begin
 			            {Flame}
-                                    flags := uor(flags,%X'00040000');
+                                    flags := (flags or $00040000);
                                     tohit := tohit + 2;
                                     todam := todam + 4;
                                     name := name + '(explosive)';
                                     cost := cost + 25;
                                   end;
                            6,7   :begin
-                                    flags := uor(flags,%X'00008000');
+                                    flags := (flags or $00008000);
                                     tohit := tohit + 3;
                                     todam := todam + 3;
                                     name := name + ' of Scum Killing';
                                     cost := cost + 25;
                                   end;
                            8,9   :begin
-                                    flags := uor(flags,%X'00004000');
+                                    flags := (flags or $00004000);
                                     tohit := tohit + 2;
                                     todam := todam + 2;
                                     name := name + ' of Creature Killing';
                                     cost := cost + 30;
                                   end;
                            10,11 :begin
-                                    flags := uor(flags,%X'00080000');
+                                    flags := (flags or $00080000);
                                     tohit := tohit + 5;
                                     todam := todam + 10;
                                     name := name + ' of Robot Slaying';
                                     cost := cost + 30;
                                   end;
                            12    :begin
-                                    flags := uor(flags,%X'00002000');
+                                    flags := (flags or $00002000);
                                     tohit := tohit + 7;
                                     todam := todam + 7;
                                     name := name + ' of Alien Slaying';
@@ -814,7 +808,7 @@ procedure magic_treasure;
                         begin
                           tohit := -m_bonus(5,55,power);
                           todam := -m_bonus(5,55,power);
-                          flags := uor(%X'80000000',flags);
+                          flags := ($80000000 or flags);
                           cost := 0;
                         end;
                   End;
@@ -834,10 +828,10 @@ procedure magic_treasure;
 	with item do
 	  If (tval in [9,10,11,12,13,82,84]) then
 	    begin
-              missle_ctr := missle_ctr + 1;
-              if (missle_ctr > 65534) then
+              missle_ctr += 1;
+              if missle_ctr = high(missle_ctr) then
                 missle_ctr := 1;
-              subval := missle_ctr + 512;
+              subval := missle_ctr + 512
  	    end;
       END;
 

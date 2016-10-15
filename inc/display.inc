@@ -7,11 +7,11 @@
     function cur_char1(item_val : integer) : dtype;
       BEGIN
         with inventory[item_val] do
-          if (uand(%X'80000000',flags) = 0) then
+          if (($80000000 and flags) = 0) then
             cur_char1 := ')'     { Not cursed.}
-          else if (index(name,'|') > 0) then
+          else if (pos('|',name) > 0) then
             cur_char1 := ')'     { Cursed, but not identified }
-          else if (index(name,'^') > 0) then
+          else if (pos('^',name) > 0) then
             cur_char1 := ')'     { Cursed, but not identified }
           else
             cur_char1 := '*'    { Cursed and identified.}
@@ -22,7 +22,7 @@
     function cur_char2(item_val : integer) : char;
       BEGIN
         with equipment[item_val] do
-          if (uand(%X'80000000',flags) = 0) then
+          if (($80000000 and flags) = 0) then
             cur_char2 := ')' { Not cursed.}
           else
             cur_char2 := '*';   { Cursed.}
@@ -31,7 +31,7 @@
  {Returns the character label (a-Z) of an integer.}
     function raoul_label(position : integer) : dtype;
       BEGIN
-        raoul_label  := substr(alpha_set,position,1);
+        raoul_label  := copy(alpha_set,position,1);
       END;
  
  
@@ -53,6 +53,7 @@
         var
           i1 		   : integer;
           tmp_val,out_val  : vtype;
+	  my_weight_tmp_var : vtype;
 
         BEGIN
           if (r1 > 0) then    { R1 = 0 dummy call }
@@ -64,9 +65,12 @@
               for i1 := 0 to (r2-r1) do
 		    begin
 		      objdes(tmp_val,r1+i1,true,'i');
-                      writev(out_val,raoul_label(r1+i1),
-		      		     cur_char1(r1+i1),' ',tmp_val);
+                      out_val := raoul_label(r1+i1) + cur_char1(r1+i1) +
+                        ' ' + tmp_val;
                       prt(out_val,i1+2,1);
+		      my_weight_tmp_var:=padleft(inttostr(inventory[r1+i1].weight *
+			                     inventory[r1+i1].number),5);
+		      prt(my_weight_tmp_var,i1+2,75);
 		    end;
             END;
         END;
@@ -76,6 +80,8 @@
         var
           i1,i2 : integer;
           prt1,prt2,out_val : vtype;
+	  my_weight_tmp_var : vtype;
+	  my_weight_tmp_var_inv, my_weight_tmp_var_eq : integer;
         BEGIN
           if (r1 > equip_ctr) then   { Last item gone }
             prt('',equip_ctr+3,1)
@@ -107,13 +113,29 @@
                               otherwise prt1 := ' Unknown value: ';
                             END;
                             objdes(prt2,i1,true,'e');
-                            writev(out_val,chr(i2+96),cur_char2(i1),
-                                                                prt1,prt2);
+                            out_val := chr(i2+96) + cur_char2(i1) + prt1 + prt2;
                             prt(out_val,i2+2,1);
+
+			    my_weight_tmp_var:=padleft(inttostr(equipment[i1].weight),5);
+			    prt(my_weight_tmp_var,i2+2,75); 
                          END;
                       END;
                 END;
-              prt('',i2+3,1);   { Clear last line }
+	      prt('',i2+3,1);   { Clear last line }
+
+	      my_weight_tmp_var_inv := 0;
+	      for i1 := 1 to inven_max do
+	      my_weight_tmp_var_inv := my_weight_tmp_var_inv + inventory[i1].number * inventory[i1].weight;
+	      my_weight_tmp_var_eq := 0;
+	      for i1 := 23 to equip_max do
+	      my_weight_tmp_var_eq := my_weight_tmp_var_eq + equipment[i1].number * equipment[i1].weight;
+	               
+	      prt_num('Total Weight Inv: ',my_weight_tmp_var_inv,22,7);
+	      prt_num('Total Weight Equ: ',my_weight_tmp_var_eq,22,35);
+	      prt_num('Total Weight    : ',my_weight_tmp_var_inv+my_weight_tmp_var_eq,23,7);
+       {       prt_num('Weight limit    : ',max_weight,23,35); }
+       prt_num('Weight remaining: ',max_weight-my_weight_tmp_var_inv-my_weight_tmp_var_eq,23,35);
+
               scr_state := 2;   { Set state of screen }
             END;
         END;
@@ -122,7 +144,15 @@
   procedure  count_inventory;
     var
       i1,i2,i3,row,num	: integer;
+      my_weight_tmp_var_inv, my_weight_tmp_var_eq : integer;
    BEGIN
+     my_weight_tmp_var_inv := 0;
+     for i1 := 1 to inven_max do
+     	my_weight_tmp_var_inv := my_weight_tmp_var_inv + inventory[i1].number * inventory[i1].weight;
+     my_weight_tmp_var_eq := 0;
+     for i1 := 23 to equip_max do
+     	my_weight_tmp_var_eq := my_weight_tmp_var_eq + equipment[i1].number * equipment[i1].weight;
+
      num := 0;
      prt('Inventory Summary',16,22);
      row := 17;
@@ -197,6 +227,13 @@
 	 row := row+1;
 	 prt_num('Amulets/Rings   : ',num,row,35);
        end;
+
+       prt_num('Total Weight Inv: ',my_weight_tmp_var_inv,22,7);
+       prt_num('Total Weight Equ: ',my_weight_tmp_var_eq,22,35);
+       prt_num('Total Weight    : ',my_weight_tmp_var_inv+my_weight_tmp_var_eq,23,7);
+       {       prt_num('Weight limit    : ',max_weight,23,35); }
+       prt_num('Weight remaining: ',max_weight-my_weight_tmp_var_inv-my_weight_tmp_var_eq,23,35);
+
   END;
 
 { Displays inventory items and cleans item from list }
@@ -211,11 +248,11 @@
 	  repeat
 	    test_flag := false;
 	    repeat
-              writev(out_val,
-	        '( <space> for next page, <esc> to exit ) ',
-	        'Lose which item ?');
+              out_val :=
+	        '( <space> for next page, <esc> to exit ) ' +
+	        'Lose which item ?';
               prt(out_val,1,1);
-	      inkey(command);
+              inkey(command);
 	      com_val := ord(command);
 	      case com_val of
          0,3,13,25,26,27  :  begin
@@ -231,7 +268,7 @@
                              end;
 
                  otherwise   begin
-			       com_val := index(alpha_set,command);
+			       com_val := pos(command,alpha_set);
 			       if (com_val in [1..inven_ctr]) then
                                  begin
 			           objdes(out_val,com_val,true,'i');
@@ -284,7 +321,7 @@
             otherwise                 prt1  := 'Was wearing ';
           END;
           objdes(prt2,i1,true,'i');
-	  writev(out_val,prt1,prt2,' (',raoul_label(i1),')');
+	  out_val := prt1 + prt2 + ' (' + raoul_label(i1) + ')';
           msg_print(out_val);
 	  if (item_val = -1) then
 	    temporary_slot := blank_treasure
@@ -310,9 +347,9 @@
             END;
           exit_flag := false;
           repeat
-          writev(out_val,'(a-',chr(equip_ctr+96),
-	  		 ', <space> for equipment list,',
-			 ' <esc> to exit) ','Take off which one ?');
+          out_val := '(a-' + chr(equip_ctr+96) +
+	  		 ', <space> for equipment list,' +
+			 ' <esc> to exit) ' + 'Take off which one ?';
             test_flag := false;
             msg_print(out_val);
             repeat
@@ -345,7 +382,7 @@
                   if (equipment[i2].tval > 0) then
                     i1 := i1 + 1;
                 until (i1 = com_val);
-                if (uand(%X'80000000',equipment[i2].flags) <> 0) then
+                if (($80000000 and equipment[i2].flags) <> 0) then
                   BEGIN
                     msg_print('Hmmm, it seems to be really stuck...');
                     com_val := 0;
@@ -382,9 +419,9 @@
 	  repeat
  	    test_flag := false;
             repeat
-              writev(out_val,
-	        '( <space> for next page, <esc> to exit ) ',
-	        'Wear/Wield which item?');
+              out_val :=
+	        '( <space> for next page, <esc> to exit ) ' +
+	        'Wear/Wield which item?';
               prt(out_val,1,1);
 	      inkey(command);
 	      com_val := ord(command);
@@ -406,7 +443,7 @@
 			       end;
 
                  otherwise   begin
-			       com_val := index(alpha_set,command);
+			       com_val := pos(command,alpha_set);
 			       if (com_val in [1..inven_ctr]) then
 				   test_flag := true;
 			     end;
@@ -442,7 +479,7 @@
                 if (test_flag) then
                   if (equipment[i1].tval > 0) then
                     BEGIN
-                      if (uand(%X'80000000',equipment[i1].flags) <> 0) then
+                      if (($80000000 and equipment[i1].flags) <> 0) then
                         BEGIN
                           objdes(out_val,i1,false,'e');
                           out_val := 'The ' + out_val + ' you are ';
@@ -523,7 +560,7 @@
 	  prt1,prt2  : vtype;
           tmp_obj : treasure_type;
         BEGIN
-          if (uand(%X'80000000',equipment[23].flags) <> 0) then
+          if (($80000000 and equipment[23].flags) <> 0) then
             BEGIN
               objdes(prt1,23,false,'e');
               msg_print('The ' + prt1 +
@@ -688,8 +725,8 @@
 	exit_flag := false;
         if (inven_ctr > 0) then
           BEGIN
-            writev(out_val,' (',raoul_label(r1),'-',raoul_label(r2),
-	    	') <space> for list, <esc> to exit.  ',pmt);
+            out_val := ' (' + raoul_label(r1) + '-' + raoul_label(r2) +
+	    	') <space> for list, <esc> to exit.  ' + pmt;
             prt(out_val,1,1);
             repeat
 	      inkey(command);
@@ -715,7 +752,7 @@
                                end;
 
                  otherwise   begin
-			       com_val := index(alpha_set,command);
+			       com_val := pos(command,alpha_set);
 			       if ((com_val >= r1) and (com_val <= r2)) then
                                  begin
                                    exit_flag := true;

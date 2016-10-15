@@ -12,22 +12,22 @@
 
 { QIOW constants, see $IODEF in STARLET.MLB }
 
-        IO$_WRITEVBLK = %B'0000000000110000';  {   48D, 0030H   }
-        IO$_TTYREADALL= %B'0000000000111010';  {   58D, 003AH   }
-        IO$M_NOECHO   = %B'0000000001000000';  {   64D, 0040H   }
-        IO$M_NOWAIT   = %B'0000000010000000';  {  128D, 0080H   }
-        IO$M_PURGE    = %B'0000100000000000';  { 2048D, 0800H	}
+        IOX_WRITEVBLK = %0000000000110000;  {   48D, 0030H   }
+        IOX_TTYREADALL= %0000000000111010;  {   58D, 003AH   }
+        IOXM_NOECHO   = %0000000001000000;  {   64D, 0040H   }
+        IOXM_NOWAIT   = %0000000010000000;  {  128D, 0080H   }
+        IOXM_PURGE    = %0000100000000000;  { 2048D, 0800H   }
 
-        IO$MOR_OUTPUT = IO$_WRITEVBLK;
-        IO$MOR_INPUT  = IO$_TTYREADALL + IO$M_NOECHO;
-        IO$MOR_DELAY  = IO$MOR_INPUT   + IO$M_NOWAIT;
-        IO$MOR_IPURGE = IO$MOR_DELAY   + IO$M_PURGE;
+        IOXMOR_OUTPUT = IOX_WRITEVBLK;
+        IOXMOR_INPUT  = IOX_TTYREADALL + IOXM_NOECHO;
+        IOXMOR_DELAY  = IOXMOR_INPUT   + IOXM_NOWAIT;
+        IOXMOR_IPURGE = IOXMOR_DELAY   + IOXM_PURGE;
  
 { IO bug exists at high baud rates (baud >= 9600).  This bug
   is believed to be in the device driver.  It can be avoided by
   hibernating the process a small amount of time before perform-
   ing a QIOW read operation. }
-        IO$MOR_IOPAUSE= 5;  { x/100 secs of sleep before inkey
+        IOXMOR_IOPAUSE= 5;  { x/100 secs of sleep before inkey
  
   ENCRYPTION CONSTANTS                                          
   NOTE: These numbers were pulled from the air, and can be      
@@ -72,13 +72,12 @@
 	max_doors    = 12;    { # of different building doors}
 	max_bdoors   = 4;     {# of doors inside tall building}
         store_inven_max = 24; { Max # of discrete objs in inven  }
-        store$choices = 26;   { # of items to choose stock from  }
-        store$max_inven = 20; { Max diff objs in stock before auto sell}
-        store$min_inven = 14; { Min diff objs in stock before auto buy}
-        store$turn_around = 5;{ Amt of buying and selling normally }
-        bmstore$turn_around = 20;{ Amt of buying and selling normally }
+        storeXchoices = 26;   { # of items to choose stock from  }
+        storeXmax_inven = 20; { Max diff objs in stock before auto sell}
+        storeXmin_inven = 14; { Min diff objs in stock before auto buy}
+        storeXturn_around = 5;{ Amt of buying and selling normally }
+        bmstoreXturn_around = 20;{ Amt of buying and selling normally }
 	max_char_inven_init = 8; {Size of begining char inventory}
-        cost_adj = 1.00;      { Adjust prices for buying and selling  }
  
 { TREASURE CONSTANTS }
         inven_max = 52;     { Size of inventory array }
@@ -106,8 +105,8 @@
 	obj_div_cursed  = 2;   { magic_chance/# = cursed chance}
  
 { CONSTANTS DESCRIBING LIMITS OF CERTAIN OBJECTS }
-        obj$lamp_max = 15000; { Max amt that lamp can be filled}
-        obj$bolt_range = 18;  { Max range of bolts and balls }
+        objXlamp_max = 15000; { Max amt that lamp can be filled}
+        objXbolt_range = 18;  { Max range of bolts and balls }
                               { matches max_spell_dis        }
 { CREATURE CONTANTS }
         max_attack_desc = 45;  {Max creature att desc. max# is "repelled"}
@@ -128,8 +127,8 @@
 	                      monsters, police, badguys, Boss }
         num_of_police = 2;  { Total number of police in creature list. }
         win_mon_appear = 92; { Dun_power where winning creatures begin. }
-        mon$summon_adj = 4; { Adjust level of summoned creatures }
-        mon$drain_life = 2; { % of player exp drained/hit }
+        monXsummon_adj = 4; { Adjust level of summoned creatures }
+        monXdrain_life = 2; { % of player exp drained/hit }
  
 { TRAP CONSTANTS }
         max_trapa = 19; { # of defined traps }
@@ -156,11 +155,11 @@
         player_food_faint = 180; { Char begins fainting }
         player_food_weak = 650; { Warn player that he is getting very low}
         player_food_alert = 1100; { Warn player that he is getting low }
-        player$regen_faint = 0.002; { Regen factor  fainting }
-        player$regen_weak = 0.004; { Regen factor  weak }
-        player$regen_normal = 0.006; { Regen factor  full }
-        player$regen_hpbase = 0.025; { Min amt hp regen }
-        player$regen_mnbase = 0.075; { Min amt mana regen }
+        playerXregen_faint = 0.002; { Regen factor  fainting }
+        playerXregen_weak = 0.004; { Regen factor  weak }
+        playerXregen_normal = 0.006; { Regen factor  full }
+        playerXregen_hpbase = 0.025; { Min amt hp regen }
+        playerXregen_mnbase = 0.075; { Min amt mana regen }
         player_weight_cap = 60; { 100*(1/10 pounds)/strength pt }
  
 { BASE TO HIT CONSTANTS }

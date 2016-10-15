@@ -1,5 +1,6 @@
 { play a trick }
-[psect(misc2$code)] procedure use_con_skills;
+
+procedure use_con_skills;
       var
         i1,i2,item_val,dir  : integer;
         choice,chance : integer;

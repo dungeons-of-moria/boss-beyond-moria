@@ -1,5 +1,5 @@
         { Prayers ...                                     -RAK-   }
-[psect(misc2$code)] procedure pray;
+procedure pray;
       var
                 i1,i2,item_val,dir              : integer;
                 choice,chance                   : integer;
@@ -53,10 +53,10 @@
           15 :  begin
 	          for i1 := 1 to inven_ctr do
                     with inventory[i1] do
-                      flags := uand(flags,%X'7FFFFFFF');
+                      flags := flags and $7FFFFFFF;
 	          for i1 := 23 to equip_max do
                     with equipment[i1] do
-                      flags := uand(flags,%X'7FFFFFFF');
+                      flags := flags and $7FFFFFFF;
 		end;
           16 :  with py.flags do
                   begin
@@ -75,13 +75,13 @@
           24 :  hp_player(damroll('16d4'),'a prayer.');
           25 :  turn_undead;
           26 :  bless(randint(100)+48);
-          27 :  dispell_creature(%X'0008',3*py.misc.lev);
+          27 :  dispell_creature($0008,3*py.misc.lev);
 	  28 :  cure_disease;
           29 :  hp_player(200,'a prayer.');
-          30 :  dispell_creature(%X'0004',3*py.misc.lev);
+          30 :  dispell_creature($0004,3*py.misc.lev);
           31 :  warding_glyph;
           32 :  begin
-                  dispell_creature(%X'0004',4*py.misc.lev);
+                  dispell_creature($0004,4*py.misc.lev);
                   cure_confusion;
                   remove_fear;
                   cure_poison;

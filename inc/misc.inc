@@ -1,5 +1,6 @@
 { Use date and time to produce random seed }
-[psect(setup$code)] function get_seed : unsigned;
+function get_seed : unsigned;
+(*
     type
         $quad = [quad,unsafe] record
                 l0      : unsigned;
@@ -15,19 +16,23 @@
 
     begin
       get_time(time);                           { Current time  }
-      seed_val := uor(time.l0,time.l1);         { Random number }
-      get_seed := uor(seed_val,%X'00000001');   { Odd number    }
+      seed_val := (time.l0 or time.l1);         { Random number }
+      get_seed := (seed_val or $00000001);      { Odd number    }
     end;
+*)
+begin
+randomize;
+get_seed := system.randseed
+end;
  
 
 { returns true if there is a line of sight from [y1,x1] to [y2,x2] -jeb }
 { NOTE:  THIS ROUTINE IS NOT AT ALL EVEN A LITTLE BIT DEBUGGED OR TESTED}
 { But it has lasted awhile without complaint.... -RLG}
-[psect(misc4$code)] function clear_path(y1,x1,y2,x2 : integer) : boolean;
+function clear_path(y1,x1,y2,x2 : integer) : boolean;
       var 
         i3		  : integer;  {loop counter                }
         i1,i2  		  : integer;  {current place under scrutiny}
-	r1,r2		  : real;     {real equivalents of i1,i2   }	
 	dist		  : real;     {distance from pos1 to pos2  }
 	x_vector,y_vector : real;     {amount to move per step     }
       begin
@@ -46,19 +51,24 @@
       end;
 
 { Centers a string within a #field length character string }
-[psect(misc1$code)] function fill_str (p1 : vtype; field : integer) : vtype;
+function fill_str (p1 : vtype; field : integer) : vtype;
+(*
       var
         s1 	: vtype;
         i1,i2	: integer;
       BEGIN
         s1 := '';
-        i1 := trunc(length(p1) / 2);
+        i1 := length(p1) div 2;
 	i2 := field div 2;
         fill_str := substr(pad(s1,' ',i2-i1) + pad(p1,' ',field),1,field);
       END;
+*)
+begin
+fill_str := strutils.padcenter(p1, field)
+end;
  
 { An often needed function.  Returns the Lesser of two integers }
-[psect(misc4$code)] function lesser(a,b : integer) : integer;
+function lesser(a,b : integer) : integer;
    begin
      if (a >= b) then
        lesser := b
@@ -67,7 +77,7 @@
    end;
 
 { Returns the Greater of two integers. }
-[psect(misc4$code)] function greater(a,b : integer) : integer;
+function greater(a,b : integer) : integer;
    begin
      if (a >= b) then
        greater := a
@@ -77,18 +87,18 @@
 
 
 { Routine that draws the bus.  See also 'take_bus' in train.inc }
-[psect(misc4$code)] procedure draw_the_bus;
+procedure draw_the_bus;
 var
 	str  :  vtype;
 	f1   :  text;
 	i1   : integer;
 BEGIN
-  open (f1,file_name:=BUS_PIC,record_length:=80,history:=old,error:=continue);
+  assign(f1, BUS_PIC);
   reset(f1);
-  if (status(f1) <> 0) then
+  if IOResult <> 0 then
     begin
-      writev(str,'You endure a long bus ride and arrive in ',
-		   townlist[town_num].town_name);
+      str := 'You endure a long bus ride and arrive in ' + 
+        townlist[town_num].town_name;
       msg_print(str);
     end
   else
@@ -106,40 +116,27 @@ BEGIN
 END;
 
 { Computes current weight limit }
-[psect(misc4$code)] function weight_limit : integer;
+function weight_limit : integer;
    begin
      weight_limit := lesser(3000, py.stat.cstr*player_weight_cap + py.misc.wt);
    end;
  
 { Returns the day number; 1=Sunday...7=Saturday }
-[psect(setup$code)] function day_num : integer;
-    var
-        i1       : integer;
-    [external(LIB$DAY)] function getday(
-        var daynum       : integer;
-        dum1      : integer := %immed 0;
-        dum2      : integer := %immed 0) : integer;
-        external;
+function day_num : integer;
     begin
-      getday(i1);
-      day_num := ((i1+3) mod 7) + 1;
+      day_num := dateutils.dayoftheweek(sysutils.date)
     end;
  
  
 { Returns the hour number; 0=midnight...23=11 PM }
-[psect(setup$code)] function hour_num : integer;
-    var
-        hour : integer;
-        time_str : packed array [1..11] of char;
+function hour_num : integer;
     begin
-      time(time_str);
-      readv(substr(time_str,1,2),hour);
-      hour_num := hour;
+      hour_num := dateutils.houroftheday(sysutils.time)
     end;
  
  
 { Check the day-time strings to see if open }
-[psect(setup$code)] function check_time : boolean;
+function check_time : boolean;
     begin
       case days[day_num,(hour_num+5)] of
         '.'  :  check_time := false;    { Closed }
@@ -150,15 +147,22 @@ END;
  
  
 { Generates a random integer x where 1<=X<=MAXVAL }
-  function randint ( %immed maxval : integer ) : integer;
-        external;
+  function randint ( maxval : longword ) : longword;
+  begin
+  randint := random(maxval) + 1
+  end;
  
-  function rand_rep ( %immed num : integer; %immed die : integer ) : integer;
-        external;
- 
+  function rand_rep ( num : integer; die : integer ) : longword;
+  var
+    i : byte;
+  begin
+  rand_rep := num;
+  for i := 1 to num do
+    rand_rep += random(die)
+  end;
  
 { Generates a random integer number of NORMAL distribution }
-[psect(misc1$code)] function randnor(mean,stand : integer) : integer;
+function randnor(mean,stand : integer) : integer;
     begin
       randnor :=  trunc(sqrt(-2.0*ln(randint(9999999)/10000000.0))*
                   cos(6.283*(randint(9999999)/10000000.0))*stand) + mean;
@@ -166,12 +170,24 @@ END;
  
  
 { Returns position of first set bit }
-  function bit_pos ( %ref  test : unsigned ) : integer;
-        external;
- 
+  function bit_pos ( var test : longword ) : integer;
+  var bit : longword;
+      f : byte;
+  begin
+  bit := 1;
+  for f := 1 to 32 do
+    if bit and test = bit then
+      begin
+      test := test and (not bit);
+      exit(f)
+      end
+    else
+      bit := bit shl 1;
+  bit_pos := 0
+  end;
  
 { Checks a co-ordinate for in bounds status }
-[psect(misc1$code)] function in_bounds(y,x : integer) : boolean;
+function in_bounds(y,x : integer) : boolean;
     begin
       if ((y > 1) and (y < cur_height) and
           (x > 1) and (x < cur_width)) then
@@ -182,16 +198,24 @@ END;
  
  
 { Distance between two points }
-  function distance (
-                      %immed y1       : integer;
-                      %immed x1       : integer;
-                      %immed y2       : integer;
-                      %immed x2       : integer  ) : integer;
-        external;
- 
+  function distance (y1, x1, y2, x2 : integer) : integer;
+  { Implemented as described by comment in distance.mar -MB }
+  var
+    dx, dy, min_x_y : integer;
+  begin
+  dy := abs(y1-y2);
+  dx := abs(x1-x2);
+  if dx < dy then
+    min_x_y := dx
+  else
+    min_x_y := dy;
+  distance := (2 * (dy + dx) - min_x_y) div 2
+  //XXX: maybe try this instead for better results? -MB
+  //distance := vrltools.distance(x1, y1, x2, y2)
+  end;
  
 { Checks points north, south, east, and west for a type }
-[psect(misc1$code)] function next_to4 ( y,x : integer; group_set : obj_set ) : integer;
+function next_to4 ( y,x : integer; group_set : obj_set ) : integer;
     var
         i1 : integer;
     begin
@@ -213,7 +237,7 @@ END;
  
  
 { Checks all adjacent spots for elements }
-[psect(misc1$code)] function next_to8 (
+function next_to8 (
                         y,x : integer;
                         group_set : obj_set ) : integer;
     var
@@ -230,7 +254,7 @@ END;
  
  
 { Link all free space in treasure list together }
-[psect(generate$code)] procedure tlink;
+procedure tlink;
       var
         i1 : integer;
       begin
@@ -244,7 +268,7 @@ END;
  
  
 { Link all free space in monster list together }
-[psect(generate$code)] procedure mlink;
+procedure mlink;
       var
         i1 : integer;
       begin
@@ -260,7 +284,7 @@ END;
  
  
 { Initializes M_LEVEL array for use with PLACE_MONSTER }
-[psect(setup$code)] procedure init_m_level;
+procedure init_m_level;
     var
         i1,i2,i3 : integer;
     begin
@@ -282,7 +306,7 @@ END;
  
  
 { Initializes T_LEVEL array for use with PLACE_OBJECT }
-[psect(setup$code)] procedure init_t_level;
+procedure init_t_level;
     var
         i1,i2 : integer;
     begin
@@ -301,7 +325,8 @@ END;
     end;
  
  { Adjust prices of objects }
-  procedure price_adjust;
+ { Modified to take cost_adj as parameter removing it from constants. -MB}
+  procedure price_adjust(cost_adj : single);
     var
         i1 : integer;
     begin
@@ -316,22 +341,21 @@ END;
  
 { Converts input string into a dice roll
   Normal input string will look like '2d6', '3d8'... ect. }
-[psect(misc1$code)] function damroll(dice : dtype) : integer;
+function damroll(dice : dtype) : integer;
     var
-        i1,num,sides : integer;
+      i : byte;
     begin
-      for i1 := 1 to length(dice) do
-        if (dice[i1] = 'd') then
-          dice[i1] := ' ';
-      num := 0;
-      sides := 0;
-      readv(dice,num,sides,error:=continue);
-      damroll := rand_rep(num,sides);
+    i := pos('d', dice);
+    damroll := rand_rep
+      (
+      strtoint(copy(dice,1,i-1)),
+      strtoint(copy(dice,i+1,length(dice)-i))
+      )
     end;
  
  
 { Returns true if no obstructions between two given points }
-[psect(misc1$code)] function los(y1,x1,y2,x2 : integer) : boolean;
+function los(y1,x1,y2,x2 : integer) : boolean;
     var
         ty,tx,stepy,stepx,p1,p2 : integer;
         slp,tmp : real;
@@ -392,7 +416,7 @@ END;
  
  
 { Returns symbol for given row, column }
-[psect(misc5$code)] procedure loc_symbol(y,x : integer; var sym : char);
+procedure loc_symbol(y,x : integer; var sym : char);
     Begin
       with cave[y,x] do
         if ((cptr = 1) and (not(find_flag))) then
@@ -405,20 +429,20 @@ END;
               if (t_list[tptr].tval <> 109) then
 		sym := t_list[tptr].tchar
 	      else if (wall_flag) then
-	        sym := wall_chr[(dun_level mod 10) +1]
+	        sym := wall_chr[(abs(dun_level) mod 10) +1]
 	      else 
 	        sym := '#'
             else if (fval < 10) then
               sym := '.'
             else if (wall_flag) then
-	      sym := wall_chr[(dun_level mod 10) +1]
+	      sym := wall_chr[(abs(dun_level) mod 10) +1]
 	    else
 	      sym := '#';
             if (cptr > 1) then
               begin
                 with m_list[cptr] do
                   if ((ml) and
-                      ((uand(c_list[mptr].cmove,%X'00010000') = 0) or
+                      (((c_list[mptr].cmove and $00010000) = 0) or
                        (py.flags.see_inv))) then
                     sym := c_list[mptr].cchar
               end;
@@ -427,7 +451,7 @@ END;
  
  
 { Tests a spot for light or field mark status }
-[psect(misc1$code)] function test_light(y,x : integer) : boolean;
+function test_light(y,x : integer) : boolean;
     begin
       with cave[y,x] do
         if ((pl) or (fm) or (tl)) then
@@ -438,14 +462,13 @@ END;
  
  
 { Prints the map of the dungeon }
-[psect(misc2$code)] procedure prt_map;
+procedure prt_map;
     var
         i1,i2,i3,i4,i5,ypos,xpos,isp   : integer;
         floor_str       : vtype;
         tmp_char : char;
         flag     : boolean;
     begin
-      redraw := false;  { Screen has been redrawn   }
       i3 := 1;          { Used for erasing dirty lines  }
       i4 := 14;         { Erasure starts in this column }
       for i1 := panel_row_min to panel_row_max do       { Top to bottom }
@@ -514,11 +537,12 @@ END;
  
  
 { Compact monsters }
-[psect(misc2$code)] procedure compact_monsters;
+procedure compact_monsters;
     var
         i1,i2,i3,ctr,cur_dis : integer;
         delete_1,delete_any  : boolean;
     begin
+      ctr := 0; //XXX: guesswork
       cur_dis := 66;
       delete_any := false;
       repeat
@@ -553,7 +577,7 @@ END;
  
  
 { Returns a pointer to next free space }
-[psect(misc3$code)] procedure popm(var x : integer);
+procedure popm(var x : integer);
     begin
       if (mfptr < 1) then compact_monsters;
       x := mfptr;
@@ -562,7 +586,7 @@ END;
  
  
 { Pushs a record back onto free space list }
-[psect(misc3$code)] procedure pushm(x : integer);
+procedure pushm(x : integer);
     begin
       m_list[x] := blank_monster;
       m_list[x].nptr := mfptr;
@@ -571,21 +595,20 @@ END;
  
  
 { Gives Max hit points }
-[psect(misc3$code)] function max_hp(hp_str : dtype) : integer;
+function max_hp(hp_str : dtype) : integer;
     var
-        i1,num,die : integer;
+      i : byte;
     begin
-      for i1 := 1 to length(hp_str) do
-        if (hp_str[i1] = 'd') then
-          hp_str[i1] := ' ';
-      readv(hp_str,num,die);
-      max_hp := num*die;
+    i := pos('d', hp_str);
+    max_hp :=
+      strtoint(copy(hp_str,1,i-1)) *
+      strtoint(copy(hp_str,i+1,length(hp_str)-i))
     end;
  
  
 { Put varying monster info from creature list into monster list.}
 { The procedure is called bungi because he was there......  -RLG}
-[psect(misc3$code)] procedure bungi(y,x,z,cur_pos : integer);
+procedure bungi(y,x,z,cur_pos : integer);
     Begin
       with m_list[cur_pos] do       
         begin
@@ -594,7 +617,7 @@ END;
           mptr := z;
           nptr := muptr;
           muptr := cur_pos;
-          if (uand(c_list[z].cdefense,%X'4000') <> 0) then
+          if ((c_list[z].cdefense and $4000) <> 0) then
             hp := max_hp(c_list[z].hd)
           else
             hp := damroll(c_list[z].hd);
@@ -606,9 +629,9 @@ END;
     End;
 
 { Places a monster at given location }
-[psect(misc3$code)] procedure place_monster(y,x,z : integer; slp : boolean);
+procedure place_monster(y,x,z : integer; slp : boolean);
     var
-        i1,cur_pos : integer;
+        cur_pos : integer;
     begin
       popm(cur_pos);
       bungi(y,x,z,cur_pos);
@@ -623,7 +646,7 @@ END;
     end;
 
 { Places a policeman on town level. }
-[psect(misc3$code)] procedure place_policeman(y1,x1,cop_num: integer);
+procedure place_policeman(y1,x1,cop_num: integer);
     var
       y,x,z,cur_pos : integer;
     begin
@@ -643,10 +666,10 @@ END;
     end;
  
 { Places multiplying/reproducing monster at given location. -RLG}
-[psect(misc3$code)] procedure place_mult_monster(y,x,z,repro : integer; 
+procedure place_mult_monster(y,x,z,repro : integer; 
 						         slp : boolean);
     var
-        i1,cur_pos : integer;
+        cur_pos : integer;
     Begin
       popm(cur_pos);
       bungi(y,x,z,cur_pos);
@@ -660,7 +683,7 @@ END;
         end
     End;
 
-[psect(misc3$code)] procedure get_random_location(var y,x : integer);
+procedure get_random_location(var y,x : integer);
       Begin
         repeat
           y := randint(cur_height-2)+1;
@@ -672,7 +695,7 @@ END;
       End;
 
 { Places badguy at random location. -RLG}
-[psect(misc3$code)] procedure place_badguy_monster(monster : integer);
+procedure place_badguy_monster(monster : integer);
       VAR
         cur_pos,y,x,z: integer;
       BEGIN
@@ -689,7 +712,7 @@ END;
       END;
  
 { Places the Boss at random location }
-[psect(misc3$code)] procedure place_the_boss;
+procedure place_the_boss;
       var
           cur_pos,y,x,z : integer;
       Begin
@@ -706,11 +729,11 @@ END;
  
  
 { Allocates a random monster }
-[psect(misc3$code)] procedure alloc_monster(alloc_set : obj_set;
+procedure alloc_monster(alloc_set : obj_set;
                           num,dis : integer;
                           slp : boolean );
     var
-        y,x,a,b,i1,i2,i3 : integer;
+        y,x,i1,i2,i3 : integer;
     begin
       for i1 := 1 to num do
         begin
@@ -742,7 +765,7 @@ END;
  
  
 { Places creature adjacent to given location }
-[psect(misc3$code)] function summon_monster(
+function summon_monster(
                                 var y,x : integer;
                                 slp     : boolean  ) : boolean;
     var
@@ -750,7 +773,7 @@ END;
     begin
       summon_monster := false;
       i1 := 0;
-      i5 := dun_power - mon$summon_adj;
+      i5 := dun_power - monXsummon_adj;
       if (i5 < 1) then
         i4 := 1
       else if (i5 > max_mons_level) then
@@ -782,7 +805,7 @@ END;
  
  
 { Places undead adjacent to given location }
-[psect(misc3$code)] function summon_undead(var y,x : integer) : boolean;
+function summon_undead(var y,x : integer) : boolean;
     var
         i1,i2,i3,i4,i5,ctr      : integer;
     begin
@@ -793,7 +816,7 @@ END;
         i5 := randint(i4) + m_level[0];
         ctr := 0;
         repeat
-          if (uand(c_list[i5].cdefense,%X'0008') <> 0) then
+          if ((c_list[i5].cdefense and $0008) <> 0) then
             begin
               ctr := 20;
               i4  := 0;
@@ -828,7 +851,7 @@ END;
  
  
 { If too many objects on floor level, delete some of them   }
-[psect(misc2$code)] procedure compact_objects;
+procedure compact_objects;
     var
         i1,i2,ctr,cur_dis : integer;
         flag       : boolean;
@@ -871,9 +894,7 @@ END;
  
  
 { Gives pointer to next free space  }
-[psect(misc4$code)] procedure popt(var x : integer);
-    var
-        i1 : integer;
+procedure popt(var x : integer);
     begin
       if (tcptr < 1) then compact_objects;
       x := tcptr;
@@ -882,7 +903,7 @@ END;
  
  
 { Pushs a record back onto free space list  }
-[psect(misc4$code)] procedure pusht(x : integer);
+procedure pusht(x : integer);
     begin
       t_list[x] := blank_treasure;
       t_list[x].p1 := tcptr;
@@ -891,7 +912,7 @@ END;
  
  
 { Order the treasure list by level  }
-[psect(setup$code)] procedure sort_objects;
+procedure sort_objects;
     var
         i1,i2,i3,gap     : integer;
         tmp       : treasure_type;
@@ -922,7 +943,7 @@ END;
  
  
 {places a trap at a given location}
-[psect(misc4$code)] procedure place_trap(y,x,typ,subval : integer);
+procedure place_trap(y,x,typ,subval : integer);
     var
         cur_pos   : integer;
         cur_trap  : treasure_type;
@@ -941,7 +962,7 @@ END;
  
  
 { Places rubble at location y,x }
-[psect(misc4$code)] procedure place_rubble(y,x : integer);
+procedure place_rubble(y,x : integer);
     var
         cur_pos   : integer;
     begin
@@ -955,7 +976,7 @@ END;
     end;
  
  
-[psect(misc4$code)] procedure place_open_door(y,x : integer);
+procedure place_open_door(y,x : integer);
     var
         cur_pos   : integer;
   begin
@@ -970,7 +991,7 @@ END;
   end;
  
  
-[psect(misc4$code)] procedure place_broken_door(y,x : integer);
+procedure place_broken_door(y,x : integer);
     var
         cur_pos   : integer;
   begin
@@ -986,7 +1007,7 @@ END;
   end;
  
  
-[psect(misc4$code)] procedure place_closed_door(y,x : integer);
+procedure place_closed_door(y,x : integer);
     var
         cur_pos   : integer;
   begin
@@ -1001,7 +1022,7 @@ END;
   end;
  
  
-[psect(misc4$code)] procedure place_locked_door(y,x : integer);
+procedure place_locked_door(y,x : integer);
     var
         cur_pos   : integer;
   begin
@@ -1017,7 +1038,7 @@ END;
   end;
  
  
-[psect(misc4$code)] procedure place_stuck_door(y,x : integer);
+procedure place_stuck_door(y,x : integer);
     var
         cur_pos   : integer;
   begin
@@ -1033,7 +1054,7 @@ END;
   end;
  
  
-[psect(misc4$code)] procedure place_secret_door(y,x : integer);
+procedure place_secret_door(y,x : integer);
     var
         cur_pos   : integer;
   begin
@@ -1048,9 +1069,7 @@ END;
   end;
  
  
-[psect(misc4$code)] procedure place_door(y,x : integer);
-    var
-        cur_pos   : integer;
+procedure place_door(y,x : integer);
   begin
     case randint(3) of
       1 : case randint(4) of
@@ -1069,7 +1088,7 @@ END;
  
  
 { Place an up staircase at given y,x    }
-[psect(misc4$code)] procedure place_up_stairs(y,x : integer);
+procedure place_up_stairs(y,x : integer);
     var
         cur_pos,i3    : integer;
     begin
@@ -1091,7 +1110,7 @@ END;
     end;
  
 { Place a down staircase at given y,x   }
-[psect(misc4$code)] procedure place_down_stairs(y,x : integer);
+procedure place_down_stairs(y,x : integer);
     var
         cur_pos,i3   	 : integer;
     begin
@@ -1113,7 +1132,7 @@ END;
     end;
  
 { Places a staircase 1=up, 2=down   }
-[psect(misc4$code)] procedure place_stairs(typ,num,walls : integer);
+procedure place_stairs(typ,num,walls : integer);
     var
         i1,i2,y1,x1,y2,x2 : integer;
         flag       : boolean;
@@ -1155,7 +1174,7 @@ END;
  
  
 { Places a treasure (Gold or Gems) at given row, column }
-[psect(misc4$code)] procedure place_gold(y,x : integer);
+procedure place_gold(y,x : integer);
     var
         cur_pos,i1       : integer;
     begin
@@ -1173,7 +1192,7 @@ END;
  
  
 { Returns the array number of a random object   }
-[psect(misc4$code)] function get_obj_num(level : integer) : integer;
+function get_obj_num(level : integer) : integer;
     var
         i1      : integer;
     begin
@@ -1188,12 +1207,12 @@ END;
  
 
 { Pre-declaration. Code located in TREASURE.INC }
-[psect(misc4$code)] procedure magic_treasure(var item  : treasure_type;
+procedure magic_treasure(var item  : treasure_type;
 						 power :       integer); 
   forward;
 
 { Places an object at given row, column co-ordinate }
-[psect(misc4$code)] procedure place_object(y,x : integer);
+procedure place_object(y,x : integer);
     var
         cur_pos  : integer;
     begin
@@ -1205,7 +1224,7 @@ END;
  
  
 { Allocates an object for tunnels and rooms }
-[psect(misc4$code)] procedure alloc_object(alloc_set : obj_set;
+procedure alloc_object(alloc_set : obj_set;
 					   typ,num   : integer);
     var
         i1,i2,i3  : integer;
@@ -1229,7 +1248,7 @@ END;
  
  
 { Creates objects nearby the coordinates given  }
-[psect(misc4$code)] procedure random_object(y,x,num : integer);
+procedure random_object(y,x,num : integer);
     var
         i1,i2,i3  : integer;
     begin
@@ -1256,7 +1275,7 @@ END;
  
  
 { Converts stat num into string }
-[psect(misc5$code)] procedure cnv_stat  (
+procedure cnv_stat  (
                         stat        : byteint;
                         var out_val : stat_type
                                         );
@@ -1268,43 +1287,44 @@ END;
         begin
           part1 := 18;
           part2 := stat - 18;
-          writev(tmp_str,part1:2,'/',part2:1);
+          tmp_str := inttostr(part1) + '/' + inttostr(part2)
         end
       else
-        writev(tmp_str,stat:2);
-      if (length(tmp_str) < 6) then tmp_str := pad(tmp_str,' ',6);
+        tmp_str := inttostr(stat);
+      if (length(tmp_str) < 6) then 
+        tmp_str := strutils.padright(tmp_str, 6);
       out_val := tmp_str;
     end;
  
  
 { Print character info in given row, column }
-[psect(misc5$code)] procedure prt_field(info : vtype; row,column : integer);
+procedure prt_field(info : vtype; row,column : integer);
 
       begin
-        put_buffer(pad(info,' ',14),row,column);
+        put_buffer(strutils.padright(info, 14),row,column)
       end;
  
  
 { Print number with header at given row, column }
-[psect(misc5$code)] procedure prt_num   ( header   	 : vtype;
+procedure prt_num   ( header   	 : vtype;
 					  num,row,column : integer);
       var
                 out_val   : vtype;
       begin
-        writev(out_val,header,num:1,' ');
-        put_buffer(out_val,row,column);
+        out_val := header + inttostr(num) + ' ';
+        put_buffer(out_val,row,column)
       end;
 
  
 { Print character stat in given row, column }
-[psect(misc5$code)] procedure prt_stat  ( stat_name   :   vtype;
+procedure prt_stat  ( stat_name   :   vtype;
 					  stat        : byteint;
 					  row,column  : integer);
-      var
+      { var
                 stat_val  : stat_type;
-                out_val   : vtype;
+                out_val   : vtype; }
       begin
-        prt_num(stat_name,stat,row,column);
+        prt_num(stat_name,stat,row,column)
 
        { cnv_stat(stat,stat_val);
          out_val := stat_name + stat_val;  ((the old system....))
@@ -1314,7 +1334,7 @@ END;
  
  
 { prints game time in stat block. --jeb}
-[psect(misc5$code)] procedure prt_time;
+procedure prt_time;
 	var
           hours   : integer;
 	  minutes : integer;
@@ -1331,21 +1351,21 @@ END;
 	      5: weekday := 'FRI';
 	      6: weekday := 'SAT';
 	  end;
-	  writev(out_val,weekday,day:3,' ');
+	  out_val := weekday + padleft(inttostr(day), 3) + ' ';
 	  minutes := (turn mod 720) div 12;
 	  hours := turn div 720;
 	  if (hours < 10) then
 	    out_val := out_val + '0';	    
-	  writev(str,out_val,hours:1,':');
+	  str := out_val + inttostr(hours) + ':';
 	  if (minutes < 10) then
 	    str := str + '0';
-	  writev(out_val,str,minutes:1);
+	  out_val := str + inttostr(minutes);
 	  put_buffer(out_val,23,1)
   END;
 
 
 {Decrease py.flags after mass turn increment - RLG}
-[psect(misc2$code)] procedure zero_pyflag;
+procedure zero_pyflag;
      
      BEGIN		   
        with py.flags do
@@ -1373,7 +1393,7 @@ END;
      END;
 
 { Adjustment for wisdom }
-[psect(misc2$code)] function wis_adj : integer;
+function wis_adj : integer;
     begin
       if (py.stat.cwis > 49) then
         wis_adj := 10
@@ -1401,7 +1421,7 @@ END;
  
  
 { adjustment for intellegence   }
-[psect(misc2$code)] function int_adj : integer;
+function int_adj : integer;
     begin
       if (py.stat.cint > 49) then
         int_adj := 10
@@ -1429,7 +1449,7 @@ END;
  
  
 { Adjustment for charisma }
-[psect(misc2$code)] function chr_adj : integer;
+function chr_adj : integer;
     begin
       if (py.stat.cchr > 49) then
         chr_adj := 10
@@ -1456,7 +1476,7 @@ END;
     end;
  
 { Charisma adjustment for buy/sell prices  -RLG }                      
-[psect(misc2$code)] function chr_padj : real;  
+function chr_padj : real;  
     begin
        if (py.stat.cchr > 49) then
          chr_padj := -0.20
@@ -1489,7 +1509,7 @@ END;
     end;
  
 { Returns a character's adjustment to hit points    }
-[psect(misc2$code)] function con_adj : integer;
+function con_adj : integer;
   begin
     with py.stat do
       if      (ccon <   4) then con_adj := -3
@@ -1510,58 +1530,56 @@ END;
  
  
 { Calculates hit points for each level that is gained.  }
-[psect(misc2$code)] function get_hitdie : integer;
-    var
-        i1      : integer;
+function get_hitdie : integer;
     begin
       get_hitdie := randint(py.misc.hitdie) + con_adj;
     end;
  
  
 { Prints title of character }
-[psect(misc5$code)] procedure prt_title;
+procedure prt_title;
     begin
       prt_field(py.misc.title,5,stat_column);
     end;
  
  
 { Prints strength   }
-[psect(misc5$code)] procedure prt_strength;
+procedure prt_strength;
     begin
       prt_stat('',py.stat.cstr,7,stat_column+6);
     end;
  
  
 { Prints intelligence   }
-[psect(misc5$code)] procedure prt_intelligence;
+procedure prt_intelligence;
     begin
       prt_stat('',py.stat.cint,8,stat_column+6);
     end;
  
  
 { Prints wisdom }
-[psect(misc5$code)] procedure prt_wisdom;
+procedure prt_wisdom;
     begin
       prt_stat('',py.stat.cwis,9,stat_column+6);
     end;
  
  
 { Prints dexterity  }
-[psect(misc5$code)] procedure prt_dexterity;
+procedure prt_dexterity;
     begin
       prt_stat('',py.stat.cdex,10,stat_column+6);
     end;
  
  
 { Prints constitution   }
-[psect(misc5$code)] procedure prt_constitution;
+procedure prt_constitution;
     begin
       prt_stat('',py.stat.ccon,11,stat_column+6);
     end;
  
  
 { Prints charisma   }
-[psect(misc5$code)] procedure prt_charisma;
+procedure prt_charisma;
     begin
       prt_stat('',py.stat.cchr,12,stat_column+6);
     end;
@@ -1569,14 +1587,14 @@ END;
  
  
 { Prints level  }
-[psect(misc5$code)] procedure prt_level;
+procedure prt_level;
     begin
       prt_num( '',py.misc.lev,14,stat_column+6);
     end;
  
  
 { Prints players current (a real number...) and max mana points }
-[psect(misc1$code)] procedure prt_mana;
+procedure prt_mana;
 var mwkdiv : real;
     indx   : integer;
 begin
@@ -1594,47 +1612,47 @@ end;
  
  
 { Prints Max hit points }
-[psect(misc5$code)] procedure prt_mhp;
+procedure prt_mhp;
     begin
       prt_num( '',py.misc.mhp,17,stat_column+6);
     end;
  
  
 { Prints players current hit points (a real number...)  }
-[psect(misc1$code)] procedure prt_chp;
+procedure prt_chp;
     begin
       prt_num( '',trunc(py.misc.chp),16,stat_column+6);
     end;
  
  
 { prints current AC }
-[psect(misc5$code)] procedure prt_pac;
+procedure prt_pac;
     begin
       prt_num( '',py.misc.dis_ac,19,stat_column+6);
     end;
  
  
 { Prints current gold   }
-[psect(misc5$code)] procedure prt_gold;
+procedure prt_gold;
     begin
       prt_num( '',py.misc.au,20,stat_column+6);
     end;
  
 { Prints current weight   }
-[psect(misc5$code)] procedure prt_cur_weight;
+procedure prt_cur_weight;
     begin
       prt_num( '',inven_weight,21,stat_column+6);
     end;
  
 { Prints weight capacity }
-[psect(misc5$code)] procedure prt_max_weight;
+procedure prt_max_weight;
     begin
       max_weight:=weight_limit;
       prt_num( '',max_weight,22,stat_column+6);
     end;
  
 { Prints depth in stat area }
-[psect(misc5$code)] procedure prt_depth;
+procedure prt_depth;
       var
                 depths  : vtype;
                 depth   : integer;
@@ -1646,38 +1664,38 @@ end;
         else
 	  begin
             depth := dun_level*50;
-            writev(depths,'Depth: ',depth:1,' (meters)');
+            depths := 'Depth: ' + inttostr(depth) + ' (meters)'
 	  end;
-        prt(depths,24,60);
+        prt(depths,24,60)
       end;
  
  
 { Prints status of hunger   }
-[psect(misc5$code)] procedure prt_hunger;
+procedure prt_hunger;
     begin
-      if (uand(%X'000002',py.flags.status) <> 0) then
+      if (($000002 and py.flags.status) <> 0) then
         put_buffer('Weak    ',24,1)
-      else if (uand(%X'000001',py.flags.status) <> 0) then
+      else if (($000001 and py.flags.status) <> 0) then
         put_buffer('Hungry  ',24,1)
       else
-        put_buffer('        ',24,1);
+        put_buffer('        ',24,1)
     end;
  
  
 { Prints Blind status   }
-[psect(misc5$code)] procedure prt_blind;
+procedure prt_blind;
     begin
-      if (uand(%X'000004',py.flags.status) <> 0) then
+      if (($000004 and py.flags.status) <> 0) then
         put_buffer('Blind  ',24,9)
       else
-        put_buffer('       ',24,9);
+        put_buffer('       ',24,9)
     end;
  
  
 { Prints Confusion status   }
-[psect(misc5$code)] procedure prt_confused;
+procedure prt_confused;
     begin
-      if (uand(%X'000008',py.flags.status) <> 0) then
+      if (($000008 and py.flags.status) <> 0) then
         put_buffer('Confused  ',24,16)
       else
         put_buffer('          ',24,16);
@@ -1685,9 +1703,9 @@ end;
  
  
 { Prints Fear status    }
-[psect(misc5$code)] procedure prt_afraid;
+procedure prt_afraid;
     begin
-      if (uand(%X'000010',py.flags.status) <> 0) then
+      if (($000010 and py.flags.status) <> 0) then
         put_buffer('Afraid  ',24,26)
       else
         put_buffer('        ',24,26);
@@ -1695,9 +1713,9 @@ end;
  
  
 { Prints Poisoned status }
-[psect(misc5$code)] procedure prt_poisoned;
+procedure prt_poisoned;
     begin
-      if (uand(%X'000020',py.flags.status) <> 0) then
+      if (($000020 and py.flags.status) <> 0) then
         put_buffer('Poisoned  ',24,34)
       else
         put_buffer('          ',24,34);
@@ -1705,9 +1723,9 @@ end;
  
  
 { Prints Searching status   }
-[psect(misc5$code)] procedure prt_search;
+procedure prt_search;
     begin
-      if (uand(%X'000100',py.flags.status) <> 0) then
+      if (($000100 and py.flags.status) <> 0) then
         put_buffer('Searching  ',24,44)
       else
         put_buffer('           ',24,44);
@@ -1715,9 +1733,9 @@ end;
  
  
 { Prints Resting status }
-[psect(misc5$code)] procedure prt_rest;
+procedure prt_rest;
     begin
-      if (uand(%X'000200',py.flags.status) <> 0) then
+      if (($000200 and py.flags.status) <> 0) then
         put_buffer('Resting    ',24,44)
       else
         put_buffer('           ',24,44);
@@ -1725,14 +1743,14 @@ end;
  
  
 { Prints winner status on display   }
-[psect(misc5$code)] procedure prt_winner;
+procedure prt_winner;
     begin
       put_buffer('*Winner*',23,1);
     end;
  
  
 { Increases a stat by one randomized level  }
-[psect(misc2$code)] function in_statp(stat : byteint) : byteint;
+function in_statp(stat : byteint) : byteint;
     begin
       if (stat < 35) then
         stat := stat + 1
@@ -1742,7 +1760,7 @@ end;
     end;
  
 { Decreases a stat by one randomized level  }
-[psect(misc2$code)] function de_statp(stat : byteint) : byteint;
+function de_statp(stat : byteint) : byteint;
     begin
       if (stat > 34) then
         begin
@@ -1756,7 +1774,7 @@ end;
     end;
  
 { Increases a stat by one true level    }
-[psect(misc2$code)] function in_statt(stat : byteint) : byteint;
+function in_statt(stat : byteint) : byteint;
     begin
       if (stat < 50) then
         stat := stat + 1;
@@ -1765,7 +1783,7 @@ end;
  
  
 { Decreases a stat by true level    }
-[psect(misc2$code)] function de_statt(stat : byteint) : byteint;
+function de_statt(stat : byteint) : byteint;
     begin
       if (stat > 3) then
         stat := stat - 1;
@@ -1774,7 +1792,7 @@ end;
  
  
 { Returns a character's adjustment to hit.  }
-[psect(misc2$code)] function tohit_adj : integer;
+function tohit_adj : integer;
   var
         total     : integer;
   begin
@@ -1806,7 +1824,7 @@ end;
  
  
 { Returns a character's adjustment to armor class   }
-[psect(misc2$code)] function toac_adj : integer;
+function toac_adj : integer;
   begin
     with py.stat do
       if      (cdex <   4) then toac_adj :=  -4
@@ -1826,7 +1844,7 @@ end;
  
  
 { Returns a character's adjustment to disarm    }
-[psect(misc2$code)] function todis_adj : integer;
+function todis_adj : integer;
   begin
     with py.stat do
       if      (cdex <   4) then todis_adj :=  -8
@@ -1847,7 +1865,7 @@ end;
  
  
 { Returns a character's adjustment to damage    }
-[psect(misc2$code)] function todam_adj : integer;
+function todam_adj : integer;
   begin
     with py.stat do
       if      (cstr <   4) then todam_adj := -2
@@ -1867,12 +1885,12 @@ end;
  
  
 { Pre-declaration of PRT_EXPERIENCE }
-[psect(misc5$code)] procedure prt_experience;
+procedure prt_experience;
         forward;
  
  
 { Prints character-screen info  }
-[psect(misc5$code)] procedure prt_stat_block;
+procedure prt_stat_block;
     VAR
      indx : integer;
      mwkdiv : real;
@@ -1910,25 +1928,27 @@ end;
       prt_num( 'MXWT: ',max_weight,          22,stat_column);
       prt_time;
       if (total_winner_num > 0) then prt_winner;
-      if (uand(%X'000003',py.flags.status) <> 0) then
+      if (($000003 and py.flags.status) <> 0) then
         prt_hunger;
-      if (uand(%X'000004',py.flags.status) <> 0) then
+      if (($000004 and py.flags.status) <> 0) then
         prt_blind;
-      if (uand(%X'000008',py.flags.status) <> 0) then
+      if (($000008 and py.flags.status) <> 0) then
         prt_confused;
-      if (uand(%X'000010',py.flags.status) <> 0) then
+      if (($000010 and py.flags.status) <> 0) then
         prt_afraid;
-      if (uand(%X'000020',py.flags.status) <> 0) then
+      if (($000020 and py.flags.status) <> 0) then
         prt_poisoned;
-      if (uand(%X'000100',py.flags.status) <> 0) then
+      if (($000100 and py.flags.status) <> 0) then
         prt_search;
-      if (uand(%X'000200',py.flags.status) <> 0) then
+      if (($000200 and py.flags.status) <> 0) then
         prt_rest;
+      if defeated_badguy then 
+        prt('Boss of this city has been defeated!',24,15)
     end;
  
  
 { Draws entire screen   }
-[psect(misc5$code)] procedure draw_cave;
+procedure draw_cave;
     begin
       clear(1,1);
       prt_stat_block;
@@ -1939,7 +1959,7 @@ end;
 [external] procedure cdclra( minlin,mincol,maxlin,maxcol : integer );
      external;
 
-[psect(misc5$code)] procedure clear_area(row1,col1,row2,col2 : integer );
+procedure clear_area(row1,col1,row2,col2 : integer );
   begin
 	cdclra( row1, col1, row2, col2 );
   end;
@@ -1948,14 +1968,14 @@ end;
 [external] procedure cdbox( lin1, col1, lin2, col2 : integer );
      external;
 
-[psect(misc5$code)] procedure draw_box( r1, c1, r2, c2 : integer );
+procedure draw_box( r1, c1, r2, c2 : integer );
   begin
 	cdbox( r1, c1, r2, c2 );
   end;
 }
 
 { Prints the following information on the screen.   }
-[psect(create$code)] procedure put_character;
+procedure put_character;
     begin
       clear(1,1);
       with py.misc do
@@ -1969,7 +1989,7 @@ end;
  
  
 { Prints the following information on the screen. }
-[psect(create$code)] procedure put_stats;
+procedure put_stats;
     begin
       with py do
         begin
@@ -1996,7 +2016,7 @@ end;
  
  
 { Returns a rating of x depending on y }
-[psect(create$code)] function likert(x,y,i1 : integer) : btype;
+function likert(x,y,i1 : integer) : btype;
       begin
         case i1 of
 	     1:	case trunc(x/y) of
@@ -2053,7 +2073,7 @@ end;
  
  
 { Prints age, height, weight, and SC }
-[psect(create$code)] procedure put_misc1;
+procedure put_misc1;
     begin
       with py do
         begin
@@ -2066,7 +2086,7 @@ end;
  
  
 { Prints the following information on the screen. }
-[psect(create$code)] procedure put_misc2;
+procedure put_misc2;
   
     var
         out_val     :     ctype;
@@ -2081,10 +2101,10 @@ end;
 	  
           prt_num('Experience : ',exp,10,54);
           prt_num('Needed Exp : ',trunc(player_exp[lev]*expfact),11,54);
-	  writev(out_val,'Hit Points : ',trunc(chp):1,'/',mhp:1);
+	  out_val := 'Hit Points : ' + inttostr(trunc(chp)) + '/' + inttostr(mhp);
           prt(out_val,12,54);
-	  writev(out_val,'Resources  : ',trunc(cmana):1,'/',mana:1);
-          prt(out_val,13,54);
+	  out_val := 'Resources  : ' + inttostr(trunc(cmana)) + '/' + inttostr(mana);
+          prt(out_val,13,54)
         end
     end;
  
@@ -2092,55 +2112,55 @@ end;
 { It's about time someone added this code!  The skill system is a complete
   mess and it's needed to be fixed since I got a hold of the code.  -RLG}
 
-[psect(misc2$code)] function xbth : integer;
+function xbth : integer;
    begin
      with py.misc do
        xbth := lesser(200, bth + lev*bth_lev_adj + ptohit*bth_plus_adj);
    end;
 
-[psect(misc2$code)] function xbthb : integer;
+function xbthb : integer;
    begin
      with py.misc do
        xbthb := lesser(200, bthb + lev*bth_lev_adj + ptohit*bth_plus_adj);
    end;
 
-[psect(misc2$code)] function xperc : integer;
+function xperc : integer;
    begin
      with py.misc do
        xperc  := lesser(200, perc + (lev div 2) + int_adj);
    end;
 
-[psect(misc2$code)] function xsrh : integer;
+function xsrh : integer;
    begin
      with py.misc do
        xsrh  := lesser(100, srh + (lev div 2) + int_adj);
    end;
 
-[psect(misc2$code)] function xstl : integer;
+function xstl : integer;
    begin
      with py.misc do
        xstl := lesser(10, stl + (py.misc.lev div 8));
    end;
 
-[psect(misc2$code)] function xdis : integer;
+function xdis : integer;
    begin
      with py.misc do
        xdis := lesser(100, disarm + (lev div 2) + 2*todis_adj);
    end;
 
-[psect(misc2$code)] function xsave : integer;
+function xsave : integer;
    begin
      with py.misc do
        xsave := lesser(100, save + (lev div 2) + wis_adj);
    end;
 
-[psect(misc2$code)] function xdev : integer;
+function xdev : integer;
    begin
      with py.misc do
        xdev := lesser(100, wierd + (lev div 2) + int_adj);
    end;
 
-[psect(misc2$code)] function xinfra : vtype;
+function xinfra : vtype;
    var
       out_val : vtype;
    begin
@@ -2151,14 +2171,14 @@ end;
 	 xinfra := '1 Meter'
        else
          begin
-           writev(out_val,py.flags.see_infra:1,' Meters');
-	   xinfra := out_val;
+           out_val := inttostr(py.flags.see_infra) + ' Meters';
+	   xinfra := out_val
 	 end;
    end;
 
 
 { Prints ratings on certain abilities }
-[psect(create$code)] procedure put_misc3;
+procedure put_misc3;
       var 
           i1 : integer;
       begin
@@ -2177,9 +2197,7 @@ end;
       end;
  
  { Used to display the character on the screen. }
-[psect(create$code)] procedure display_char;
-      var
-        dummy   : char;
+procedure display_char;
       begin
         put_character;
         put_misc1;
@@ -2189,7 +2207,7 @@ end;
       end;
  
  { Gets a name for the character }
-[psect(create$code)] procedure get_name;
+procedure get_name;
     begin
       prt('Enter your player''s name  [press <RETURN> when finished]',22,3);
       get_string(py.misc.name,3,11,24);
@@ -2197,7 +2215,7 @@ end;
     end;
  
 { Changes the name of the character }
-[psect(create$code)] procedure change_name;
+procedure change_name;
     var
         c       : char;
         flag    : boolean;
@@ -2210,18 +2228,17 @@ end;
         case ord(c) of
           99     : get_name;
           0,3,25,26,27  : flag := true;
-          otherwise;
-        end;
-      until (flag);
+          otherwise
+        end
+      until (flag)
     end;
  
  
-[psect(misc4$code)] procedure display_kill_list;
+procedure display_kill_list;
 
     VAR
 	i1,i2,total	: integer;
 	tmp		: array [1..52] of integer;
-	c_chr		: dtype;
 	out_val		: vtype;
     BEGIN
       clear(1,1);
@@ -2230,7 +2247,7 @@ end;
         tmp[i1] := 0;
       for i1 := 1 to max_creatures do
         begin
-	  i2 := index(alpha_set,c_list[i1].cchar);
+	  i2 := pos(c_list[i1].cchar, alpha_set);
 	  tmp[i2] := tmp[i2] + kill_list[i1];
 	  total := total + kill_list[i1];
 	end;
@@ -2263,7 +2280,7 @@ end;
 
 
 { Destroy an item in the inventory }
-[psect(misc4$code)] procedure inven_destroy(item_val : integer);
+procedure inven_destroy(item_val : integer);
       var
            i2      : integer;
       begin
@@ -2282,14 +2299,14 @@ end;
                 for i2 := item_val to inven_ctr-1 do
                   inventory[i2] := inventory[i2+1];
                 inventory[inven_ctr] := blank_treasure;
-                inven_ctr := inven_ctr - 1;
-              end;
+                inven_ctr := inven_ctr - 1
+              end
           end
       end;
  
  
 { Drops an item from inventory to given location }
-[psect(misc4$code)] procedure inven_drop(item_val,y,x : integer);
+procedure inven_drop(item_val,y,x : integer);
       var
         i1  : integer;
       begin
@@ -2305,7 +2322,7 @@ end;
  
  
 { Destroys a type of item on a given percent chance }
-[psect(misc4$code)] function inven_damage(
+function inven_damage(
                         typ      :       obj_set;
                         perc     :       integer
                                         ) : integer;
@@ -2326,7 +2343,7 @@ end;
  
  
 { Check inventory for too much weight   }
-[psect(misc4$code)] function inven_check_weight : boolean;
+function inven_check_weight : boolean;
       var
         item_wgt : integer;
       begin
@@ -2341,10 +2358,9 @@ end;
  
  
 { Check to see if he will be carrying too many objects  }
-[psect(misc4$code)] function inven_check_num : boolean;
+function inven_check_num : boolean;
       var
-        item_num,i1       : integer;
-        flag       : boolean;
+        i1       : integer;
       begin
         inven_check_num := false;
         if (inven_ctr < inven_max) then
@@ -2360,7 +2376,7 @@ end;
  
 { Add the item in TEMPORARY_SLOT to players inventory.  Return the
   item position for a description if needed...  }
-[psect(misc4$code)] procedure inven_carry(var item_val : integer);
+procedure inven_carry(var item_val : integer);
       var
         item_num,wgt,typ,subt : integer;
         flag : boolean;
@@ -2417,7 +2433,7 @@ end;
  
  
 { Finds range of item in inventory list }
-[psect(misc4$code)] function find_range(item_val : obj_set; 
+function find_range(item_val : obj_set; 
 					var i2,i3 : integer) : boolean;
       var
                 i1  : integer;
@@ -2445,7 +2461,7 @@ end;
       END;
 
 { Returns spell chance of failure for spell }
-[psect(misc2$code)] procedure skill_chance(var spell : spl_rec);
+procedure skill_chance(var spell : spl_rec);
       var
         adjust : integer;
       begin
@@ -2469,7 +2485,7 @@ end;
  
  
 { Print list of spells  }
-[psect(misc2$code)] procedure print_new_skills(
+procedure print_new_skills(
                         spell       :  spl_type;
                         num         :  integer;
                         var redraw  :  boolean);
@@ -2484,39 +2500,37 @@ end;
         with skill_list[spell[i1].splnum] do
           begin
             skill_chance(spell[i1]);
-            writev(out_val,chr(96+i1),') ',pad(sname,' ',30),
-                slevel:3,'    ',smana:3,'      ',spell[i1].splchn:2);
+            out_val := chr(96+i1) + ') ' + strutils.padright(sname, 30) +
+                strutils.padright(inttostr(slevel), 3) + '    ' +
+                strutils.padright(inttostr(smana), 3) + '      ' +
+                strutils.padright(inttostr(spell[i1].splchn), 2);
             prt(out_val,2+i1,1);
           end
     end;
  
  
 { Returns spell pointer }
-[psect(misc2$code)] function get_skill( spell   : spl_type;
+function get_skill( spell   : spl_type;
 					num     :  integer;
 				    var sn,sc   :  integer; 
 					prompt  :    vtype;
 				    var redraw  :  boolean) : boolean;
     var
-        i1  	   : integer;
         flag       : boolean;
         choice     : char;
         out_val    : vtype;
     begin
       sn := 0;
       flag := true;
-      writev(out_val,'(Skills a-',chr(num+96),
-                                ', space=list, <ESCAPE>=exit) ',prompt);
+      out_val := '(Skills a-' + chr(num+96) +
+                                ', space=list, <ESCAPE>=exit) ' + prompt;
       while (((sn < 1) or (sn > num)) and (flag)) do
         begin
           prt(out_val,1,1);
           inkey(choice);
           sn := ord(choice);
           case sn of
-            0,3,25,26,27: begin
-                            flag := false;
-                            reset_flag := true;
-                          end;
+            0,3,25,26,27: flag := false;
             32 : print_new_skills(spell,num,redraw);
             otherwise   sn := sn - 96;
           end;
@@ -2533,7 +2547,7 @@ end;
  
  
 { Based on adjustment, determines how many new skills are learned. -RLG}
-[psect(misc2$code)] function how_many_skills(adjustment: integer) : integer;
+function how_many_skills(adjustment: integer) : integer;
   var
     num : integer;
   begin
@@ -2552,7 +2566,7 @@ end;
   end;	
 
 {  Learn some magic spells (Scientist)    }
-[psect(misc2$code)] function learn_spell(var redraw : boolean) : boolean;
+function learn_spell(var redraw : boolean) : boolean;
       var
         i2  		: unsigned;
         i1,i3,sn,sc     : integer;
@@ -2567,7 +2581,7 @@ end;
         repeat
           i1 := i1 + 1;
           if (inventory[i1].tval = 90) then
-            spell_flag := uor(spell_flag,inventory[i1].flags);
+            spell_flag := (spell_flag or inventory[i1].flags);
         until (i1 >= inven_ctr);
         while ((new_spells > 0) and (spell_flag > 0)) do
           begin
@@ -2606,7 +2620,7 @@ end;
       end;
  
 { Learn some extra spells (Con-Artist)    }
-[psect(misc2$code)] function learn_extra(var redraw : boolean) : boolean;
+function learn_extra(var redraw : boolean) : boolean;
       var
         i2  : unsigned;
         i1,i3,sn,sc       : integer;
@@ -2620,7 +2634,7 @@ end;
         repeat
           i1 := i1 + 1;
           if (inventory[i1].tval = 92) then
-            spell_flag := uor(spell_flag,inventory[i1].flags);
+            spell_flag := (spell_flag or inventory[i1].flags);
         until (i1 >= inven_ctr);
         while ((new_spells > 0) and (spell_flag > 0)) do
           begin
@@ -2660,7 +2674,7 @@ end;
  
  
 { Learn some prayers (Guru)   }
-[psect(misc2$code)] function learn_prayer : boolean;
+function learn_prayer : boolean;
       var
         i1,i2,i3,i4,new_spell    : integer;
         test_array : array [1..32] of integer;
@@ -2671,7 +2685,7 @@ end;
         repeat
           i1 := i1 + 1;
           if (inventory[i1].tval = 91) then
-            spell_flag := uor(spell_flag,inventory[i1].flags);
+            spell_flag := (spell_flag or inventory[i1].flags);
         until(i1 >= inven_ctr);
         i1 := 0;
         while (spell_flag > 0) do
@@ -2717,7 +2731,7 @@ end;
  
  
 { Gain some resources if you know at least one skill    }
-[psect(misc2$code)] procedure gain_mana(amount : integer);
+procedure gain_mana(amount : integer);
       var
         i1,new_mana       : integer;
         knows_spell       : boolean;
@@ -2764,7 +2778,7 @@ end;
  
  
 { Increases hit points and level    }
-[psect(misc2$code)] procedure gain_level;
+procedure gain_level;
     var
         nhp,dif_exp,need_exp     : integer;
         redraw     : boolean;
@@ -2788,7 +2802,7 @@ end;
                 py.misc.exp := need_exp + (dif_exp div 2);
               end;
             title := player_title[pclass,lev];
-            writev(out_val,'Welcome to level ',lev:1,'.');
+            out_val := 'Welcome to level ' + inttostr(lev) + '.';
             msg_print(out_val);
             msg_print(' ');
             msg_flag := false;
@@ -2824,8 +2838,6 @@ end;
  
 { Prints experience }
   procedure prt_experience;
-    var
-        tmp_exp  : integer;
     begin
       with py.misc do
         begin
@@ -2841,42 +2853,43 @@ end;
  
  
 { Inserts a string into a string    }
+(*
   procedure insert_str                  (
                         %ref object_str : varying[a] of char;
                         %ref mtc_str    : varying[b] of char;
                         %ref insert_str : varying[c] of char
                                         );
         external;
- 
- 
+*) 
+
 { Inserts a number into a string    }
-[psect(misc1$code)] procedure insert_num(
-                        var object_str  : varying[a] of char;
-                        mtc_str  : varying[b] of char;
+procedure insert_num(
+                        var object_str  : string;
+                        mtc_str  : string;
                         number   : integer;
                         show_sign       : boolean
                                         );
     var
-        pos,olen,mlen   : integer;
+        pos0,olen,mlen   : integer;
         str1,str2       : vtype;
     begin
-      pos := index(object_str,mtc_str);
-      if (pos > 0) then
+      pos0 := pos(mtc_str,object_str);
+      if (pos0 > 0) then
         begin
           olen := length(object_str);
           mlen := length(mtc_str);
           object_str := object_str + ' ';
-          str1 := substr(object_str,1,pos-1);
-          str2 := substr(object_str,pos+mlen,olen-(pos+mlen-1));
+          str1 := copy(object_str,1,pos0-1);
+          str2 := copy(object_str,pos0+mlen,olen-(pos0+mlen-1));
           if ((number >= 0) and (show_sign)) then
-            writev(object_str,str1,'+',number:1,str2)
+            object_str := str1 + '+' + inttostr(number) + str2
           else
-            writev(object_str,str1,number:1,str2);
+            object_str := str1 + inttostr(number) + str2
         end
     end;
  
 { Weapon weight VS strength and dexterity   }
-[psect(moria$code)] function attack_blows(
+function attack_blows(
                         weight     : integer;
                         var wtohit : integer
                                  ) : integer;
@@ -2915,7 +2928,7 @@ end;
  
  
 { Critical hits, Nasty way to die...    }
-[psect(moria$code)] function critical_blow(weight,plus,dam : integer) : integer;
+function critical_blow(weight,plus,dam : integer) : integer;
       begin
         critical_blow := dam;
 { Weight of weapon, pluses to hit, and character level all
@@ -2951,7 +2964,7 @@ end;
  
  
 { Given direction 'dir', returns new row, column location   }
-[psect(misc1$code)] function move(dir : integer; var y,x : integer) : boolean;
+function move(dir : integer; var y,x : integer) : boolean;
       var
                 new_row,new_col  : integer;
       begin
@@ -3005,7 +3018,7 @@ end;
  
  
 { Saving throws for player character... }
-[psect(moria$code)] function player_saves(adjust : integer) : boolean;
+function player_saves(adjust : integer) : boolean;
         begin
           if (randint(120) <= (py.misc.save + adjust)) then
             player_saves := true
@@ -3015,7 +3028,7 @@ end;
  
  
 { Init players with some belongings, and also clear the kill_list record. }
-[psect(setup$code)] procedure char_inven_init;
+procedure char_inven_init;
       var
         i1,i2,dummy      : integer;
       begin
@@ -3033,7 +3046,7 @@ end;
       end;
  
 { Blanks out entire cave }
-[psect(generate$code)] procedure blank_cave;
+procedure blank_cave;
       var
         i1,i2 : integer;
       BEGIN
@@ -3048,7 +3061,7 @@ end;
  
 { Places indestructable rock around edges of dungeon }
 
-[psect(generate$code)] procedure place_boundry;
+procedure place_boundry;
       var
         i1: integer;
       BEGIN
@@ -3068,29 +3081,7 @@ end;
           END;
       END;
 
-[psect(misc4$code)] procedure mess_with_mind;   {  -jeb}
-var
-   special : boolean;
-BEGIN
-  if (username = 'CLOISTER') then
-    begin
-      py.misc.name  := 'Cloister Bell';
-      special := true;
-    end;
-  if(username = 'THREE') then
-    begin
-      py.misc.name  := 'Three';
-      py.misc.race  := 'LPMud Wizard';
-      special := true;
-    end;
-{ if(not special) then 
-    begin
-      py.misc.name := 'We''re onto you, dude.';
-      py.misc.race := 'Thumbs Down';   
-    end; }
-END;
-
-[psect(misc4$code)] procedure Opusii_vomit(percentage:integer);
+procedure Opusii_vomit(percentage:integer);
 BEGIN
   if (randint(100) < percentage) then
     with py.flags do

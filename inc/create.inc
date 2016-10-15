@@ -1,4 +1,4 @@
-[psect(create$code)] procedure create_character;
+procedure create_character;
 
 { Changes stats by given amount }
   function change_stat(cur_stat,amount : integer) : integer;
@@ -83,8 +83,8 @@ end;{race_base}
       put_buffer('',21,33);
       exit_flag := false;
       repeat
-        inkey_flush(s);
-        i2 := index('abcdefghijklmnopqrstuvwxyz',s);
+        inkey(s);
+        i2 := pos(s,'abcdefghijklmnopqrstuvwxyz');
         if ((i2 <= max_races) and (i2 >= 1)) then
             with py do
               with race[i2] do
@@ -101,7 +101,9 @@ end;{race_base}
             moria_help('Character Qualities');
             exit_flag := true;
             choose_race := false;
-          end;
+          end
+        else if (s = #26) then
+          halt(0)
       until (exit_flag);
     end;
  
@@ -126,7 +128,7 @@ end;
         hist_ptr,cur_ptr,test_roll,
         start_pos,end_pos,cur_len,
         line_ctr,new_start,social_class : integer;
-        history_block : varying [400] of char;
+        history_block : ansistring;
         flag : boolean;
     begin
 { Get a block of history text }
@@ -176,7 +178,7 @@ end;
           end
         else
           flag := true;
-        py.misc.history[line_ctr] := substr(history_block,start_pos,cur_len);
+        py.misc.history[line_ctr] := copy(history_block,start_pos,cur_len);
         line_ctr := line_ctr + 1;
         start_pos := new_start;
       until(flag);
@@ -197,6 +199,7 @@ end;
         s : char;
         exit_flag : boolean;
     begin
+      exit_flag := false;
       py.misc.sex := '';
       clear(21,1);
       prt('Choose a sex (? for Help):',21,3);
@@ -204,7 +207,7 @@ end;
       prt('',21,29);
       i1 := py.misc.prace;
       repeat
-        inkey_flush(s);
+        inkey(s);
         case s of
           'f' : begin
 		  py.misc.sex := 'Female';
@@ -227,6 +230,7 @@ end;
                   exit_flag := true;
                   get_sex := false
                 end;
+          #26 : halt(0)
           otherwise
          end;
       until (exit_flag)
@@ -250,7 +254,7 @@ end;
       clear(21,1);
       prt('Choose a class (? for Help):',21,3);
       repeat
-        {if (uand(race[i1].tclass,bit_array[i2]) <> 0) then}
+        if (race[i1].tclass and bit_array[i2]) <> 0 then
           begin
             i3 := i3 + 1;
             put_buffer (chr(i3+96)+') '+class[i2].title,i5,i4);
@@ -268,8 +272,8 @@ end;
       put_buffer('',21,31);
       exit_flag := false;
       repeat
-        inkey_flush(s);
-        i2 := index('abcdefghijklmnopqrstuvwxyz',s);
+        inkey(s);
+        i2 := pos(s,'abcdefghijklmnopqrstuvwxyz');
         if ((i2 <= i3) and (i2 >= 1)) then
           begin
             py.misc.tclass := class[cl[i2]].title;
@@ -311,7 +315,9 @@ end;
             exit_flag := true;
             get_class := false;
 	    clear(1,1);
-          end;
+          end
+        else if (s = #26) then
+          halt(0)
       until(exit_flag);
     end;
                        
@@ -366,15 +372,15 @@ end;
 	        stat := stat - upp;
    	        crtpts := crtpts - amt;
 	      end;
-	otherwise;
+        otherwise;
        end;
        if (y+x <> 83) then
          prt_num('',stat,y,x)
        else
-	 begin
-	   writev(out_val,0.1*sngl(stat):2:1);
-	   prt(out_val,10,73);
-	 end;
+         begin
+           out_val := format('%.1f', [0.1*stat]);
+           prt(out_val,10,73);
+         end;
        prt_num('',crtpts,14,45);
        modif_st := stat;
      end;	      
@@ -399,7 +405,7 @@ end;
        61: py.flags.see_infra := 
 	      modif_st(9,73,dir,py.flags.see_infra,20,0,20,1);
        62: py.misc.expfact :=
-	      0.1 * modif_st(10,73,2*dir,trunc(py.misc.expfact*10),30,10,40,1);
+	      0.1 * modif_st(10,73,2*dir,round(py.misc.expfact*10),30,10,40,1);
        63: py.misc.hitdie := modif_st(11,73,dir,py.misc.hitdie,30,4,40,1);
        64: py.misc.au := modif_st(12,73,dir,py.misc.au,5000,0,1,20);
        otherwise;     
@@ -426,8 +432,8 @@ end;
        end;
      with py.misc do
        begin
-         prt_num('Melee Fighting (5/1)',bth,7,28);
-	 prt_num('Gun & Grenades (5/1)',bthb,8,28);
+         prt_num('Melee Fighting (4/1)',bth,7,28);
+	 prt_num('Gun & Grenades (4/1)',bthb,8,28);
 	 prt_num('Saving Throw   (5/2)',save,9,28);
 	 prt_num('Stealth       (1/20)',stl,10,28);
 	 prt_num('Disarming      (5/2)',disarm,11,28);
@@ -435,8 +441,8 @@ end;
 	 prt_num('Perception     (5/2)',perc,7,53);
 	 prt_num('Searching      (5/2)',srh,8,53);
 	 prt_num('Infravision   (1/20)',py.flags.see_infra,9,53);
-  writev(out_val,'Expr. Factor (.1/40)',expfact:2:1);
-	 prt(out_val,10,53);
+         out_val := 'Expr. Factor (.1/40)' + format('%.1f', [expfact]);
+         prt(out_val,10,53);
 	 prt_num('Hit Die       (1/40)',hitdie,11,53);
 	 prt_num('Starting Cash (20/1)',au,12,53);
 	 prt_num('Creation Points Left : ',crtpts,14,22);
@@ -445,38 +451,40 @@ end;
 	 prt('points your character will need to advance levels.',24,11);
        end;
      spot(y,x);
+     exit_flag := false;
      repeat
        inkey(command);
-       case ord(command) of
-         27: begin
+       case command of
+         #26: halt(0);
+         #27: begin
 	       exit_flag := true;
 	     end;
-	 50: begin {down}
+	 'P': begin {down}
 	       unspot(y,x);
 	       y := y + 1;
 	       if (y = 13) then y := 7;	     
 	       spot(y,x);
 	     end;
-	 52: if (x <> 2) then  {left}
+	 'K': if (x <> 2) then  {left}
 	       begin
 		 unspot(y,x);
 		 x := x - 25;
 		 spot(y,x);
 	       end;
-	 54: if (x <> 52) then  {right}
+	 'M': if (x <> 52) then  {right}
 	       begin
 	         unspot(y,x);
 		 x := x + 25;
 		 spot(y,x);
 	       end;
-	 56: begin {up}
+	 'H': begin {up}
 	       unspot(y,x);
 	       y := y - 1;
 	       if (y = 6) then y := 12;
 	       spot(y,x);
 	     end;
-     60,44 : { < (decrease) } alter_stat(-1,x+y);
-     62,46 : { > (increase) } alter_stat( 1,x+y);
+     '<',',' : { < (decrease) } alter_stat(-1,x+y);
+     '>','.' : { > (increase) } alter_stat( 1,x+y);
 	 otherwise;
        end;
 

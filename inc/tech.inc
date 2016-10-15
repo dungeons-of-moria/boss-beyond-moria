@@ -1,5 +1,5 @@
 { Throw a magic spell } 
-[psect(misc2$code)] procedure use_tech_skills;
+procedure use_tech_skills;
       var
         i1,i2,item_val,dir  : integer;
         choice,chance : integer;

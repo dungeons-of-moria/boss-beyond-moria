@@ -1,9 +1,8 @@
 { Eat some food.}
-[psect(misc2$code)] procedure eat;
+procedure eat;
       var
          i1 : unsigned;
          i2,i3,item_val : integer;
-         out_val : vtype;
          redraw,ident : boolean;
       BEGIN
         reset_flag := true;
@@ -146,7 +145,7 @@
                             prt_experience;
                           END;
                       add_food(p1);
-                      py.flags.status := uand(%X'FFFFFFFC',py.flags.status);
+                      py.flags.status := $FFFFFFFC and py.flags.status;
                       prt_hunger;
                       prt_cur_weight;
                       desc_remain(item_val);

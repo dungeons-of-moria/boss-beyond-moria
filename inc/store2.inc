@@ -1,5 +1,5 @@
 { Comment one : Item is sold.}
-[psect(store$code)] procedure prt_comment1;
+procedure prt_comment1;
       begin
         msg_flag := false;
         case randint(12) of
@@ -19,24 +19,25 @@
       end; 
 
 { Comment two : Item is sold with a coupon - RLG.}
-[psect(store$code)] procedure prt_comment2(cash : integer);
+procedure prt_comment2(cash : integer);
       VAR
-          str	: vtype;      		    
+          str0	: vtype;      		    
 
       BEGIN
         msg_flag := false;
         case randint(5) of
-          1  : writev(str,'Done!  For the low, low price of $',cash:1);
-          2  : writev(str,'Sold!  For the extra cheap price of $',cash:1);
-          3  : writev(str,'Congrats. El Cheapo price, $',cash:1);
-          4  : writev(str,'Agreed!  LOW PRICE: $',cash:1);
-          5  : writev(str,'Ok...  You got away with it for only $',cash:1);
+          1  : str0 := 'Done!  For the low, low price of $';
+          2  : str0 := 'Sold!  For the extra cheap price of $';
+          3  : str0 := 'Congrats. El Cheapo price, $';
+          4  : str0 := 'Agreed!  LOW PRICE: $';
+          5  : str0 := 'Ok...  You got away with it for only $'
         end;
-	msg_print(str);
+	str0 += inttostr(cash);
+	msg_print(str0);
       END;
 
 { Displays the set of commands }
-[psect(store$code)] procedure display_commands(store_num:integer);
+procedure display_commands(store_num:integer);
       begin
 prt('You may:',20,3);
 prt(' p) Purchase an Item.        space) Browse store''s inventory.',21,3);
@@ -47,10 +48,10 @@ prt('^Z) Exit from Building.         ^T) Seek Special Training.',24,3);
  
  
 { Displays a store's inventory }
-[psect(store$code)] procedure display_inventory(store_num,start : integer);
+procedure display_inventory(store_num,start : integer);
       var
-        i1,i2,stop,dum1,dum2            : integer;
-        out_val1,out_val2               : vtype;
+        i1,i2,stop                 : integer;
+        out_val1,out_val2,my_weight_tmp_var     : vtype;
       begin
         with store[store_num] do
             begin
@@ -64,17 +65,20 @@ prt('^Z) Exit from Building.         ^T) Seek Special Training.',24,3);
                     if ((subval > 255) and (subval < 512)) then
                       number := 1;
                   objdes(out_val1,1,true,'t');
-                  writev(out_val2,chr(97+i1),') ',out_val1);
+                  out_val2 := chr(97+i1) + ') ' + out_val1;
                    prt(out_val2,i1+6,1);
                    if (store_inven[start].scost < 0) then
                     begin
                       i2 := abs(store_inven[start].scost);
                       i2 := i2 + trunc(i2*chr_padj);
-                      writev(out_val2,i2:7);
+                      out_val2 := padleft(inttostr(i2),7);
                     end
                   else
-                    writev(out_val2,store_inven[start].scost:7,' [Sale]');
+                    out_val2 := padleft(inttostr(store_inven[start].scost),7)
+                      + ' [Sale]';
                   prt(out_val2,i1+6,60);
+		  my_weight_tmp_var := padleft(inttostr(store_inven[start].sitem.weight),5);
+		  prt(my_weight_tmp_var,i1+6,75);
                   i1 := i1 + 1;
                   start := start + 1;
                 end;
@@ -86,7 +90,7 @@ prt('^Z) Exit from Building.         ^T) Seek Special Training.',24,3);
  
  
         { Re-displays only a single cost                        -RAK-   }
-[psect(store$code)] procedure display_cost(store_num,pos : integer);
+procedure display_cost(store_num,pos : integer);
       var
         i1                              : integer;
         out_val                         : vtype;
@@ -98,27 +102,27 @@ prt('^Z) Exit from Building.         ^T) Seek Special Training.',24,3);
               begin
                 i2 := abs(store_inven[pos].scost);
                 i2 := i2 + trunc(i2*chr_padj);
-                writev(out_val,i2:7);
+                out_val := padleft(inttostr(i2),7)
               end
             else
-              writev(out_val,store_inven[pos].scost:7,' [Sale]');
+              out_val := padleft(inttostr(store_inven[pos].scost),7);
             prt(out_val,i1+6,60);
           end;
       end;
  
  
         { Displays players gold                                 -RAK-   }
-[psect(store$code)] procedure store_prt_gold;
+procedure store_prt_gold;
       var
         out_val                 : vtype;
       begin
-        writev(out_val,'Dollars Remaining : ',py.misc.au:1);
-        prt(out_val,19,20);
+        out_val := 'Dollars Remaining : ' + inttostr(py.misc.au);
+        prt(out_val,19,5);
       end;
  
  
         { Displays store                                        -RAK-   }
-[psect(store$code)] procedure display_store(store_num,cur_top : integer);
+procedure display_store(store_num,cur_top : integer);
       begin
         with store[store_num] do
           begin
@@ -126,6 +130,7 @@ prt('^Z) Exit from Building.         ^T) Seek Special Training.',24,3);
             prt(owners[store_num,town_num].owner_name,3,10);
             prt('   Item',5,1);
             prt('Today''s Price',5,60);
+	    prt('Weigth',5,75);
             store_prt_gold;
             display_commands(store_num);
             display_inventory(store_num,cur_top);
@@ -134,7 +139,7 @@ prt('^Z) Exit from Building.         ^T) Seek Special Training.',24,3);
  
  
         { Get the ID of a store item and return it's value      -RAK-   }
-[psect(store$code)] function get_store_item(
+function get_store_item(
                                 var com_val     : integer;
                                 pmt             : vtype;
                                 i1,i2           : integer) : boolean;
@@ -145,8 +150,8 @@ prt('^Z) Exit from Building.         ^T) Seek Special Training.',24,3);
       begin
         com_val := 0;
         flag := true;
-        writev(out_val,'(Items ',chr(i1+96),'-',chr(i2+96),
-                                        ', ^Z to exit) ',pmt);
+        out_val := '(Items ' + chr(i1+96) + '-' + chr(i2+96) +
+                                        ', ^Z to exit) ' + pmt;
         while (((com_val < i1) or (com_val > i2)) and (flag)) do
           begin
             prt(out_val,1,1);
@@ -163,7 +168,7 @@ prt('^Z) Exit from Building.         ^T) Seek Special Training.',24,3);
       end;
  
         { Returns the char inven position of a coupon} 
-[psect(store$code)] function get_coupon(store_num    : integer;
+function get_coupon(store_num    : integer;
 					var coup_val : integer;
 					cur_top	     : integer) : boolean;
    var
@@ -190,7 +195,7 @@ END;
  
 { Returns whether a sale has been made and the selling price}
 {0- sale ,  2- no sale ,  3- player tryed to sell valueless item}
-[psect(store$code)] function ask_price(
+function ask_price(
                                 store_num : integer;
      			        var price : integer;
                                 item : treasure_type) : integer;
@@ -230,15 +235,14 @@ END;
  
  
         { Buy an item from a store                              -RAK-   }
-[psect(store$code)] function store_purchase(
+function store_purchase(
 			     	       store_num     : integer;
 				       coupon	     : boolean;
 				       coup_val	     : integer;
 			     	       var cur_top   : integer) : boolean;
       var
         i1,item_val,price	                : integer;
-        item_new,choice                         : integer;
-        save_number                             : integer;
+        item_new                                : integer;
 	per_off					: real;
         out_val                                 : vtype;
 
@@ -274,11 +278,12 @@ BEGIN
                 with temporary_slot do
                   if ((subval > 255) and (subval < 512)) then
                     begin
-                      save_number := number;
+		    //XXX: save_number is an unused code piece
+                      //save_number := number;
                       number := 1;
-                    end
-                  else
-                    save_number := 1;
+                    end;
+                  //else
+                    //save_number := 1;
                 if (inven_check_weight) then
                   if (inven_check_num) then
                     begin
@@ -322,10 +327,10 @@ BEGIN
  
  
 { Sell an item to the store }
-[psect(store$code)] function store_sell(store_num,cur_top : integer)
+function store_sell(store_num,cur_top : integer)
 						: boolean;
       var
-        item_val,i1,
+        item_val,
         item_pos,price : integer;
         redraw         : boolean;
         out_val        : vtype;
@@ -382,7 +387,7 @@ BEGIN
  
  
 { Entering a store }
-[psect(store$code)] procedure enter_store(store_num : integer);
+procedure enter_store(store_num : integer);
       var
         com_val,cur_top,coup_val,dummy  : integer;
         command                         : char;
@@ -479,7 +484,7 @@ BEGIN
     END;
 
 { Entering a hotel}
-[psect(store$code)] procedure enter_inn;
+procedure enter_inn;
 
     var 
         i5,com_val,oa,ob,oc,od,oe	: integer;
@@ -551,7 +556,6 @@ prt(' ^Z) Exit from Building.               j) Apply for a Job.',23,1);
 			 py.misc.au := py.misc.au - 50;
 			 town_num := town_num + 1;
 			 draw_the_bus;          {code located in misc.inc}
-			 town_seed := get_seed;
 			 store_init;
 			 defeated_badguy := false;
 			 py.misc.max_lev := 0;
@@ -666,11 +670,11 @@ END;
 
 
 { Entering the bank}	
-[psect(store$code)] procedure enter_bank;
+procedure enter_bank;
 
     var 
         i1,com_val,loan_max                     : integer;
-	option,command			        : char;
+	command         		        : char;
         exit_flag,good_val,exit_bank,payoff     : boolean;
 	tmp_str				        : tentype;
 
@@ -737,7 +741,7 @@ prt('w) Withdraw    p) Make a loan payment                           ',23,1);
                        prt('How much would you like to deposit?',1,10);
 		       get_string(tmp_str,1,47,10);
 		       i1 := -1;
-		       readv(tmp_str,i1,error:=continue);
+		       i1 := strtoint(tmp_str);
 		       if (i1 > py.misc.au) then
 		         begin
 		           good_val := false;
@@ -779,7 +783,7 @@ prt('w) Withdraw    p) Make a loan payment                           ',23,1);
 		           good_val := true;
 		           get_string(tmp_str,1,48,10);
 		           i1 := -1;
-		           readv(tmp_str,i1,error:=continue);
+		           i1 := strtoint(tmp_str);
 			   if ((i1 < 0) or (i1 > act_bal)) then
 			     begin
 			       msg_print('Surely you jest.');
@@ -804,7 +808,7 @@ prt('w) Withdraw    p) Make a loan payment                           ',23,1);
 		       prt('How much do you need?',1,10);
 		       get_string(tmp_str,1,32,10);
 		       i1 := -1;
-		       readv(tmp_str,i1,error:=continue);
+		       i1 := strtoint(tmp_str);
 		       if (i1 < 0) then good_val := false;
 		     until(good_val);
 		     if (i1 + principal > loan_max) then
@@ -824,7 +828,7 @@ prt('w) Withdraw    p) Make a loan payment                           ',23,1);
 		     good_val := true;
 	             prt('How much would you like to pay?',1,10);
 		     get_string(tmp_str,1,43,10);
-		     readv(tmp_str,i1,error:=continue);
+		     i1 := strtoint(tmp_str);
 		     if (i1 < 0) then good_val := false;
 		   until(good_val);
 		   if (i1 > py.misc.au) then
@@ -868,7 +872,7 @@ END;
 
 
 { Entering the clinic   -jeb}
-[psect(store$code)] procedure enter_clinic;
+procedure enter_clinic;
 var
     oa,ob     : integer;
     command   : char;
@@ -920,7 +924,7 @@ END;
 
 
 { Newsstand/lotto store  --jeb}
-[psect(store$code)] procedure newsinc;
+procedure newsinc;
 
   BEGIN
     moria_help('NEWS');

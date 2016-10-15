@@ -1,11 +1,10 @@
         { Wands for the aiming...}
-[psect(misc2$code)] procedure aim;
+procedure aim;
       var
                 i1                              : unsigned;
                 i2,i3,i4,chance                 : integer;
                 dir,item_val                    : integer;
                 dumy,y_dumy,x_dumy              : integer;
-                out_val                         : vtype;
                 redraw,ident                    : boolean;
       begin
         redraw := false;

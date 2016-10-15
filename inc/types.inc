@@ -1,24 +1,27 @@
  type
-        byteint         = [byte] 0..255;
-        bytlint         = [byte] -128..127;            
-        wordint         = [word] 0..65535;
-        word		= 0..65535;
-        worlint         = [word] -32768..32767;
+        byteint         = byte; //[byte] 0..255;
+        bytlint         = shortint; //[byte] -128..127;            
+        wordint         = word; //[word] 0..65535;
+//        word		= 0..65535;
+        worlint         = smallint; //[word] -32768..32767;
+        unsigned        = longword;
+        integer         = smallint;
+        real            = single;
         quad_type       = record
                             l0  : unsigned;
                             l1  : unsigned;
                           end;
-        atype           = varying  [16] of char;
-        btype           = varying  [14] of char;
-        ctype           = varying  [26] of char;
-        dtype           = varying   [5] of char;
-        etype           = varying  [60] of char;
-        mtype           = varying [190] of char;
-        ntype           = varying[1024] of char;
-        ttype           = varying  [68] of char;
-        utype           = varying [100] of char;
-        vtype           = varying  [80] of char;
-	tentype		= varying  [10] of char;
+        atype           = string[16];   //varying  [16] of char;
+        btype           = string[14];   //varying  [14] of char;
+        ctype           = string[26];   //varying  [26] of char;
+        dtype           = string[5];    //varying   [5] of char;
+        etype           = string[60];   //varying  [60] of char;
+        mtype           = string[190];  //varying [190] of char;
+        ntype           = ansistring;   //varying[1024] of char;
+        ttype           = string[68];   //varying  [68] of char;
+        utype           = string[100];  //varying [100] of char;
+        vtype           = string[80];   //varying  [80] of char;
+	tentype		= string[10];   //varying  [10] of char;
         stat_type       = packed array [1..6] of char;
         obj_set         = set of 0..255;
         char_set        = set of 'A'..'z';
@@ -26,14 +29,14 @@
         recj	= record
              unameinfo       : packed record
                unamelen        : word;
-               jpi$_username   : word;
+               jpiX_username   : word;
              END;
              ptr_uname       : ^usernam_type;
              ptr_unamelen    : ^integer;
              endlist         : integer
         END;
         key_type        = record                { For char saver        }
-                file_id : [key(0)] packed array [1..70] of char;
+                file_id : {[key(0)]} packed array [1..70] of char;
                 seed    : integer;
         end;
         creature_type = record
@@ -67,9 +70,12 @@
                 fy      : byteint;      { Y Pointer into map    }
                 fx      : byteint;      { X Pointer into map    }
  
-                stuned  : [bit(6),pos(104)] -32..31; { Rounds stunned}
-                ml      : [bit(1),pos(110)] boolean; { On if shown   }
-                confused: [bit(1),pos(111)] boolean; { On if confused}
+                stuned  : -32..31;      { Rounds stunned}
+                //[bit(6),pos(104)] 
+                ml      : boolean;      { On if shown   }
+                //[bit(1),pos(110)]
+                confused: boolean;      { On if confused}
+                //[bit(1),pos(111)] 
 	    cur_reprod  : byteint;      { Current reproduction factor}
         end;
         treasure_type = record
@@ -96,16 +102,18 @@
                         sex     : vtype;        { Sex of character }
                         title   : vtype;        { Character's title }
                         tclass  : vtype;        { Character's class }
-                        max_exp : integer;      { Max experience}
-                        exp     : integer;      { Cur experienc }
-                        au      : integer;      { Gold }
+                        max_exp : LongInt;      { Max experience}
+                        exp     : LongInt;      { Cur experienc }
+                        au      : LongInt;      { Gold }
+{ exp, max_exp and au type changed from integer to LongInt to avoid range errors
+  in wizard.inc -MB }
                         age     : wordint;      { Characters age}
                         ht      : wordint;      { Height }
                         wt      : wordint;      { Weight }
                         lev     : wordint;      { Level }
                         max_lev : wordint;      { Max level explored}
                         srh     : worlint;      { Chance in search}
-                        perc     : worlint;     { Perception }
+                        perc    : worlint;      { Perception }
                         bth     : worlint;      { Base to hit }
                         bthb    : worlint;      { BTH with bows }
                         mana    : worlint;      { Mana points }
@@ -271,17 +279,17 @@
                 bonus   : bytlint;{ Bonus to the Social Class   }
         end;
         floor_type = record
-                ftval   : [bit(7),pos(0)] 0..15;
-                ftopen  : [bit(1),pos(7)] boolean;
+                ftval   : 0..15;   //[bit(7),pos(0)] 0..15;
+                ftopen  : boolean; //[bit(1),pos(7)] boolean;
         end;
         cave_type = record
                 cptr    : byteint;
                 tptr    : byteint;
-                fval    : [bit(4),pos(16)] 0..15;
-                fopen   : [bit(1),pos(20)] boolean;
-                fm      : [bit(1),pos(21)] boolean;
-                pl      : [bit(1),pos(22)] boolean;
-                tl      : [bit(1),pos(23)] boolean;
+                fval    : 0..15;   //[bit(4),pos(16)] 0..15;
+                fopen   : boolean; //[bit(1),pos(20)] boolean;
+                fm      : boolean; //[bit(1),pos(21)] boolean;
+                pl      : boolean; //[bit(1),pos(22)] boolean;
+                tl      : boolean; //[bit(1),pos(23)] boolean;
         end;
         row_floor  = array [1..max_width] of cave_type;
         owner_type = record
@@ -306,6 +314,14 @@
 		town_name	: atype;
 		max_depth	: integer;
 		lev_plus	: byteint;
+        end;
+        hiscore_type = record
+                playername      : string[12];
+                score           : LongInt;
+                charactername   : string[25];
+                level           : Byte;
+                race            : string[13];
+                tclass          : string[11]
         end;
 
 

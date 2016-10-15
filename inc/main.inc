@@ -1,13 +1,15 @@
+{$DEFINE DEBUG}
  {Main game module
   The code in this section has gone through many revisions, and
   some of it could stand some more hard work. - no kidding }
 
  { [inherit('boss.env')] module Dungeon; }
 
-[psect(moria$code)] procedure dungeon;
+procedure dungeon;
+ 
     var
-        dir_val  	  : integer;   { For movement }
-        y,x,moves	  : integer;   { For movement }
+        dir_val		  : integer;   { For movement }
+        y,x		  : integer;   { For movement }
         i1,i2,tmp1	  : integer;   { Temporaries }
         old_chp,old_cmana : integer;   { Detect change }
         regen_amount	  : real;      { Regenerate hp and mana}
@@ -22,7 +24,6 @@
 	unleashed_doom	  : boolean;   { The Doom is still buggy }
 	doomy,doomx	  : integer; 
 	temp_char	  : char;
-	temp_dtype	  : dtype; 
 
 
 procedure make_boss_stronger;
@@ -34,7 +35,7 @@ BEGIN
    with c_list[max_creatures] do
      Begin
        num := total_winner_num + 1;
-       writev(out_val,'Boss ',num:1);
+       out_val := 'Boss ' + inttostr(num);
        name := out_val;
        ac := ac + 10;
        mexp := mexp + 2000;
@@ -44,7 +45,7 @@ END;
  
  
 { Pre-declaration of MOVE_CHAR }
-[psect(creature$code)] procedure move_char(dir : integer);
+procedure move_char(dir : integer);
         forward;
  
  
@@ -125,61 +126,61 @@ END;
             ffall := false;
           END;
  
-        if (uand(%X'00000001',tobj.flags) <> 0) then
+        if (($00000001 and tobj.flags) <> 0) then
           BEGIN
             change_stat(py.stat.cstr,tobj.p1,factor);
             change_stat(py.stat.str,tobj.p1,factor);
-            print_stat := uor(%X'0001',print_stat);
+            print_stat := $0001 or print_stat;
           END;
-        if (uand(%X'00000002',tobj.flags) <> 0) then
+        if (($00000002 and tobj.flags) <> 0) then
           BEGIN
             change_stat(py.stat.cdex,tobj.p1,factor);
             change_stat(py.stat.dex,tobj.p1,factor);
-            print_stat := uor(%X'0002',print_stat);
+            print_stat := $0002 or print_stat;
           END;
-        if (uand(%X'00000004',tobj.flags) <> 0) then
+        if (($00000004 and tobj.flags) <> 0) then
           BEGIN
             change_stat(py.stat.ccon,tobj.p1,factor);
             change_stat(py.stat.con,tobj.p1,factor);
-            print_stat := uor(%X'0004',print_stat);
+            print_stat := $0004 or print_stat;
           END;
-        if (uand(%X'00000008',tobj.flags) <> 0) then
+        if (($00000008 and tobj.flags) <> 0) then
           BEGIN
             change_stat(py.stat.cint,tobj.p1,factor);
             change_stat(py.stat.int,tobj.p1,factor);
-            print_stat := uor(%X'0008',print_stat);
+            print_stat := $0008 or print_stat;
           END;
-        if (uand(%X'00000010',tobj.flags) <> 0) then
+        if (($00000010 and tobj.flags) <> 0) then
           BEGIN
             change_stat(py.stat.cwis,tobj.p1,factor);
             change_stat(py.stat.wis,tobj.p1,factor);
-            print_stat := uor(%X'0010',print_stat);
+            print_stat := $0010 or print_stat;
           END;
-         if (uand(%X'00000020',tobj.flags) <> 0) then
+         if (($00000020 and tobj.flags) <> 0) then
           BEGIN
             change_stat(py.stat.cchr,tobj.p1,factor);
             change_stat(py.stat.chr,tobj.p1,factor);
-            print_stat := uor(%X'0020',print_stat);
+            print_stat := $0020 or print_stat;
           END;
-        if (uand(%X'00000040',tobj.flags) <> 0) then
+        if (($00000040 and tobj.flags) <> 0) then
           BEGIN
             py.misc.srh := py.misc.srh + (tobj.p1 * 10 * factor);
             py.misc.perc := py.misc.perc + (tobj.p1 * 10 * factor);
           END;
-        if (uand(%X'00000100',tobj.flags) <> 0) then
+        if (($00000100 and tobj.flags) <> 0) then
           py.misc.stl := py.misc.stl + 2*factor;
-        if (uand(%X'00001000',tobj.flags) <> 0) then
+        if (($00001000 and tobj.flags) <> 0) then
           BEGIN
             i1 := tobj.p1*factor;
             change_speed(-i1);
           END;
-        if (uand(%X'08000000',tobj.flags) <> 0) then
+        if (($08000000 and tobj.flags) <> 0) then
           if (factor > 0) then
             py.flags.blind := py.flags.blind + 1000;
-        if (uand(%X'10000000',tobj.flags) <> 0) then
+        if (($10000000 and tobj.flags) <> 0) then
           if (factor > 0) then
             py.flags.afraid := py.flags.afraid + 50;
-        if (uand(%X'40000000',tobj.flags) <> 0) then
+        if (($40000000 and tobj.flags) <> 0) then
           py.flags.see_infra := py.flags.see_infra + (tobj.p1 * factor);
         with py.misc do
           BEGIN
@@ -196,7 +197,7 @@ END;
               with equipment[i1] do
                 if (tval > 0) then
                   BEGIN
-                    if (uand(%X'80000000',flags) = 0) then
+                    if (($80000000 and flags) = 0) then
                       BEGIN
                         pac := pac    + ac;
                         dis_ac := dis_ac + ac;
@@ -204,7 +205,7 @@ END;
                     ptohit := ptohit + tohit;
                     ptodam := ptodam + todam;
                     ptoac  := ptoac  + toac;
-                    if (index(name,'^') = 0) then
+                    if (pos('^',name) = 0) then
                       BEGIN
                         dis_th  := dis_th  + tohit;
                         dis_td  := dis_td  + todam;
@@ -226,40 +227,40 @@ END;
               END;
  
             if (old_dis_ac <> dis_ac) then
-              print_stat := uor(%X'0040',print_stat);
+              print_stat := $0040 or print_stat;
  
             item_flags := 0;
             for i1 := 23 to equip_max-1 do
               with equipment[i1] do
-                item_flags := uor(item_flags,flags);
-            if (uand(%X'00000080',item_flags) <> 0) then
+                item_flags := item_flags or flags;
+            if (($00000080 and item_flags) <> 0) then
               py.flags.slow_digest := true;
-            if (uand(%X'00000200',item_flags) <> 0) then
+            if (($00000200 and item_flags) <> 0) then
               py.flags.aggravate := true;
-            if (uand(%X'00000400',item_flags) <> 0) then
+            if (($00000400 and item_flags) <> 0) then
               py.flags.teleport := true;
-            if (uand(%X'00000800',item_flags) <> 0) then
+            if (($00000800 and item_flags) <> 0) then
               py.flags.regenerate := true;
-            if (uand(%X'00040000',item_flags) <> 0) then
+            if (($00040000 and item_flags) <> 0) then
                        resist_gas := true;
-            if (uand(%X'00080000',item_flags) <> 0) then
+            if (($00080000 and item_flags) <> 0) then
               py.flags.fire_resist := true;
-            if (uand(%X'00100000',item_flags) <> 0) then
+            if (($00100000 and item_flags) <> 0) then
               py.flags.acid_resist := true;
-            if (uand(%X'00200000',item_flags) <> 0) then
+            if (($00200000 and item_flags) <> 0) then
               py.flags.cold_resist := true;
-            if (uand(%X'00800000',item_flags) <> 0) then
+            if (($00800000 and item_flags) <> 0) then
               py.flags.free_act := true;
-            if (uand(%X'01000000',item_flags) <> 0) then
+            if (($01000000 and item_flags) <> 0) then
               py.flags.see_inv := true;
-            if (uand(%X'02000000',item_flags) <> 0) then
+            if (($02000000 and item_flags) <> 0) then
               py.flags.lght_resist := true;
-            if (uand(%X'04000000',item_flags) <> 0) then
+            if (($04000000 and item_flags) <> 0) then
                py.flags.ffall := true;
  
             for i1 := 23 to equip_max-1 do
               with equipment[i1] do
-                if (uand(%X'00400000',flags) <> 0) then
+                if (($00400000 and flags) <> 0) then
                   CASE p1 of
                     1 : py.flags.sustain_str := true;
                     2 : py.flags.sustain_int := true;
@@ -295,9 +296,9 @@ END;
 { I may have written the town level code, but I'm not exactly
   proud of it.  Adding the stores required some real slucky
   hooks which I have not had time to re-think. }
-	%INCLUDE 'BOSS_INCLUDE:DISPLAY.INC'
-        %INCLUDE 'BOSS_INCLUDE:TRAIN.INC'
-        %INCLUDE 'BOSS_INCLUDE:STORE2.INC'
+	{$INCLUDE display.inc}
+        {$INCLUDE train.inc}
+        {$INCLUDE store2.inc}
  
  
 { Calculates current boundries }
@@ -315,20 +316,24 @@ END;
 { Given an row (y) and col (x), this routine detects
   when a move off the screen has occurred and figures new borders}
     function get_panel(y,x : integer) : boolean;
+      const x_margin = 9;
+            y_margin = 5;
       var
                 prow,pcol : integer;
       BEGIN
         prow := panel_row;
         pcol := panel_col;
-        if ((y < panel_row_min + 2) or (y > panel_row_max - 2)) then
+        if ((y < panel_row_min + y_margin + 1) or 
+           (y > panel_row_max - y_margin)) then
           BEGIN
-            prow := trunc((y - 2)/(screen_height/2));
+            prow := trunc((y - y_margin - 1)/(screen_height div 2));
             if (prow > max_panel_rows) then
               prow := max_panel_rows;
           END;
-        if ((x < panel_col_min + 3) or (x > panel_col_max - 3)) then
+        if ((x < panel_col_min + x_margin) or 
+           (x > panel_col_max - x_margin)) then
           BEGIN
-            pcol := trunc((x - 3)/(screen_width/2));
+            pcol := trunc((x - x_margin)/(screen_width div 2));
             if (pcol > max_panel_cols) then
               pcol := max_panel_cols;
           END;
@@ -506,16 +511,40 @@ END;
 { Package for moving the character's light about the screen
   Three cases : Normal, Finding, and Blind }
   procedure move_light(y1,x1,y2,x2 : integer);
- 
+  const sight_radius = 5;
+  {$INCLUDE vision.inc}
+
 { Maximum of a minimum }
-    function maxmin ( %immed  x:integer;
-                      %immed  y:integer;
-                      %immed  z:integer ) : integer;  external;
+    function maxmin ( x,y,z:integer ) : integer;
+    { maxmin (x,u,z) = max (min (x,y) - R, z) }
+    begin
+    if x < y then
+      if x - sight_radius > z then
+        maxmin := x - sight_radius
+      else
+        maxmin := z
+    else
+      if y - sight_radius > z then
+        maxmin := y - sight_radius
+      else
+        maxmin := z
+    end;
  
 { Minimum of a maximum }
-    function minmax ( %immed  x:integer;
-                      %immed  y:integer;
-                      %immed  z:integer ) : integer;  external;
+    function minmax ( x,y,z:integer ) : integer;
+    { minmax (x,u,z) = min (max (x,y) + R, z) }
+    begin
+    if x > y then
+      if x + sight_radius < z then
+        minmax := x + sight_radius
+      else
+        minmax := z
+    else
+      if y + sight_radius < z then
+        minmax := y + sight_radius
+      else
+        minmax := z
+    end;
  
 { Given two sets of points, draw the block }
     procedure draw_block(y1,x1,y2,x2 : integer);
@@ -533,10 +562,10 @@ END;
         bott := minmax(y1,y2,panel_row_max);
         left := maxmin(x1,x2,panel_col_min);
         righ := minmax(x1,x2,panel_col_max);
-        new_topp := y2 - 1;  { Margins for new things to appear}
-        new_bott := y2 + 1;
-        new_left := x2 - 1;
-        new_righ := x2 + 1;
+        new_topp := y2 - sight_radius;  { Margins for new things to appear}
+        new_bott := y2 + sight_radius;
+        new_left := x2 - sight_radius;
+        new_righ := x2 + sight_radius;
         for i1 := topp to bott do
           BEGIN
             floor_str := ''; { Null out print string }
@@ -598,16 +627,10 @@ END;
  
 { Normal movement }
     procedure sub1_move_light(y1,x1,y2,x2 : integer);
-      var
-        i1,i2  : integer;
       BEGIN
         light_flag := true;
-        for i1 := y1-1 to y1+1 do { Turn off lamp light }
-          for i2 := x1-1 to x1+1 do
-            cave[i1,i2].tl := false;
-        for i1 := y2-1 to y2+1 do
-          for i2 := x2-1 to x2+1 do
-            cave[i1,i2].tl := true;
+        clear_fov(y1,x1,sight_radius);
+        fov(y2,x2,sight_radius);
         draw_block(y1,x1,y2,x2);  { Redraw area }
       END;
  
@@ -749,7 +772,7 @@ END;
       BEGIN
         search_flag := true;
         change_speed(+1);
-        py.flags.status := uor(py.flags.status,%X'00000100');
+        py.flags.status := py.flags.status or $00000100;
         prt_search;
         with py.flags do
           food_digested := food_digested + 1;
@@ -761,7 +784,7 @@ END;
         find_flag := false;
         move_char(5);
         change_speed(-1);
-        py.flags.status := uand(py.flags.status,%X'FFFFFEFF');
+        py.flags.status := py.flags.status and $FFFFFEFF;
         prt_search;
         with py.flags do
           food_digested := food_digested - 1;
@@ -776,14 +799,13 @@ END;
       BEGIN
         prt('Rest for how long? ',1,1);
                 get_string(rest_str,1,20,10);
-        rest_num := 0;
-        readv(rest_str,rest_num,error:=continue);
+        rest_num := strtointdef(rest_str, 0);
         if (rest_num > 0) then
           BEGIN
             if (search_flag) then
               search_off;
             py.flags.rest := rest_num;
-            py.flags.status := uor(py.flags.status,%X'00000200');
+            py.flags.status := py.flags.status or $00000200;
             prt_rest;
             with py.flags do
               food_digested := food_digested - 1;
@@ -796,7 +818,7 @@ END;
                 6:    msg_print('ZZZZZZzzzzzzzzzzz...');
 		7:    msg_print('You dream of rainbows and lollipops...');
             end;
-            put_qio;
+            //put_qio;
           END
         else
           erase_line(msg_line,msg_line);
@@ -805,7 +827,7 @@ END;
     procedure rest_off;
       BEGIN
         py.flags.rest := 0;
-        py.flags.status := uand(py.flags.status,%X'FFFFFDFF');
+        py.flags.status := py.flags.status and $FFFFFDFF;
         erase_line(1,1);
         prt_rest;
         with py.flags do
@@ -839,7 +861,6 @@ END;
         py.misc.chp := py.misc.chp - damage;
         if (search_flag) then search_off;
         if (py.flags.rest > 0) then rest_off;
-        flush;
         if (py.misc.chp <= -1) then
           BEGIN
             if (not(death)) then
@@ -878,7 +899,7 @@ END;
     procedure regenhp(percent : real);
       BEGIN
         with py.misc do
-          chp := chp + mhp*percent + player$regen_hpbase;
+          chp := chp + mhp*percent + playerXregen_hpbase;
       END;
  
  
@@ -886,7 +907,7 @@ END;
     procedure regenmana(percent : real);
       BEGIN
         with py.misc do
-          cmana := cmana + mana*percent + player$regen_mnbase;
+          cmana := cmana + mana*percent + playerXregen_mnbase;
       END;
  
  
@@ -942,7 +963,7 @@ END;
 { Chest is trapped? }   else if (tval = 2) then
                           BEGIN
                             if (flags > 1) then
-                              if (index(name,'^') > 0) then
+                              if (pos('^',name) > 0) then
                                 BEGIN
                                   known2(name);
                 msg_print('You have discovered a trap on the chest!');
@@ -1109,7 +1130,7 @@ END;
 { AC gets worse
   Note: This routine affects magical AC bonuses so that stores
         can detect the damage. }
-    function minus_ac(typ_dam : integer) : boolean;
+    function minus_ac(typ_dam : longword) : boolean;
       var
         i1,i2 : integer;
         tmp: array [1..5] of integer;
@@ -1145,7 +1166,7 @@ END;
           BEGIN
             i2 := tmp[randint(i1)];
             with equipment[i2] do
-              if (uand(flags,typ_dam) <> 0) then
+              if ((flags and typ_dam) <> 0) then
                 BEGIN
                   objdes(out_val,i2,false,'e');
                   msg_print('Your ' + out_val + ' resists damage!');
@@ -1166,9 +1187,9 @@ END;
 { Corrode the unsuspecting person's armor }
     procedure corrode_gas(kb_str : vtype);
       BEGIN
-        if (not (minus_ac(%X'00100000'))) then
+        if not (minus_ac($00100000)) then
           take_hit(randint(8),kb_str);
-        print_stat := uor(%X'0040',print_stat);
+        print_stat := $0040 or print_stat;
         if (inven_damage([23,33,34,35,65],5) > 0) then
           msg_print('There is an acrid smell coming from your pack.');
       END;
@@ -1180,7 +1201,7 @@ END;
         if (resist_gas) then
           dam := trunc(dam*0.5);
         take_hit(dam,kb_str);
-        print_stat := uor(%X'0040',print_stat);
+        print_stat := $0040 or print_stat;
         py.flags.poisoned := py.flags.poisoned + 4 + randint(dam);
       END;
  
@@ -1193,7 +1214,7 @@ END;
         if (py.flags.resist_heat > 0) then
           dam := trunc(dam*0.5);
         take_hit(dam,kb_str);
-        print_stat := uor(%X'0080',print_stat);
+        print_stat := $0080 or print_stat;
         if (inven_damage([12,20,21,22,30,31,32,36,55,70,71],3) > 0) then
           msg_print('There is smoke coming from your pack!');
       END;
@@ -1207,7 +1228,7 @@ END;
         if (py.flags.resist_cold > 0) then
           dam := trunc(dam*0.5);
         take_hit(dam,kb_str);
-        print_stat := uor(%X'0080',print_stat);
+        print_stat := $0080 or print_stat;
         if (inven_damage([75,76],5) > 0) then
           msg_print('Something shatters inside your pack!');
       END;
@@ -1220,7 +1241,7 @@ END;
           take_hit(trunc(dam*0.5),kb_str)
         else
           take_hit(dam,kb_str);
-        print_stat := uor(%X'0080',print_stat);
+        print_stat := $0080 or print_stat;
       END;
  
  
@@ -1230,7 +1251,7 @@ END;
                 flag: integer;
       BEGIN
         flag := 0;
-        if (minus_ac(%X'00100000')) then
+        if (minus_ac($00100000)) then
           flag := 1;
         if (py.flags.acid_resist) then
           flag := flag + 2;
@@ -1240,7 +1261,7 @@ END;
           2 : take_hit(trunc(dam*0.5),kb_str);
           3 : take_hit(trunc(dam*0.25),kb_str);
         END;
-        print_stat := uor(%X'00C0',print_stat);
+        print_stat := $00C0 or print_stat;
         if (inven_damage([1,2,11,12,20,21,22,30,31,32,36],3) > 0) then
           msg_print('There is an acrid smell coming from your pack!');
       END;
@@ -1250,6 +1271,9 @@ END;
     procedure teleport(dis : integer);
       var
                 y,x  : integer;
+                i1,i2: integer;
+      {I am overshadowing i1,i2 on purpose. 
+       Counter variables have to be local. -MB}
       BEGIN
         repeat
           y := randint(cur_height);
@@ -1282,7 +1306,7 @@ END;
 { Player hit a trap...  (Chuckle)}
     procedure hit_trap(var y,x : integer);
       var
-        alloc_level,i1,i2,ty,tx,dam : integer;
+        i1,ty,tx,dam : integer;
  
       BEGIN
         change_trap(y,x);
@@ -1354,7 +1378,7 @@ END;
                           BEGIN
                             py.stat.cstr := de_statp(py.stat.cstr);
                             take_hit(dam,'a dart trap.');
-                            print_stat := uor(%X'0001',print_stat);
+                            print_stat := $0001 or print_stat;
                             msg_print('A small dart weakens you!');
                           END
                         else
@@ -1433,7 +1457,7 @@ END;
                           BEGIN
                             py.stat.ccon := de_statp(py.stat.ccon);
                             take_hit(dam,'a dart trap.');
-                            print_stat := uor(%X'0004',print_stat);
+                            print_stat := $0004 or print_stat;
                             msg_print('A small dart weakens you!');
                           END
                         else
@@ -1531,7 +1555,6 @@ END;
       var
                 i1,i3,item_val : integer;
                 redraw	       : boolean;
-                dummy	       : char;
                 out_val	       : vtype;
   BEGIN
     redraw := false;
@@ -1552,7 +1575,7 @@ END;
                 redraw := true;
                 i1 := 0;
                 clear(1,1);
-        writev(out_val,'   Name                         Level  Rsrc   Known');
+        out_val := '   Name                         Level  Rsrc   Known';
                 prt(out_val,1,1);
                 for i3 := inventory[item_val].ac to inventory[item_val].toac do
 		  Begin          
@@ -1561,8 +1584,11 @@ END;
                         i1 := i1 + 1;
                         if (slevel < 99) then
                           BEGIN
-                            writev(out_val,chr(96+i1),') ',pad(sname,' ',30),
-                                slevel:2,'     ',smana:2,'   ',learned);
+                            //XXX: learned is a boolean. what should be output?
+                            out_val := chr(96+i1) + ') ' + padleft(sname,30) +
+                                padleft(inttostr(slevel),2) + '     ' +
+                                padleft(inttostr(smana),2) + '   ' + 
+                                inttostr(ord(learned));
                             prt(out_val,i1+1,1);
                           END
                         else
@@ -1598,8 +1624,8 @@ END;
                 with temporary_slot do
                   BEGIN
                     py.misc.au := py.misc.au + cost;
-                    writev(out_val,'You have found $',cost:1,
-                                ' worth of ',name,'. ');
+                    out_val := 'You have found $' + inttostr(cost) +
+                                ' worth of ' + name + '. ';
                   END;
                 prt_gold;
                 msg_print(out_val);
@@ -1634,7 +1660,7 @@ END;
 { Drop an object being carried   Note: Only one object per floor spot.}
     procedure drop;
       var
-                com_val,i1,i2: integer;
+                com_val: integer;
                 redraw : boolean;
                 out_val: vtype;
       BEGIN
@@ -1726,7 +1752,7 @@ END;
                   if (cptr > 1) then { Creature there already? }
                     BEGIN
 { Some critters are cannibalistic! }
-                      if (uand(c_list[z].cmove,%X'00080000') <> 0) then
+                      if ((c_list[z].cmove and $00080000) <> 0) then
                         BEGIN
                           delete_monster(cptr);
                           place_mult_monster(i2,i3,z,repro,slp);
@@ -1837,25 +1863,25 @@ END;
     var
         i1  : integer;
     BEGIN
-      if (uand(flags,%X'01000000') <> 0) then
+      if ((flags and $01000000) <> 0) then
         i1 := 1
       else
         i1 := 0;
-      if (uand(flags,%X'02000000') <> 0) then
+      if ((flags and $02000000) <> 0) then
         i1 := i1 + 2;
-      if (uand(flags,%X'04000000') <> 0) then
+      if ((flags and $04000000) <> 0) then
         if (randint(100) < 60) then
           summon_object(y,x,1,i1);
-      if (uand(flags,%X'08000000') <> 0) then
+      if ((flags and $08000000) <> 0) then
         if (randint(100) < 90) then
           summon_object(y,x,1,i1);
-      if (uand(flags,%X'10000000') <> 0) then
+      if ((flags and $10000000) <> 0) then
         summon_object(y,x,randint(2),i1);
-      if (uand(flags,%X'20000000') <> 0) then
+      if ((flags and $20000000) <> 0) then
         summon_object(y,x,damroll('2d2'),i1);
-      if (uand(flags,%X'40000000') <> 0) then
+      if ((flags and $40000000) <> 0) then
         summon_object(y,x,damroll('4d3'),i1);
-      if ((uand(flags,%X'80000000') <> 0) and (not is_boss_dead)) then
+      if (((flags and $80000000) <> 0) and (not is_boss_dead)) then
         if(dun_power = win_mon_appear) then
           Begin
             total_winner_num := total_winner_num + 1;
@@ -1901,7 +1927,7 @@ END;
                          acc_exp := acc_exp - 1.0
                        END;
                      {Penalize player - subtract experience}
-                     if (uand(cdefense,%X'00000800') <> 0) then
+                     if ((cdefense and $00000800) <> 0) then
                        begin
                          exp := exp - 2*lev;
                          sc  := sc - lev;
@@ -1937,26 +1963,26 @@ END;
           if (tval in [9,10,11,12,21,22,23,82]) then
             with monster do
               BEGIN
-{ Slay Alien }  if ((uand(cdefense,%X'0001') <> 0) and
-                    (uand(flags,%X'00002000') <> 0)) then
+{ Slay Alien }  if (((cdefense and $0001) <> 0) and
+                    ((flags and $00002000) <> 0)) then
                   tdam := tdam*4
-{ Slay Mutant}  else if ((uand(cdefense,%X'0008') <> 0) and
-                         (uand(flags,%X'00010000') <> 0)) then
+{ Slay Mutant } else if (((cdefense and $0008) <> 0) and
+                         ((flags and $00010000) <> 0)) then
                   tdam := tdam*3
-{Slay Creature} else if ((uand(cdefense,%X'0002') <> 0) and
-                         (uand(flags,%X'00004000') <> 0)) then
+{Slay Creature} else if (((cdefense and $0002) <> 0) and
+                         ((flags and $00004000) <> 0)) then
                   tdam := tdam*2
-{ Slay Scum }   else if ((uand(cdefense,%X'0004') <> 0) and
-                         (uand(flags,%X'00008000') <> 0)) then
+{ Slay Scum }   else if (((cdefense and $0004) <> 0) and
+                         ((flags and $00008000) <> 0)) then
                   tdam := tdam*2
-{ Slay Robot }  else if ((uand(cdefense,%X'0400') <> 0) and
-                         (uand(flags,%X'00080000') <> 0)) then
+{ Slay Robot }  else if (((cdefense and $0400) <> 0) and
+                         ((flags and $00080000) <> 0)) then
                   tdam := tdam*2
-{ Frost }       else if ((uand(cdefense,%X'0010') <> 0) and
-                         (uand(flags,%X'00020000') <> 0)) then
+{ Frost }       else if (((cdefense and $0010) <> 0) and
+                         ((flags and $00020000) <> 0)) then
                   tdam := trunc(tdam*1.5)
-{ Fire }        else if ((uand(cdefense,%X'0020') <> 0) and
-                         (uand(flags,%X'00040000') <> 0)) then
+{ Fire }        else if (((cdefense and $0020) <> 0) and
+                         ((flags and $00040000) <> 0)) then
                   tdam := trunc(tdam*1.5);
             END;
         tot_dam := tdam;
@@ -1974,7 +2000,7 @@ END;
         i2 := m_list[i1].mptr;
         m_list[i1].csleep := 0;
 { Does the player know what he's fighting? }
-        if ((uand(%X'10000',c_list[i2].cmove) <> 0) and
+        if ((($10000 and c_list[i2].cmove) <> 0) and
             (not(py.flags.see_inv))) then
           m_name := 'it'
         else if (py.flags.blind > 0) then
@@ -1996,7 +2022,7 @@ END;
             if (test_hit(bth,lev,ptohit,c_list[i2].ac)) then
 	      if (randint(52-c_list[i2].intel) = 1) then
                 begin
-                  writev(out_val,'The ',m_name,' dodges your blow.');
+                  out_val := 'The ' + m_name + ' dodges your blow.';
                   msg_print(out_val);
                 end
 	      else 	      
@@ -2020,17 +2046,17 @@ END;
                   i3 := i3 + ptodam*dam_plus_adj;
 	          i7 := randint(max_hit_desc);
 		  if (wizard) then
-                    writev(out_val,
-                      'You inflicted the ',m_name,' with ',i3:1,' hps damage.')
+                    out_val := 'You inflicted the ' + m_name + ' with ' +
+                      inttostr(i3) + ' hps damage.'
 		  else
-                    writev(out_val,'You ',hit_desc[i7],' ',m_name,'. ');
+                    out_val := 'You ' + hit_desc[i7] + ' ' + m_name + '. ';
                   msg_print(out_val);
                   if (i3 < 0) then i3 := 0;
 { See if we done it in.}
                   with m_list[i1] do
                     if (mon_take_hit(i1,i3) > 0) then
                       BEGIN
-                        writev(out_val,'You have slain ',m_name,'. ');
+                        out_val := 'You have slain ' + m_name + '. ';
                         msg_print(out_val);
                         blows := 0;
                         py_attack := false;
@@ -2040,7 +2066,7 @@ END;
                 END
             else
               BEGIN
-                writev(out_val,'You miss ',m_name,'. ');
+                out_val := 'You miss ' + m_name + '. ';
                 msg_print(out_val);
               END;
             blows := blows - 1;
@@ -2050,10 +2076,9 @@ END;
  
 { Moves player from one space to another.
   Note: This rountine has been pre-declared; see that for argument}
-    procedure move_char;
+    procedure move_char(dir : integer);
       var
                 test_row,test_col : integer;
-                panrow,pancol  : integer;
                 i1,i2 : integer;
       BEGIN
         test_row := char_row;
@@ -2151,7 +2176,8 @@ END;
 procedure stagger(num : integer);
 begin
   move_char(num);
-  tiny_sleep(10);
+  //FIXME:tiny_sleep procedure
+  //tiny_sleep(10);
 end;
 
 
@@ -2197,27 +2223,27 @@ END;
       BEGIN
         with t_list[cave[y,x].tptr] do
           BEGIN
-            if (uand(%X'00000010',flags) <> 0) then
+            if (($00000010 and flags) <> 0) then
               BEGIN
                 msg_print('A small needle has pricked you!');
                 if (not py.flags.sustain_str) then
                   BEGIN
                     py.stat.cstr := de_statp(py.stat.cstr);
                     take_hit(damroll('1d4'),'a poison needle.');
-                    print_stat := uor(%X'0001',print_stat);
+                    print_stat := $0001 or print_stat;
                     msg_print('You feel weakened!');
                   END
                 else
                   msg_print('You are unaffected.');
               END;
-            if (uand(%X'00000020',flags) <> 0) then
+            if (($00000020 and flags) <> 0) then
               BEGIN
                 msg_print('A small needle has pricked you!');
                 take_hit(damroll('1d6'),'a poison needle.');
                 py.flags.poisoned := py.flags.poisoned + 10 + randint(20);
                 Opusii_vomit(20);
               END;
-            if (uand(%X'00000040',flags) <> 0) then
+            if (($00000040 and flags) <> 0) then
               BEGIN
                 msg_print('A puff of yellow gas surrounds you!');
                 if (py.flags.free_act) then
@@ -2228,13 +2254,13 @@ END;
                     py.flags.paralysis := 10 + randint(20);
                   END;
               END;
-            if (uand(%X'00000080',flags) <> 0) then
+            if (($00000080 and flags) <> 0) then
               BEGIN
                 msg_print('There is a sudden explosion!');
 		explosion(0,y,x,damroll('3d8'),3,true,'an exploding chest.');
                 delete_object(y,x);
               END;
-            if (uand(%X'00000100',flags) <> 0) then
+            if (($00000100 and flags) <> 0) then
               BEGIN
                 for i1 := 1 to 3 do
                   BEGIN
@@ -2289,6 +2315,8 @@ END;
                             1: msg_print('Glad to be of service...');
                      2: msg_print('Please enjoy your trip through this door.');
                           end;
+                          { Have a look through opened door. }
+                          move_light(char_row,char_col,char_row,char_col)
                         END;
                     END
 { Open a closed chest.}
@@ -2299,7 +2327,7 @@ END;
                     with t_list[tptr] do
                       BEGIN
                         flag := false;
-                        if (uand(%X'00000001',flags) <> 0) then
+                        if ($00000001 and flags) <> 0 then
                           if (py.flags.confused > 0) then
                             msg_print('You are too confused to pick the lock.')
                           else if ((tmp-(2*level)) > randint(100)) then
@@ -2315,17 +2343,17 @@ END;
                           flag := true;
                         if (flag) then
                           BEGIN
-                            flags := uand(%X'FFFFFFFE',flags);
-                            tmp := index(name,' (');
+                            flags := $FFFFFFFE and flags;
+                            tmp := pos(' (',name);
                             if (tmp > 0) then
-                              name := substr(name,1,tmp-1);
+                              name := copy(name,1,tmp-1);
                             name := name + ' (Empty)';
                             known2(name);
                             cost := 0;
                           END;
                         flag := false;
 { Was chest still trapped?  (Snicker) }
-                        if (uand(%X'00000001',flags) = 0) then
+                        if ($00000001 and flags) = 0 then
                           BEGIN
                             chest_trap(y,x);
                             if (tptr > 0) then
@@ -2364,6 +2392,8 @@ END;
                         t_list[tptr] := door_list[2];
                         fopen := false;
                         lite_spot(y,x);
+                        { Closed door obscures sight. }
+                        move_light(char_row,char_col,char_row,char_col)
                       END
                     else
                       msg_print('The door appears to be broken.')
@@ -2465,7 +2495,7 @@ END;
   Must take into account: secret doors, special tools }
     procedure tunnel;
       var
-                y,x,i1,i2,tabil: integer;
+                y,x,i1,tabil: integer;
       BEGIN
         y := char_row;
         x := char_col;
@@ -2476,7 +2506,7 @@ END;
               tabil := py.stat.cstr;
               if (equipment[23].tval > 0) then
                 with equipment[23] do
-                  if (uand(%X'20000000',flags) <> 0) then
+                  if ($20000000 and flags) <> 0 then
                     tabil := tabil + 25 + p1*50;
 { Regular walls; Granite, magma intrusion, quartz vein
   Don't forget the boundry walls, made of titanium (255)}
@@ -2523,6 +2553,7 @@ END;
                                     msg_print('You have found something!');
                                 END;
                               lite_spot(y,x);
+                              move_light(char_row,char_col,char_row,char_col);
                             END
                           else
                             msg_print('You dig in the rubble...');
@@ -2594,17 +2625,17 @@ END;
                   else if (i1 = 2) then   { Chest trap }
                     with t_list[tptr] do
                       BEGIN
-                        if (index(name,'^') > 0) then
+                        if (pos('^',name) > 0) then
                           msg_print('I don''t see a trap...')
-                        else if (uand(%X'000001F0',flags) <> 0) then
+                        else if ($000001F0 and flags) <> 0 then
                           BEGIN
                             if ((tot - t5) > randint(100)) then
                               BEGIN
-                                flags := uand(%X'FFFFFE0F',flags);
-                                i1 := index(name,' (');
+                                flags := $FFFFFE0F and flags;
+                                i1 := pos(' (',name);
                                 if (i1 > 0) then
-                                  name := substr(name,1,i1-1);
-                                if (uand(%X'00000001',flags) <> 0) then
+                                  name := copy(name,1,i1-1);
+                                if ($00000001 and flags) <> 0 then
                                   name := name + ' (Locked)'
                                 else
                                   name := name + ' (Disarmed)';
@@ -2660,10 +2691,10 @@ END;
                         begin
 			  i2 := m_list[cptr].mptr;
 			  if (wizard) then
-	       writev(out_val,
-                 'You see a ',c_list[i2].name,'. (',m_list[cptr].hp:2,' hps.)')
+	                    out_val := 'You see a ' + c_list[i2].name + '. (' +
+                              padleft(inttostr(m_list[cptr].hp),2) + ' hps.)'
 			  else  
-                            writev(out_val,'You see a ',c_list[i2].name,'. ');
+                            out_val := 'You see a ' + c_list[i2].name + '. ';
                           msg_print(out_val);
                           flag := true;
                         end;
@@ -2725,10 +2756,10 @@ END;
         rem_num  : integer;
         out_val  : vtype;
       BEGIN
-        if (index(inventory[item_val].name,'^') = 0) then
+        if (pos('^',inventory[item_val].name) = 0) then
           BEGIN
             rem_num := inventory[item_val].p1;
-            writev(out_val,'You have ',rem_num:1,' charges remaining.');
+            out_val := 'You have ' + inttostr(rem_num) + ' charges remaining.';
             msg_print(out_val)
           END
       END;
@@ -2743,26 +2774,26 @@ END;
         with temporary_slot do
           number := number - 1;
         objdes(out_val,1,true,'t');
-        out_val := 'You have ' + substr(out_val,1,(length(out_val)-1)) + '. ';
+        out_val := 'You have ' + copy(out_val,1,(length(out_val)-1)) + '. ';
         msg_print(out_val);
       END;
  
 { General spells and misc routines }
-        %INCLUDE 'BOSS_INCLUDE:SKILLS.INC'
-        %INCLUDE 'BOSS_INCLUDE:WIERD.INC'
+        {$INCLUDE skills.inc}
+        {$INCLUDE wierd.inc}
 { Wizard and debug routines }
-        %INCLUDE 'BOSS_INCLUDE:WIZARD.INC'
+        {$INCLUDE wizard.inc}
 { Creature movement and attacks using objects }
-        %INCLUDE 'BOSS_INCLUDE:CREATURE.INC'
-        %INCLUDE 'BOSS_INCLUDE:FLOPPY.INC'
-        %INCLUDE 'BOSS_INCLUDE:POTIONS.INC'
-        %INCLUDE 'BOSS_INCLUDE:EAT.INC'
-        %INCLUDE 'BOSS_INCLUDE:RAYGUN.INC'
-        %INCLUDE 'BOSS_INCLUDE:DEVICE.INC'
+        {$INCLUDE creature.inc}
+        {$INCLUDE floppy.inc}
+        {$INCLUDE potions.inc}
+        {$INCLUDE eat.inc}
+        {$INCLUDE raygun.inc}
+        {$INCLUDE device.inc}
 { Spell casting }
-        %INCLUDE 'BOSS_INCLUDE:TECH.INC'
-        %INCLUDE 'BOSS_INCLUDE:PRAYER.INC'
-        %INCLUDE 'BOSS_INCLUDE:TRICK.INC'
+        {$INCLUDE tech.inc}
+        {$INCLUDE prayer.inc}
+        {$INCLUDE trick.inc}
  
 { Hurl an object across the dungeon. -if tval is thrown weapon, bonus to hit}
     procedure throw_object;
@@ -2792,7 +2823,6 @@ END;
  
       procedure facts(var tbth,tpth,tdam,tdis : integer);
         var
-                i1         : wordint;
                 tmp_weight : integer;
         BEGIN
           with temporary_slot do
@@ -2997,7 +3027,7 @@ END;
 	      inven_weight := inven_weight - weight*rounds;
 	      objdes(out_val,item_val,true,'i');
 	      out_val := 
-	         'You have ' + substr(out_val,1,(length(out_val)-1)) + '. ';
+	         'You have ' + copy(out_val,1,(length(out_val)-1)) + '. ';
 	      msg_print(out_val);
 	      if (number < 1) then
 	        inven_destroy(item_val);
@@ -3114,13 +3144,8 @@ END;
                       old_ptodam := py.misc.ptodam;
                       old_bth := py.misc.bth;
 { Use these values }
-                      equipment[23] := blank_treasure;
-                      with equipment[23] do
-                        BEGIN
-                          damage := equipment[27].damage;
-                          weight := py.stat.cstr;
-                          tval:= 1;
-                        END;
+                      equipment[23] := equipment[27];
+                      equipment[23].weight := py.stat.cstr;
                       with py do
                         BEGIN
                           misc.bth := trunc((stat.cstr+misc.wt)/5.0);
@@ -3164,12 +3189,14 @@ END;
 	          10: yell:= '"Warning.  You have entered a restricted zone!"';
 		            end;
                             msg_print(yell); 
-			    if (index(yell,'!') > 1) then
+			    if (pos('!',yell) > 1) then
 			      aggravate_monster(20);
                             t_list[tptr] := door_list[1];
                             p1 := 1;
                             fopen := true;
                             lite_spot(y,x);
+                            { Have a look through bashed door. }
+                            move_light(char_row,char_col,char_row,char_col)
                           END
                         else
                           BEGIN
@@ -3187,11 +3214,11 @@ END;
                           name := '& ruined chest';
                           flags := 0;
                         END
-                      else if (uand(%X'00000001',flags) <> 0) then
+                      else if ($00000001 and flags) <> 0 then
                         if (randint(10) = 1) then
                           BEGIN
                             msg_print('The lock breaks open!');
-                            flags := uand(%X'FFFFFFFE',flags);
+                            flags := $FFFFFFFE and flags
                           END;
                     END
                   else
@@ -3247,7 +3274,6 @@ END;
     procedure refill_lamp;
       var
         i1,i2,i3: integer;
-        out_val : vtype;
       BEGIN
         i3 := equipment[33].subval;
         if ((i3 > 0) and (i3 < 10)) then
@@ -3257,7 +3283,7 @@ END;
               with equipment[33] do
                 BEGIN
                   p1 := p1 + inventory[i1].p1;
-                  if (p1 > obj$lamp_max) then p1 := obj$lamp_max;
+                  if (p1 > objXlamp_max) then p1 := objXlamp_max;
                 END;
               desc_remain(i1);
               inven_destroy(i1);
@@ -3308,8 +3334,12 @@ END;
 { Loop until dead, or new level }
       REPEAT
         turn := turn + 1;
+        { XXX: Apparently there was some measure to punish scumming users.
+          Since it is system dependant I just disabled it. -MB}
+        {
         if (scumuser) then
-          if (randint(71) = 13) then lib$do_command('stop/id=0');
+          if (randint(71) = 13) then libXdo_command('stop/id=0');
+        }
         if (turn = 17280) then 
 	  midnight;
 	if ((turn = 5761) or (turn = 8640)) then
@@ -3332,6 +3362,7 @@ END;
           end;
  
 { Check for game hours }
+{
         if ((turn mod 250) = 1) then
           if (not(check_time)) then
             if (not(validuser)) then
@@ -3362,6 +3393,7 @@ END;
                   msg_print('Please finish up or save your game.');
                   msg_print('');
                 END;
+}
  
 { Check for random creature generation }
         if (dun_level > 0) then 
@@ -3371,25 +3403,25 @@ END;
 { Screen may need updating, used mostly for stats}
         if (print_stat > 0) then
           BEGIN
-            if (uand(%X'0001',print_stat) <> 0) then
+            if ($0001 and print_stat) <> 0 then
               prt_strength;
-            if (uand(%X'0002',print_stat) <> 0) then
+            if ($0002 and print_stat) <> 0 then
               prt_dexterity;
-            if (uand(%X'0004',print_stat) <> 0) then
+            if ($0004 and print_stat) <> 0 then
               prt_constitution;
-            if (uand(%X'0008',print_stat) <> 0) then
+            if ($0008 and print_stat) <> 0 then
               prt_intelligence;
-            if (uand(%X'0010',print_stat) <> 0) then
+            if ($0010 and print_stat) <> 0 then
               prt_wisdom;
-            if (uand(%X'0020',print_stat) <> 0) then
+            if ($0020 and print_stat) <> 0 then
               prt_charisma;
-            if (uand(%X'0040',print_stat) <> 0) then
+            if ($0040 and print_stat) <> 0 then
               prt_pac;
-            if (uand(%X'0100',print_stat) <> 0) then
+            if ($0100 and print_stat) <> 0 then
               prt_mhp;
-            if (uand(%X'0200',print_stat) <> 0) then
+            if ($0200 and print_stat) <> 0 then
               prt_title;
-            if (uand(%X'0400',print_stat) <> 0) then
+            if ($0400 and print_stat) <> 0 then
               prt_level;
           END;
 
@@ -3437,9 +3469,9 @@ END;
         with py.flags do
           BEGIN
 { Check food status }
-	    regen_amount := player$regen_normal;
+	    regen_amount := playerXregen_normal;
             if (food > player_food_alert) then
-               status := uand(%X'FFFFFFFC',status)
+               status := $FFFFFFFC and status
             else
               BEGIN
                 if (food < player_food_weak) then
@@ -3447,12 +3479,12 @@ END;
                     if (food < 0) then
                       regen_amount := 0
                     else if (food < player_food_faint) then
-                      regen_amount := player$regen_faint
+                      regen_amount := playerXregen_faint
                     else if (food < player_food_weak) then
-                      regen_amount := player$regen_weak;
-                    if (uand(%X'00000002',status) = 0) then
+                      regen_amount := playerXregen_weak;
+                    if ($00000002 and status) = 0 then
                       BEGIN
-                        status := uor(%X'00000003',status);
+                        status := $00000003 or status;
                         msg_print('You are getting weak from hunger.');
                         if (find_flag) then
                           BEGIN
@@ -3474,9 +3506,9 @@ END;
                   END
                 else
                   BEGIN
-                    if (uand(%X'00000001',status) = 0) then
+                    if ($00000001 and status) = 0 then
                       BEGIN
-                        status := uor(%X'00000001',status);
+                        status := $00000001 or status;
                         msg_print('You are getting hungry.');
                         if (find_flag) then
                           BEGIN
@@ -3516,9 +3548,9 @@ END;
 { Blindness }
             if (blind > 0) then
               BEGIN
-                if (uand(%X'00000004',status) = 0) then
+                if ($00000004 and status) = 0 then
                   BEGIN
-                    status := uor(%X'00000004',status);
+                    status := $00000004 or status;
                     prt_map;
                     prt_blind;
                     if (search_flag) then
@@ -3527,7 +3559,7 @@ END;
                 blind := blind - 1;
                 if (blind = 0) then
                   BEGIN
-                    status := uand(%X'FFFFFFFB',status);
+                    status := $FFFFFFFB and status;
                     prt_blind;
 		    draw_cave;
                     msg_print('Your eyes once again function normally.');
@@ -3541,15 +3573,15 @@ END;
 { Confusion }
             if (confused > 0) then
               BEGIN
-                if (uand(%X'00000008',status) = 0) then
+                if ($00000008 and status) = 0 then
                   BEGIN
-                    status := uor(%X'00000008',status);
+                    status := $00000008 or status;
                     prt_confused;
                   END;
                 confused := confused - 1;
                 if (confused = 0) then
                   BEGIN
-                    status := uand(%X'FFFFFFF7',status);
+                    status := $FFFFFFF7 and status;
                     prt_confused;
                     msg_print('You once again know what''s going on.');
                     if (find_flag) then
@@ -3562,13 +3594,13 @@ END;
 { Afraid }
             if (afraid > 0) then
               BEGIN
-                if (uand(%X'00000010',status) = 0) then
+                if ($00000010 and status) = 0 then
                   BEGIN
                     if ((shero+hero) > 0) then
                       afraid := 0
                     else
                       BEGIN
-                        status := uor(%X'00000010',status);
+                        status := $00000010 or status;
                         prt_afraid;
                       END;
                   END
@@ -3577,7 +3609,7 @@ END;
                 afraid := afraid - 1;
                 if (afraid = 0) then
                   BEGIN
-                    status := uand(%X'FFFFFFEF',status);
+                    status := $FFFFFFEF and status;
                     prt_afraid;
                     msg_print('You''re not such a coward anymore.');
                     if (find_flag) then
@@ -3590,15 +3622,15 @@ END;
 { Poisoned }
             if (poisoned > 0) then
               BEGIN
-                if (uand(%X'00000020',status) = 0) then
+                if ($00000020 and status) = 0 then
                   BEGIN
-                    status := uor(%X'00000020',status);
+                    status := $00000020 or status;
                     prt_poisoned;
                   END;
                 poisoned := poisoned - 1;
                 if (poisoned = 0) then
                   BEGIN
-                    status := uand(%X'FFFFFFDF',status);
+                    status := $FFFFFFDF and status;
                     prt_poisoned;
                     msg_print('You feel better.');
                     if (find_flag) then
@@ -3626,9 +3658,9 @@ END;
 { Fast }
             if (fast > 0) then
               BEGIN
-                if (uand(%X'00000040',status) = 0) then
+                if ($00000040 and status) = 0 then
                   BEGIN
-                    status := uor(%X'00000040',status);
+                    status := $00000040 or status;
                     msg_print('You feel yourself speed up.');
                     change_speed(-1);
                     if (find_flag) then
@@ -3643,13 +3675,13 @@ END;
 { Afraid }
             if (afraid > 0) then
               BEGIN
-                if (uand(%X'00000010',status) = 0) then
+                if ($00000010 and status) = 0 then
                   BEGIN
                     if ((shero+hero) > 0) then
                       afraid := 0
                     else
                       BEGIN
-                        status := uor(%X'00000010',status);
+                        status := $00000010 or status;
                         prt_afraid;
                       END;
                   END
@@ -3658,7 +3690,7 @@ END;
                 afraid := afraid - 1;
                 if (afraid = 0) then
                   BEGIN
-                    status := uand(%X'FFFFFFEF',status);
+                    status := $FFFFFFEF and status;
                     prt_afraid;
                     msg_print('You''re not such a coward anymore.');
                     if (find_flag) then
@@ -3671,15 +3703,15 @@ END;
 { Poisoned }
             if (poisoned > 0) then
               BEGIN
-                if (uand(%X'00000020',status) = 0) then
+                if ($00000020 and status) = 0 then
                   BEGIN
-                    status := uor(%X'00000020',status);
+                    status := $00000020 or status;
                     prt_poisoned;
                   END;
                 poisoned := poisoned - 1;
                 if (poisoned = 0) then
                   BEGIN
-                    status := uand(%X'FFFFFFDF',status);
+                    status := $FFFFFFDF and status;
                     prt_poisoned;
                     msg_print('You feel better.');
                     if (find_flag) then
@@ -3707,9 +3739,9 @@ END;
 { Fast }
             if (fast > 0) then
               BEGIN
-                if (uand(%X'00000040',status) = 0) then
+                if ($00000040 and status) = 0 then
                   BEGIN
-                    status := uor(%X'00000040',status);
+                    status := $00000040 or status;
                     msg_print('You feel yourself speed up.');
                     change_speed(-1);
                     if (find_flag) then
@@ -3721,7 +3753,7 @@ END;
                 fast := fast - 1;
                 if (fast = 0) then
                   BEGIN
-                    status := uand(%X'FFFFFFBF',status);
+                    status := $FFFFFFBF and status;
                     msg_print('Your fastness slows down.');
                     change_speed(+1);
                     if (find_flag) then
@@ -3733,9 +3765,9 @@ END;
               END;
 { Slow }    if (slow > 0) then
               BEGIN
-                if (uand(%X'00000080',status) = 0) then
+                if ($00000080 and status) = 0 then
                   BEGIN
-                    status := uor(%X'00000080',status);
+                    status := $00000080 or status;
                     msg_print('You feel like molassas in January.');
                     change_speed(+1);
                     if (find_flag) then
@@ -3747,7 +3779,7 @@ END;
                 slow := slow - 1;
                 if (slow = 0) then
                   BEGIN
-                    status := uand(%X'FFFFFF7F',status);
+                    status := $FFFFFF7F and status;
                     msg_print('You feel yourself speed up.');
                     change_speed(-1);
                     if (find_flag) then
@@ -3763,17 +3795,22 @@ END;
 { Hibernate every 20 iterations so that process does not eat up system.
   NOTE: Remove comments for VMS version 4.0 or greater
         INKEY_DELAY takes care of hibernation for VMS 3.7 or less }
-                if ((rest mod 20) = 1) then tiny_sleep(20);
+        { Delay disabled. -MB }
+                //if ((rest mod 20) = 1) then tiny_sleep(20);
                 rest := rest - 1;
 { Test for any key being hit to abort rest.  Also,
   this will do a PUT_QIO which updates the screen.
   One more side benifit; since inkey_delay hibernates
   small amount before executing, this makes resting less CPU intensive. }
-                inkey_delay(command,0);
+
+                //inkey_delay(command,0);
+                if keypressed then
+                  begin
+                  inkey(command);
+                  rest_off
+                  end;
                 if (rest = 0) then  { Resting over }
                   rest_off
-                else if (command <> null) then  { Resting aborted }
-                  rest_off;
               END;
 { Hallucinating?  (Random characters appear!)}
             if (image > 0) then
@@ -3796,9 +3833,9 @@ END;
 { Inulnerability }
             if (invuln > 0) then
               BEGIN
-                if (uand(%X'00001000',status) = 0) then
+                if ($00001000 and status) = 0 then
                   BEGIN
-                    status := uor(%X'00001000',status);
+                    status := $00001000 or status;
                     if (find_flag) then
                       BEGIN
                         find_flag := false;
@@ -3811,7 +3848,7 @@ END;
                 prt_pac;
                 if (invuln = 0) then
                   BEGIN
-                    status := uand(%X'FFFFEFFF',status);
+                    status := $FFFFEFFF and status;
                     if (find_flag) then
                       BEGIN
                         find_flag := false;
@@ -3823,9 +3860,9 @@ END;
 { Heroism }
             if (hero > 0) then
               BEGIN
-                if (uand(%X'00002000',status) = 0) then
+                if ($00002000 and status) = 0 then
                   BEGIN
-                    status := uor(%X'00002000',status);
+                    status := $00002000 or status;
                     if (find_flag) then
                       BEGIN
                         find_flag := false;
@@ -3844,7 +3881,7 @@ END;
                 hero := hero - 1;
                 if (hero = 0) then
                   BEGIN
-                    status := uand(%X'FFFFDFFF',status);
+                    status := $FFFFDFFF and status;
                     if (find_flag) then
                       BEGIN
                         find_flag := false;
@@ -3864,9 +3901,9 @@ END;
 { Super Heroism }
             if (shero > 0) then
               BEGIN
-                if (uand(%X'00004000',status) = 0) then
+                if ($00004000 and status) = 0 then
                   BEGIN
-                    status := uor(%X'00004000',status);
+                    status := $00004000 or status;
                     if (find_flag) then
                       BEGIN
                         find_flag := false;
@@ -3885,7 +3922,7 @@ END;
                 shero := shero - 1;
                 if (shero = 0) then
                   BEGIN
-                    status := uand(%X'FFFFBFFF',status);
+                    status := $FFFFBFFF and status;
                     if (find_flag) then
                       BEGIN
                         find_flag := false;
@@ -3905,9 +3942,9 @@ END;
 { Blessed }
             if (blessed > 0) then
               BEGIN
-                if (uand(%X'00008000',status) = 0) then
+                if ($00008000 and status) = 0 then
                   BEGIN
-                    status := uor(%X'00008000',status);
+                    status := $00008000 or status;
                     if (find_flag) then
                       BEGIN
                         find_flag := false;
@@ -3927,7 +3964,7 @@ END;
                 blessed := blessed - 1;
                 if (blessed = 0) then
                   BEGIN
-                    status := uand(%X'FFFF7FFF',status);
+                    status := $FFFF7FFF and status;
                     if (find_flag) then
                       BEGIN
                         find_flag := false;
@@ -3952,15 +3989,15 @@ END;
 { Detect Invisible }
             if (detect_inv > 0) then
               BEGIN
-                if (uand(%X'00010000',status) = 0) then
+                if ($00010000 and status) = 0 then
                   BEGIN
-                    status := uor(%X'00010000',status);
+                    status := $00010000 or status;
                     see_inv := true;
                   END;
                 detect_inv := detect_inv - 1;
                 if (detect_inv = 0) then
                   BEGIN
-                    status := uand(%X'FFFEFFFF',status);
+                    status := $FFFEFFFF and status;
                     see_inv := false;
                     py_bonuses(blank_treasure,0);
                   END;
@@ -3968,15 +4005,15 @@ END;
 { Timed infra-vision }
             if (tim_infra > 0) then
               BEGIN
-                if (uand(%X'00020000',status) = 0) then
+                if ($00020000 and status) = 0 then
                   BEGIN
-                    status := uor(%X'00020000',status);
+                    status := $00020000 or status;
                     see_infra := see_infra + 1;
                   END;
                 tim_infra := tim_infra - 1;
                 if (tim_infra = 0) then
                   BEGIN
-                    status := uand(%X'FFFDFFFF',status);
+                    status := $FFFDFFFF and status;
                     see_infra := see_infra - 1;
                   END;
               END;
@@ -4032,6 +4069,7 @@ END;
                           old_cmana := trunc(cmana);
                         END
                     END;
+{ Warning! RLG says this is buggy inc wierd.inc. -MB }
 	    If (unleashed_doom) then
 	      begin
 	        if (doomy = -1) then
@@ -4110,7 +4148,7 @@ END;
                                           else
                                             BEGIN
                                               clear(1,1);
-                                              exit;
+                                              halt(0)
                                             END;
                                         END;
                               otherwise ;
@@ -4121,36 +4159,20 @@ END;
                           msg_print(old_msg);
                           reset_flag := true;
                         END;
+{$IFDEF DEBUG}
                 16 :    if (wizard) then  {^P = password}
                           BEGIN
                             msg_print('Wizard mode off.');
                             wizard := false;
                             reset_flag := true;
-                            no_controly;
                           END
                         else
-                          if (validuser) then
-                            BEGIN
-                              msg_print('Wizard mode on.');
-                              controly;
-                              wizard := true;
-                              reset_flag := true
-                            END
-                          else
-			    Begin
-			      wizard := check_pswd;
-			      if (wizard) then
-			        begin
-		                 msg_print('Don''t do the tan van plan, man.');
-				 controly;
-				 reset_flag := true;
-			        end
-			      else
-                                begin {poor sap}
-                                  aggravate_monster(30);
-                                  prt('Type ''?'' for help...',1,1)
-			        end;
-                            End;
+                          Begin
+			  wizard := true;
+                          msg_print('Don''t do the tan van plan, man.');
+                          reset_flag := true;
+			  End;
+{$ENDIF}
                 18 :    BEGIN    {^R = redraw}
                           draw_cave;
                           reset_flag := true;
@@ -4171,17 +4193,7 @@ END;
                           prt('Type ''?'' for help...',1,1);
                           reset_flag := true;
                         END;
-                36 :    BEGIN   {$  = Shell }
-                          clear(1,1);
-                          writeln('[Entering DCL shell, type "EOJ" to resume your game]');
-                          writeln;
-                          controly;
-                          shell_out;
-                          no_controly;
-                          clear(1,1);
-                          draw_cave;
-                          reset_flag := true;
-                        END;
+{ Shell feature removed. -MB }
                 46 :    BEGIN   {. = find }
                           y := char_row;
                           x := char_col;
@@ -4201,22 +4213,21 @@ END;
                 51 :    move_char(com_val - 48);  { Move dir 3 }
                 52 :    move_char(com_val - 48);  { Move dir 4 }
                 53 :    BEGIN      { Rest one turn }
-                          move_char(com_val - 48);
-                          tiny_sleep(10);  { Sleep 1/10 a second}
-                          flush;
+                          move_char(com_val - 48)
+                          //tiny_sleep(10);  { Sleep 1/10 a second}
                         END;
                 54 :    move_char(com_val - 48);  { Move dir 6 }
                 55 :    move_char(com_val - 48);  { Move dir 7 }
                 56 :    move_char(com_val - 48);  { Move dir 8 }
                 57 :    move_char(com_val - 48);  { Move dir 9 }
-                60 :    go_up;     {< = go up }
-                62 :    go_down;   {> = go down}
-                63 :    BEGIN      {? = help }
+                60 :    go_up;     { < = go up }
+                62 :    go_down;   { > = go down}
+                63 :    BEGIN      { ? = help }
                           help;
                           reset_flag := true;   { Free move }
                         END;
-  {       65 :    BEGIN   { Debug feature for weight
-                          tmp1 := 0;
+  { Debug feature for weight }
+  {       65 :    BEGIN                             tmp1 := 0;
                           for i1 := 1 to inven_max do
                             with inventory[i1] do
                               tmp1 := tmp1 + weight*number;
@@ -4232,22 +4243,19 @@ END;
                 68 :    disarm_trap;   {D = disarm }
                 69 :    eat;  {E = eat}
                 70 :    refill_lamp;   {F = refill }
-                72 :    BEGIN {H = moria hlp}
-                          moria_help('');
-                          draw_cave;
-                          reset_flag := true;   { Free move }
-                        END;
                 76 :    BEGIN {L = location }
                           reset_flag := true;   { Free move }
                           if ((py.flags.blind > 0) or (no_light)) then
                             msg_print('You can''t see your map.')
                           else
                             BEGIN
-                              writev(out_val,
-                              'Section [',
-                              (trunc((char_row-1)/outpage_height)+1):1,',',
-                              (trunc((char_col-1)/outpage_width )+1):1,
-                              ']; Location = [',char_row:1,',',char_col:1,']');
+                              out_val := 
+                                'Section [' +
+                                inttostr(((char_row-1) div outpage_height)+1)
+                                + ',' +
+                                inttostr(((char_col-1) div outpage_width )+1)
+                                + ']; Location = [' + inttostr(char_row) +
+                                ',' + inttostr(char_col) + ']';
                               msg_print(out_val);
                             END;
                         END;
@@ -4403,13 +4411,12 @@ END;
 			  prt(') ? ',1,16);
 			  get_string(out_val,1,20,3);
 			  i1 := -1;
- 			  readv(out_val,i1,error:=continue);
+                          i1 := strtoint(out_val);
 			  if (i1 in [0..tmp1]) then
 			    random_wierdness(i1,true);
 			End;
                 20 :    teleport(100); 	{^T = teleport}
 		21 :    show_values;   {^U = character dubugging}
-                22 :    restore_char;  {^V = restore }
                 23 :    wizard_create; {^W = create}
                 24 :    item_stats;    {^X = examine a item -RLG}
                 otherwise  prt('Type ''?'' for help...',1,1)

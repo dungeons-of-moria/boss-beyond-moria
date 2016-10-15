@@ -1,11 +1,11 @@
 { Potions for the quaffing }
-[psect(misc2$code)] procedure quaff;
+procedure quaff;
       var
-        i1 	  	 : unsigned;
-	i2,i3,i4,i5,i7   : integer;
-	item_val,nhp,nst : integer;
-        out_val		 : vtype;
-        redraw,ident	 : boolean;
+        i1               : unsigned;
+	i2,i3,i4,i7      : integer;
+        i5               : LongInt;
+	item_val,nhp     : integer;
+        redraw,ident     : boolean;
       begin
         reset_flag := true;
         if (inven_ctr > 0) then
@@ -424,19 +424,21 @@
       end;
 
 { Potions for the mixing!!}
-[psect(misc2$code)] procedure mix_potions;
+procedure mix_potions;
 
   VAR
         blegga1,blegga2     : treasure_type;
 	i1,i2,i3,val1,val2  : integer;
-	redraw,redraw2,dummy: boolean;
+	redraw,redraw2      : boolean;
 
  {sub-procedures}
   procedure   mixture_blows_up(explode : dtype);
   
   Begin
     msg_print('The mixture blows up!!!');
-    dummy := hp_player(-damroll(explode),'an exploding potion');
+    { Result of hp_player was stored in dummy variable. 
+      Changed to ignore the result. -MB}
+    hp_player(-damroll(explode),'an exploding potion');
     msg_print('You are damaged by your feeble attempts at chemistry.');
   End;
 

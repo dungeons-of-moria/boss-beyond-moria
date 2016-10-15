@@ -1,6 +1,6 @@
 {Training}
 
-[psect(store$code)] function get_option : char;
+function get_option : char;
    var 
 
        option		:	char;
@@ -35,7 +35,7 @@ End;
 
 {Specific Training within a store}
 
-[psect(store$code)] procedure ltrain;
+procedure ltrain;
    var
        oa,ob,oc		:	integer;
        too_poor		:	ttype;       
@@ -95,7 +95,7 @@ BEGIN
     End;
 END;
 
-[psect(store$code)] procedure wtrain;
+procedure wtrain;
 
    var
        oa,ob,oc		:	integer;
@@ -156,7 +156,7 @@ BEGIN
       End;	     		
 END;
 
-[psect(store$code)] procedure ttrain;
+procedure ttrain;
 
    var
        oa,ob,oc		:	integer;
@@ -222,7 +222,7 @@ BEGIN
       End;	     		
 END;
 
-[psect(store$code)] procedure dtrain;
+procedure dtrain;
 
    var
       i3,oa,ob,oc,od	:	integer;
@@ -311,7 +311,7 @@ BEGIN
 	End;
 END;
 
-[psect(store$code)] procedure atrain;
+procedure atrain;
 
    var
        oa,ob,oc		:	integer;
@@ -375,7 +375,7 @@ BEGIN
 END;
 
 
-[psect(store$code)] procedure gtrain;
+procedure gtrain;
 
    var
        oa,ob,oc		:	integer;
@@ -443,7 +443,7 @@ END;
 
 
 {Special Training- From inside a store}
-[psect(store$code)] procedure training(store_num : integer);
+procedure training(store_num : integer);
 
    var
    	i5 : integer;
@@ -469,7 +469,7 @@ BEGIN
 END;
 
 	  
-[psect(store$code)] function get_job_option(var option : char) : boolean;
+function get_job_option(var option : char) : boolean;
    var 
        com_val		:	integer;
        exit_flag	:	boolean;
@@ -506,7 +506,7 @@ prt(' ^Z) Exit.                            ^R) Redraw the screen.',23,6);
  END;
 
 
-[psect(store$code)] procedure get_job;
+procedure get_job;
 
    var
        option		:	char;
@@ -531,48 +531,48 @@ BEGIN
      Else
        Begin
          msg_print('You endure several hours of work');
-	 turn := turn + 5760;
-	 i4 := randint(100);
-	 Case i3 of
-	   1: Begin
+         turn := turn + 5760;
+         i4 := randint(100);
+          Case i3 of
+            1: Begin
 	        if (i4 > 95) then begin
-		    msg_print('You lose a finger in the disposal machine');
-		    py.stat.cdex := de_statt(py.stat.cdex);
-		  end    
-		else if (i4 > 80) then begin
-		    msg_print('You find a missing earring and are rewarded!'); 
-		    py.misc.au := py.misc.au + 20;
-		  end;
-	       End;
+                    msg_print('You lose a finger in the disposal machine');
+                    py.stat.cdex := de_statt(py.stat.cdex);
+                end    
+                else if (i4 > 80) then begin
+                    msg_print('You find a missing earring and are rewarded!'); 
+                    py.misc.au := py.misc.au + 20;
+                end;
+               End;
             2: Begin
 	        if (i4 > 90) then begin
-	          msg_print('You are steamed badly and your health declines.');
-		    py.stat.ccon := de_statt(py.stat.ccon);
-		  end		    
-		else if (i4 > 80) then begin
-		    msg_print('Your determination earns you a pay bonus!'); 
-		    py.misc.au := py.misc.au + 30;
-		  end;
+                    msg_print('You are steamed badly and your health declines.');
+                    py.stat.ccon := de_statt(py.stat.ccon);
+                end		    
+                else if (i4 > 80) then begin
+                    msg_print('Your determination earns you a pay bonus!'); 
+                    py.misc.au := py.misc.au + 30;
+                end;
 	       End;
             3: Begin
-	        if (i4 > 95) then begin
-	            msg_print('You take the wrong elevator out!');
-		    dun_level := 2;
-		  end		    
-		else if (i4 > 90) then begin
-		    msg_print('A wealty couple gives you a *big* tip!'); 
-		    py.misc.au := py.misc.au + 50;
-		  end;
+                if (i4 > 95) then begin
+                    msg_print('You take the wrong elevator out!');
+                    dun_level := 2;
+                    end		    
+                else if (i4 > 90) then begin
+                    msg_print('A wealthy couple gives you a *big* tip!'); 
+                    py.misc.au := py.misc.au + 50;
+                end;
 	       End;
 	    Otherwise;
-	 end;
-	 py.misc.au := py.misc.au + (jobwage[i3]*8);
-	 py.flags.food := py.flags.food - 5760;
-	 zero_pyflag;
+         end;
+         py.misc.au := py.misc.au + (jobwage[i3]*8);
+         py.flags.food := py.flags.food - 5760;
+         zero_pyflag;
        End;	     		
 END;
 
-[psect(towns$code)] procedure take_bus;
+procedure take_bus;
 BEGIN
 END;
 

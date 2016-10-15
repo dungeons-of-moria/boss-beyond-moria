@@ -21,74 +21,67 @@
         of the author Robert Alan Koeneke.
  
 _______________________________________________________________________
-BOSS version 1.0  by Robert Gulledge
-		  and jason black
+BOSS version 2.4  by Robert Gulledge
+		  and Jason Black
+
+BOSS version 2.4b by Michal Bielinski
 }
  { [inherit('sys$share:starlet'), environment('BOSS.env')] }
 
-  program BOSS(input,output); 
+  program BOSS;
+        {$DEFINE SH_DEBUG}
+
+
+        {$INCLUDEPATH inc}
+        {$I-}
+
+  uses crt, dateutils, math, strutils, sysutils;
 
         { Globals }
-        %INCLUDE 'BOSS_INCLUDE:CONSTANTS.INC'
-        %INCLUDE 'BOSS_INCLUDE:TYPES.INC'
-        %INCLUDE 'BOSS_INCLUDE:VARIABLES.INC'
+        {$INCLUDE constants.inc}
+        {$INCLUDE types.inc}
+        {$INCLUDE variables.inc}
 
-        {Global Values}
-        %INCLUDE 'BOSS_INCLUDE:VALUES.INC'
-        %INCLUDE 'BOSS_INCLUDE:OBJECTS.INC'
+        { Global Values }
+        {.$INCLUDE objects.inc}
+        // included in globals
  
         { Libraries of routines }
-        %INCLUDE 'BOSS_INCLUDE:IO.INC'
-	%INCLUDE 'BOSS_INCLUDE:MISC.INC'
-	%INCLUDE 'BOSS_INCLUDE:TREASURE.INC'
-        %INCLUDE 'BOSS_INCLUDE:HELP.INC'
-        %INCLUDE 'BOSS_INCLUDE:DESC.INC'
-        %INCLUDE 'BOSS_INCLUDE:FILES.INC'
-        %INCLUDE 'BOSS_INCLUDE:DEATH.INC'
-        %INCLUDE 'BOSS_INCLUDE:STORE1.INC'
-        %INCLUDE 'BOSS_INCLUDE:DATAFILES.INC'
-        %INCLUDE 'BOSS_INCLUDE:SAVE.INC'
-        %INCLUDE 'BOSS_INCLUDE:CREATE.INC'
-        %INCLUDE 'BOSS_INCLUDE:GENERATE.INC'
-        %INCLUDE 'BOSS_INCLUDE:MAIN.INC'
-        %INCLUDE 'BOSS_INCLUDE:TERMDEF.INC'
- 
+        {$INCLUDE io.inc}
+	{$INCLUDE misc.inc}
+	{$INCLUDE treasure.inc}
+        {$INCLUDE help.inc}
+        {$INCLUDE desc.inc}
+        {$INCLUDE files.inc}
+        {$INCLUDE death.inc}
+        {$INCLUDE store1.inc}
+        {$INCLUDE datafiles.inc}
+        {$INCLUDE save.inc}
+        {$INCLUDE create.inc}
+        {$INCLUDE generate.inc}
+        {$INCLUDE main.inc}
+
      { Initialize, restore, and get the ball rolling. }
  
  BEGIN
-       { SYSPRV stays off except when needed...}
-    priv_switch(0);
- 
-       { Check the terminal type and see if it is supported}
-    termdef;
- 
        { Get the directory location of the image}
     get_paths;
  
-       { Setup pause time for IO setup_io_pause; }
-
-       {Check to see if user is a wiz, scum, or just annoying} 
-    look_at_userid;
-
        { Some neccesary initializations }
 
     msg_line       := 1;
-    quart_height   := trunc(screen_height/4);
-    quart_width    := trunc(screen_width /4);
+    quart_height   := screen_height div 4;
+    quart_width    := screen_width div 4;
     dun_level      := 0;
     turn           := 5760; {8:00 a.m.}
-    if (putzuser) then
-      wierd_chance   := 2160  {make it a really wierd game...} 
-    else
-      wierd_chance   := 8640;
 
-{ Init an IO channel for QIO }
-    init_channel;
- 
+    wierd_chance   := 8640;
+
 { Grab a random seed from the clock }
-    seed := get_seed;
+    //seed := get_seed;
+    randomize; { this should be enough for now -MB }
  
-{Read in the monster and object data files.} 
+{ Read in the monster and object data files. }
     read_data;
 
 { Sort the objects by level }
@@ -100,21 +93,21 @@ BOSS version 1.0  by Robert Gulledge
  
         { Init the store inventories }
     store_init;
-    if (cost_adj <> 1.00) then price_adjust;
- 
-        { Check operating hours
-          If not wizard then No_Control_Y }
-    get_foreign(finam);
- 
+    { If you wish call this to change economical game balance. 
+      1.00 is default value and does not need to run price_adjust. -MB}
+    //price_adjust(1.00);
+
         { Check or create hours.dat, print message }
-    intro(finam);
- 
+    if paramcount = 1 then 
+      finam := paramstr(1);
+    intro('');
+
         { Generate a character, or retrieve old one...  }
-    if (length(finam) > 0) then
+    if load_game(finam) = true then
       BEGIN     { Retrieve character }
         generate := get_char(finam);
         change_name;
-        magic_init(randes_seed)
+        magic_init(system.randseed)
       END
     else
       BEGIN     { Create character }
@@ -123,12 +116,12 @@ BOSS version 1.0  by Robert Gulledge
         if (py.misc.pskill in [1,2,7]) then
           BEGIN 
             learn_spell(msg_flag);
-            gain_mana(int_adj);
+            gain_mana(int_adj)
           END;
         if (py.misc.pskill in [3,4]) then
           BEGIN         
             learn_prayer;
-            gain_mana(wis_adj);
+            gain_mana(wis_adj)
           END;
         if (py.misc.pskill in [5,6]) then
           BEGIN
@@ -136,25 +129,23 @@ BOSS version 1.0  by Robert Gulledge
             gain_mana(chr_adj)
           END;
         py.misc.cmana := py.misc.mana;
-        randes_seed := seed;            { Description seed }
-        town_seed   := seed;            { Town generation seed  }
-        magic_init(randes_seed);
-        generate := true
+        magic_init(system.randseed);
+        generate := true;
       END;
- 
+
 { begin the game }
       with py.misc do     { This determines the maximum player experience }
         player_max_exp := trunc(player_exp[max_player_level-1]*expfact);
       clear(1,1);
       prt_stat_block;
- 
+
 { Loop till dead, or exit }
     repeat
       if (generate) then generate_cave; { New level }
       dungeon; { Dungeon logic-located in Main.Inc }
-      generate := true;
+      generate := true
     until (death);
-    upon_death; { Character gets buried }
+    upon_death { Character gets buried }
   END.
  
  
