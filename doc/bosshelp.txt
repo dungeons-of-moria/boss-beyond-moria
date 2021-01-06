@@ -814,7 +814,7 @@ upon the ray gun.  An obstruction such as door or wall will  general
 stop the effects of a ray gun from traveling further.
  
 2 BROWSE
-  b       - Browse a book.
+  v       - Browse a book.
  
     You can only understand a book if you are trained in its arts.
 Therefore  a scientist  could read a tech manual, but not a holy
@@ -827,7 +827,7 @@ a  total  of  31  different  special skills in four books, and 31
 different prayers in four books.
  
 2 BERZERK
-  b       - Go Berzerk
+  v       - Go Berzerk
      A Wrestler character makes up for his lack of special skills
 by having *lots* of hit points and also by his ability to lose his
 head in battle and lash out at every opponent around him.  This
@@ -905,7 +905,7 @@ list.   Depending upon your strength, you will be able carry many
 identical objects before hitting your weight limit.
  
 2 JAM
-  j <Dir> - Jam a door with an iron spike.
+  J <Dir> - Jam a door with an iron spike.
  
      Most humanoid and many intelligent creatures can simply open
 a  closed  door,  and  can  eventually get through a locked door.
@@ -932,7 +932,7 @@ confused when using a skill,  and  there  must  be  some  light
 present.
  
 2 LOOK
-  l <Dir> - Look in a direction.
+  L <Dir> - Look in a direction.
  
      The Look command is useful in identifying the exact type  of
 object  or  creature shown on the screen.  Also, if a creature is
@@ -999,7 +999,7 @@ cursed item which cannot be removed.   Cursed  items  are  always
 bad, and can only be taken off after removing the curse.
  
 2 USE
-  u       - Use a wierd device.
+  U       - Use a wierd device.
  
      The Use command will activate a wierd device.  Wierd Devices
 are bizarre alien devices that baffle earth's scientists.  The Boss
@@ -1424,8 +1424,8 @@ Matrix Computer           5000    20    70%
  
    Also, don't forget about these useful commands:
                  W   - toggle wall patterns
-                 b   - go berzerk (for Wrestler class only)
-                 k   - display kill list
+                 v   - go berzerk (for Wrestler class only)
+                 K   - display kill list
                  M   - mix potions
                  Q   - toggle question-more
  

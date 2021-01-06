@@ -389,6 +389,22 @@ procedure move_char(dir : integer);
         repeat
           if (get_com(prompt,command)) then
             BEGIN
+              if command = 'u' then
+                command := '9';
+              if command = 'k' then
+                command := '8';
+              if command = 'y' then
+                command := '7';
+              if command = 'l' then
+                command := '6';
+              if command = 'h' then
+                command := '4';
+              if command = 'n' then
+                command := '3';
+              if command = 'j' then
+                command := '2';
+              if command = 'b' then
+                command := '1';
               com_val := ord(command);
               dir := com_val - 48;
 { Note that '5' is not a valid direction }
@@ -4130,6 +4146,22 @@ END;
                 print('',char_row,char_col);
                 save_msg_flag := msg_flag;
                 inkey(command);
+                if command = 'u' then
+                  command := '9';
+                if command = 'k' then
+                  command := '8';
+                if command = 'y' then
+                  command := '7';
+                if command = 'l' then
+                  command := '6';
+                if command = 'h' then
+                  command := '4';
+                if command = 'n' then
+                  command := '3';
+                if command = 'j' then
+                  command := '2';
+                if command = 'b' then
+                  command := '1';
                 if (save_msg_flag) then erase_line(msg_line,msg_line);
                 com_val := ord(command);
               END;
@@ -4311,11 +4343,11 @@ END;
                 92 :    if (wizard) then
                           mon_info;       {\ = monster info utility - NBT}
                 97 :    aim;  {a = aim }
-                98 :	begin
+                118 :	begin
 			  if (py.misc.pclass = 1) then 
 			    reset_flag := berzerk
 			  else
-			    examine_book;  {b = browse }
+			    examine_book;  {v = browse }
 			end;
                 99 :    closeobject;   {c = close}
                 100:    drop; {d = drop }
@@ -4330,17 +4362,17 @@ END;
                             msg_print('You are not wielding a gun!');
                             reset_flag := true;
                           end;
-                104:    throw_object;  {h = hurl}
+                72:    throw_object;  {H = hurl}
                 105:    BEGIN {i = inventory}
                           reset_flag := true;   { Free move }
                           if (inven_command('i',0,0)) then draw_cave;
                         END;
-                106:    jamdoor; {j = jam}
-		107:    begin    {k = kill list}
+                74:    jamdoor; {J = jam}
+		75:    begin    {K = kill list}
 			  reset_flag := true;
 			  display_kill_list;
 			end;
-                108:    BEGIN {l = look }
+                103:    BEGIN {g = look }
                           look;
                           reset_flag := true;
                         END;
@@ -4361,7 +4393,7 @@ END;
                 116:    BEGIN {t = unwear }
                           if (inven_command('t',0,0)) then draw_cave;
                         END;
-                117:    use;  {u = use staff}
+                85:    use;  {U = use staff}
                 119:    BEGIN {w = wear }
                           if (inven_command('w',0,0)) then draw_cave;
                         END;
